@@ -36,3 +36,5 @@ tmp/
 
 # Database
 *.json
+.lastbuild.yaml
+media

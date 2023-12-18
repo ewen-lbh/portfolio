@@ -1,0 +1,84 @@
+package pages
+
+import "github.com/ewen-lbh/portfolio/shared"
+
+func domainPerLocale(locale string) string {
+	if shared.IsDev() {
+		switch locale {
+		case "fr":
+			return "localhost:8082"
+		default:
+			return "localhost:8081"
+		}
+	}
+
+	switch locale {
+	case "fr":
+		return "fr.ewen.works"
+	default:
+		return "en.ewen.works"
+	}
+}
+
+func otherLocale(locale string) string {
+	switch locale {
+	case "fr":
+		return "en"
+	case "en":
+		return "fr"
+	default:
+		return "en"
+	}
+}
+
+script switchDomain(domain string) {
+	window.location.host = domain
+}
+
+templ Layout(contents templ.Component, collections map[string]string, sites []shared.Site, lang string) {
+	<!DOCTYPE html>
+	<html lang={ lang }>
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>ewen.works</title>
+			<script defer src="https://stats.ewen.works/js/script.js" data-domain="ewen.works"></script>
+			<link rel="stylesheet" href="https://assets.ewen.works/style.css"/>
+			<link rel="stylesheet" href="https://assets.ewen.works/global.css"/>
+			<link rel="stylesheet" href="https://assets.ewen.works/fonts/import.css"/>
+			// <meta http-equiv="refresh" content="3"/>
+		</head>
+		<body>
+			<header>
+				<nav>
+					<a i18n href="/">Works</a>
+					for _, entry := range shared.SortedKeys(collections) {
+						<a href={ templ.URL("/" + entry.Key) }>{ entry.Value }</a>
+					}
+					switch otherLocale(lang) {
+						case "fr":
+							<button type="button" onclick={ switchDomain(domainPerLocale("fr")) }>Français</button>
+						default:
+							<button type="button" onclick={ switchDomain(domainPerLocale("en")) }>English</button>
+					}
+				</nav>
+			</header>
+			@contents
+			<footer>
+				<section class="sites">
+					<code>ewen.works/to/</code>
+					<dl>
+						for _, site := range sites {
+							<dt><a href={ templ.URL("/to/" + site.Name) }>{ site.Name }</a> </dt>
+							<dd i18n>{ site.Purpose } </dd>
+						}
+					</dl>
+				</section>
+				<section class="credits">
+					<p class="powered-by">Proudly powered by <a href="https://github.com/ortfo">ortfo</a>, my portfolio database management system and <a href="https://github.com/a-h/templ">templ</a></p>
+					<p class="source-code"><a href="https://github.com/ewen-lbh/portfolio">Source code</a></p>
+				</section>
+			</footer>
+		</body>
+	</html>
+}

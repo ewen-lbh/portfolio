@@ -1,0 +1,148 @@
+# todo: deprecate
+- singular: school
+  plural:   school
+  description: School projects and school-related projects
+
+- singular: science
+  plural:   science
+  description: With a scientific side
+
+- singular: card
+  plural:   cards
+
+# todo: deprecate
+- singular: cover art
+  plural:   cover arts
+  description: Music covers for albums, EPs and singles
+
+- singular: game
+  plural:   games
+
+- singular: graphism
+  plural:   graphism
+
+- singular: poster
+  plural:   posters
+
+- singular: flyer
+  plural:   flyers
+
+- singular: automation
+  plural:   automation
+
+- singular: web
+  plural:   web
+  description: Web sites, web apps and web-related libraries
+
+- singular: intro
+  plural:   intros
+  description: Short introductory video sequences typically played at the beginning of every video
+
+- singular: thumbnail
+  plural:   thumbnails
+  description: Images that represent a media, such as a video, in a single glance. Might be shown at a small size.
+
+
+- singular: music
+  plural:   music
+
+- singular: app
+  plural:   apps
+
+- singular: book
+  plural:   books
+
+- singular: api
+  plural:   apis
+  description: Application Programming Interfaces, mostly _Web_ APIs, meaning machine-redable sites that allow data processing and interaction without going to the client-facing website
+  learn more at: https://en.wikipedia.org/wiki/Web_API
+
+- singular: program
+  plural:   programs
+
+- singular: command-line
+  plural:   command-line
+  aliases:  [cli, command line]
+  description: Programs that run in the terminal, a text-based interface for computers.
+  learn more at: https://www.hostinger.com/tutorials/what-is-cli
+
+- singular: motion design
+  plural:   motion design
+  descripion: |
+    Any piece of work that involves motion: animations in user interfaces, video effects in movies, et cætera.
+
+- singular: compositing
+  plural:   compositing
+  description: A graphism technique that involves the composition of multiple images into a single, cohesive one
+
+- singular: visual identity
+  plural:   visual identities
+  aliases:  [logo, logos, banner, banners]
+  description: A set of brand resources like logos and banners that make up a brand's visal identity
+
+- singular: illustration
+  plural:   illustrations
+
+- singular: typography
+  plural:   typography
+
+- singular: drawing
+  plural:   drawings
+
+- singular: icons
+  plural:   icons
+
+- singular: site
+  plural:   sites
+
+- singular: language
+  plural:   languages
+  description: Any piece of work related to languages (programming languages or natural languages)
+
+- singular: math
+  plural:   math
+  aliases:  [maths, mathematics]
+
+- singular: hardware
+  plural: hardware
+- singular: gui
+  plural: guis
+  learn more at: https://en.wikipedia.org/wiki/Graphical_user_interface
+  description: |
+    User interfaces that utilize graphical elements such as icons, and images.
+
+- singular: abstract
+  plural: abstract
+
+- singular: experiment
+  plural: experiments
+  aliases: [experimental]
+  description: |
+    Made with the intent to discover, not necessarily to be useful or aesthetic.
+
+- singular: typeface
+  plural: typefaces
+  aliases: [font, fonts]
+  description: |
+    Set of glyphs (letters, punctuation marks and more) that define how text looks.
+
+- singular: linguistics
+  plural: linguistics
+  description: The study of language
+
+- singular: web extension
+  plural: web extensions
+  description: Extensions or add-ons that add features to web browsers
+
+- singular: programming
+  plural: programming
+  description: |
+    Any piece of work that involves programming, such as libraries, programs, scripts, et cætera.
+
+# WAITING for ortfo/db#
+# - singular: math experiment
+#   plural: math experiments
+#   description: |
+#     Expriments on mathematics and art, mostly visual interpretations of concepts that could lead to new insights on said concept.
+#   combines: math and experiments and (graphism or video or music or sound)
+#

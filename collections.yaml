@@ -1,0 +1,48 @@
+# math-experiments:
+#   title: {en: mathematics+experiments, fr: maths+expériences}
+#   includes: '#math and #experiments'
+#   description:
+#     en: Experiments on mathematics and art, mostly visual interpretations of concepts that could lead to new insights on said concept.
+#     fr: Expériences en mathématiques et en art, principalement des interprétations visuelles de concepts qui pourraient amener de nouvelles perspectives sur le concept en question.
+#   singular: experiment
+#   plural: experiments
+
+# TODO use a superwork instead.
+# acf-vd:
+#   title: {fr: ACF-Vd, en: ACF-Vd}
+#   aliases: [association-cause-freudienne, acf]
+#   includes: acf-*
+#   description:
+#     en: _Association de la Cause freudienne en Voie domitienne_, a [regional delegation of the École de la Cause freudienne](https://causefreudienne.net/activites/en-regions/voie-domitienne) pyschoanalysis association.
+#     fr: L'association de la Cause freudienne en Voie domitienne, une [délégation régionale de l'École de la Cause freudienne](https://causefreudienne.net/activites/en-regions/voie-domitienne), une association de psychanalyse.
+#   learn more at: https://www.acfvoiedomitienne.fr/l-acf
+
+music:
+  title: {en: music, fr: musique}
+  includes: '#music'
+  description:
+    en: I've been experimenting with sounds, their textures and their musicality since I was 7 years old.
+    fr: J'expérimente les sons, leurs textures et leur musicalité depuis que j'ai 7 ans.
+  singular: release
+  plural: releases
+
+code:
+  title: {en: code, fr: code}
+  includes: '#programs or #web'
+  singular: code
+  plural: code
+
+design:
+  title: {en: design, fr: design}
+  includes: '#graphism'
+  # includes: '
+  #   made with photoshop or
+  #   made with illustrator or
+  #   made with indesign or
+  #   made with figma or
+  #   made with penpot or
+  #   made with assembly or
+  #   made with css or
+  #   made with gimp'
+  singular: design
+  plural: design

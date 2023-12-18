@@ -1,0 +1,19 @@
+package pages
+
+import "github.com/ortfo/db"
+import "github.com/ewen-lbh/portfolio/components"
+
+templ Index(db ortfodb.Database, language string) {
+	<main>
+		<h1 i18n>Hi! I'm Ewen Le Bihan.</h1>
+		<p class="intro">These are my creations.</p>
+		<section class="works">
+			for _, work := range db.WorksByDate() {
+				if work.ID == "" || work.Content[language].Title == "" {
+					continue	
+				}
+				@components.WorkCard(work, language)
+			}
+		</section>
+	</main>
+}

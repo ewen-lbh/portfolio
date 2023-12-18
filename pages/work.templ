@@ -1,0 +1,150 @@
+package pages
+
+import "github.com/ortfo/db"
+import "strings"
+import "github.com/ewen-lbh/portfolio/shared"
+
+func cssGridTemplateAreasDeclaration(layout ortfodb.Layout) templ.Component {
+	var areas []string
+	for _, row := range layout.Normalize() {
+		var rowAreas []string
+		for _, cell := range row {
+			rowAreas = append(rowAreas, string(cell))
+		}
+		areas = append(areas, "'"+strings.Join(rowAreas, " ")+"'")
+	}
+
+	declarations := make(map[string]map[string]string)
+
+	declarations["section.content"] = map[string]string{
+		"display":             "grid",
+		"grid-template-areas": strings.Join(areas, " "),
+	}
+
+	for _, id := range layout.BlockIDs() {
+		declarations["[data-block='"+id+"']"] = map[string]string{
+			"grid-area": string(id),
+		}
+	}
+
+	return shared.CSS(declarations)
+}
+
+func MediaSrc(block ortfodb.Media) string {
+	thumb := shared.Media(block.Thumbnails[1000])
+	if thumb != "" {
+		return thumb
+	}
+	return shared.Media(block.DistSource)
+}
+
+templ ParagraphBlock(block ortfodb.Paragraph) {
+	@shared.GeneratedHTML(block.Content)
+}
+
+func GeneralContentType(contentType string) string {
+	if strings.HasPrefix(contentType, "image/") {
+		return "image"
+	} else if strings.HasPrefix(contentType, "video/") {
+		return "video"
+	} else if strings.HasPrefix(contentType, "audio/") {
+		return "audio"
+	} else {
+		return "other"
+	}
+}
+
+script UnsupportedMediaTypeConsoleError(msg string) {
+	console.error(`Unsupported media type: ${ msg }`)
+}
+
+templ MediaBlock(block ortfodb.Media) {
+	<figure>
+		switch GeneralContentType(block.ContentType) {
+			case "image":
+				<a href={ templ.URL(shared.Media(block.DistSource)) }>
+					<img src={ MediaSrc(block) } alt={ block.Title }/>
+				</a>
+			case "video":
+				<video controls>
+					<source src={ MediaSrc(block) } type={ block.ContentType }/>
+				</video>
+			case "audio":
+				<audio controls>
+					<source src={ MediaSrc(block) } type={ block.ContentType }/>
+				</audio>
+			default:
+				switch block.ContentType {
+					case "application/pdf":
+						<a href={ templ.URL(shared.Media(block.DistSource)) }>
+							<img src={ MediaSrc(block) } alt={ block.Title }/>
+						</a>
+					default:
+						@UnsupportedMediaTypeConsoleError(block.ContentType)
+				}
+		}
+		if block.Title != "" {
+			<figcaption>{ block.Title }</figcaption>
+		}
+	</figure>
+}
+
+templ LinkBlock(block ortfodb.Link) {
+	<a href={ templ.URL(block.URL) } class="standalone-link">{ block.Text.String() }</a>
+}
+
+templ Work(work ortfodb.AnalyzedWork, lang string) {
+	<main>
+		<section class="tags">
+			for _, tag := range work.Metadata.Tags {
+				<a href={ templ.URL("/" + tag) }>#{ tag }</a>
+			}
+		</section>
+		<h1>{ work.Content[lang].Title.String() }</h1>
+		<section class="content">
+			for _, block := range work.Content[lang].Blocks {
+				<div
+ 					class="block"
+ 					data-block={ block.ID }
+ 					if block.Anchor() != "" {
+						id={ block.Anchor() }
+					}
+				>
+					if block.Type.IsParagraph() {
+						@ParagraphBlock(block.AsParagraph())
+					} else if block.Type.IsMedia() {
+						@MediaBlock(block.AsMedia())
+					} else if block.Type.IsLink() {
+						@LinkBlock(block.AsLink())
+					}
+				</div>
+			}
+		</section>
+		if len(work.Metadata.MadeWith) > 0 {
+			<section class="made-with">
+				<h2>Made with</h2>
+				<ul>
+					for _, tool := range work.Metadata.MadeWith {
+						<li>
+							<a href={ templ.URL("/using/" + tool) }>{ tool }</a>
+						</li>
+					}
+				</ul>
+			</section>
+		}
+		if len(work.Content[lang].Footnotes) > 0 {
+			<section class="footnotes">
+				<h2>Footnotes</h2>
+				<ol>
+					for ref, footnote := range work.Content[lang].Footnotes {
+						<li id={ "fn:" + ref }>
+							@shared.GeneratedHTML(footnote)
+							<sup><a href={ templ.URL("#fnref:" + ref) }>↑</a></sup>
+						</li>
+					}
+				</ol>
+			</section>
+		}
+	</main>
+	@cssGridTemplateAreasDeclaration(work.Content[lang].Layout)
+}

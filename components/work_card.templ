@@ -1,0 +1,60 @@
+package components
+
+import "github.com/ortfo/db"
+import "github.com/ewen-lbh/portfolio/shared"
+
+func ThumbPath(work ortfodb.AnalyzedWork, language string) string {
+	return shared.Media(work.ThumbnailPath(language, 420))
+}
+
+func WorkCreationYear(work ortfodb.AnalyzedWork) string {
+	if work.Metadata.CreatedAt().Year() == 9999 {
+		return "Unknown year"
+	}
+	return work.Metadata.CreatedAt().Format("2006")
+}
+
+func aspectRatio(work ortfodb.AnalyzedWork, language string) float32 {
+	for _, block := range work.Content[language].Blocks {
+		if block.Thumbnails[420] == work.ThumbnailPath(language, 420) {
+			return block.Dimensions.AspectRatio
+		}
+	}
+	return 0
+}
+
+func variantFromAspectRatio(ratio float32) string {
+	if ratio == 0 {
+		return "no-thumb"
+	}
+	if ratio <= 1.5 {
+		return "portrait"
+	}
+	if ratio <= 1.75 {
+		return "floating"
+	}
+	return "landscape"
+}
+
+func css(work ortfodb.AnalyzedWork, language string) templ.Component {
+	return shared.CSS(map[string]map[string]string{
+		"#work-card-" + work.ID: {
+			"background-color": "#" + work.Metadata.Colors.Secondary,
+			"color":            "#" + work.Metadata.Colors.Primary,
+		},
+	})
+}
+
+templ WorkCard(work ortfodb.AnalyzedWork, language string) {
+	@css(work, language)
+	<article id={ "work-card-" + work.ID } class={ "work-card work-card--" + variantFromAspectRatio(aspectRatio(work, language)) } data-no-thumb?={ ThumbPath(work, language) == "http://localhost:8080/" } data-primary={ work.Metadata.Colors.Primary } data-secondary={ work.Metadata.Colors.Secondary }>
+		if ThumbPath(work, language) != "" {
+			<img class="thumb" src={ ThumbPath(work, language) } loading="lazy"/>
+		}
+		<h4 data-long?={ len(work.Content[language].Title.String()) > 10 }>{ work.Content[language].Title.String() }</h4>
+		<p class="summary">
+			{ WorkCreationYear(work) }
+		</p>
+		<div class="button-link"><a href={ templ.URL("/" + work.ID) } class="button">read more</a></div>
+	</article>
+}

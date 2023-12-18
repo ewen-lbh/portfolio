@@ -1,0 +1,40 @@
+- name: "spotify"
+  url: "https://open.spotify.com/artist/6tUc6r8aNeiiT1mElcnMx9?si=yCM83yThR4WVCkC4Kd5p7Q"
+  purpose: "my music"
+  username: "Ewen-lbh"
+
+- name: "twitter"
+  url: "https://twitter.com/ewen_lbh"
+  purpose: "random thoughts"
+  username: "ewen_lbh"
+
+- name: "github"
+  url: "https://github.com/ewen-lbh"
+  purpose: "open-source code"
+  username: "ewen-lbh"
+
+- name: "youtube"
+  url: "https://youtube.com/c/ewen-lbh"
+  purpose: "visual+music"
+  username: "ewen-lbh"
+
+- name: "deezer"
+  url: "https://deezer.page.link/keZbR1mRNyp5ba6W9"
+  purpose: "my music"
+  username: "Ewen-lbh"
+
+- name: fiverr
+  url: https://fiverr.com/ewen_lbh
+  purpose: i can work for you
+
+- name: "mail"
+  url: "mailto:hey@ewen.works"
+  purpose: "contact"
+
+- name: instagram
+  url: https://instagram.com/ewenlbh
+  purpose: personal account
+
+- name: linkedin
+  url: https://linkedin.com/in/ewen-lbh
+  purpose: "my carreer"

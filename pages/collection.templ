@@ -1,0 +1,17 @@
+package pages
+
+import "github.com/ewen-lbh/portfolio/shared"
+import "github.com/ewen-lbh/portfolio/components"
+import "github.com/ortfo/db"
+
+templ Collection(collection shared.Collection, db ortfodb.Database, tags []shared.Tag, techs []shared.Technology, language string) {
+	<main>
+		<h1 i18n>{ collection.Title[language] }</h1>
+		<p class="intro">These are my creations.</p>
+		<section class="works">
+			for _, work := range collection.Works(db, tags, techs) {
+				@components.WorkCard(work, language)
+			}
+		</section>
+	</main>
+}

@@ -28,29 +28,56 @@ func startFileServer(port int, root string) {
 func startServer(db ortfodb.Database, collections shared.Collections, sites []shared.Site, technologies []shared.Technology, tags []shared.Tag, locale string, port int) {
 	server := http.NewServeMux()
 
-	layouted := func(page templ.Component) templ.Component {
-		return pages.Layout(page, collections.URLsToNames(true, locale), sites, locale)
+	registeredPaths := []string{}
+
+	handlePage := func(path string, page templ.Component) {
+		for _, registeredPath := range registeredPaths {
+			if registeredPath == path {
+				color.Yellow("[%s] Page /%s is already registered, skipping", locale, path)
+				return
+			}
+		}
+		fmt.Printf("[%s] Registering page /%s\n", locale, path)
+		server.Handle(fmt.Sprintf("/%s", path), templ.Handler(pages.Layout(page, collections.URLsToNames(true, locale), sites, locale)))
+		registeredPaths = append(registeredPaths, path)
 	}
 
-	server.Handle("/", templ.Handler(layouted(pages.Index(db, locale))))
+	redirect := func(from, to string) {
+		if !strings.HasPrefix(to, "https://") && !strings.HasPrefix(to, "mailto:") {
+			to = fmt.Sprintf("/%s", to)
+		}
+		fmt.Printf("[%s] Registering redirect /%s -> %s\n", locale, from, to)
+		server.Handle(fmt.Sprintf("/%s", from), http.RedirectHandler(to, http.StatusSeeOther))
+	}
 
-	registeredCount := 0
+	handlePage("", pages.Index(db, locale))
 	for _, work := range db.Works() {
-		server.Handle("/"+work.ID, templ.Handler(layouted(pages.Work(work, locale))))
-		registeredCount++
+		handlePage(work.ID, pages.Work(work, locale))
 	}
-	fmt.Printf("[%s] Registered %d works\n", locale, registeredCount)
 
 	for id, collection := range collections {
-		fmt.Printf("[%s] Registering collection %s along with %d aliases\n", locale, id, len(collection.Aliases))
-		server.Handle("/"+id, templ.Handler(layouted(pages.Collection(collection, db, tags, technologies, locale))))
+		handlePage(id, pages.Collection(collection, db, tags, technologies, locale))
 		for _, pathname := range collection.Aliases {
-			server.Handle("/"+pathname, templ.Handler(layouted(pages.Collection(collection, db, tags, technologies, locale))))
+			redirect(pathname, id)
+		}
+	}
+
+	for _, technology := range technologies {
+		handlePage("using/"+technology.Slug, pages.TechnologyPage(technology, db, locale))
+		for _, pathname := range technology.Aliases {
+			redirect("using/"+pathname, "using/"+technology.Slug)
+		}
+	}
+
+	for _, tag := range tags {
+		handlePage(tag.URLName(), pages.TagPage(tag, db, locale))
+		for _, pathname := range tag.Aliases {
+			redirect(pathname, tag.URLName())
 		}
 	}
 
 	for _, site := range sites {
-		server.Handle("/to/"+site.Name, http.RedirectHandler(site.URL, http.StatusSeeOther))
+		redirect(filepath.Join("to", site.Name), site.URL)
 	}
 
 	fmt.Printf("[%s] Server started on http://localhost:%d\n", locale, port)
@@ -82,15 +109,7 @@ func loadDataFileMap[K comparable, V any](path string, into *map[K]V) {
 }
 
 func main() {
-	var db ortfodb.Database
-	databaseRaw, err := os.ReadFile(filepath.Join(".", "database.json"))
-	if err != nil {
-		panic(err)
-	}
-	err = json.Unmarshal(databaseRaw, &db)
-	if err != nil {
-		panic(err)
-	}
+	db, locales := loadDatabase()
 
 	if db.Partial() {
 		color.Yellow("[!!] Database is partial, some works are missing data.")
@@ -101,10 +120,6 @@ func main() {
 	} else {
 		fmt.Println("[  ] Running in production mode")
 	}
-
-	locales := db.Languages()
-	sort.Strings(locales)
-	fmt.Printf("[  ] Works database has %d works in %d locales (%s)\n", len(db.Works()), len(locales), strings.Join(locales, ", "))
 
 	var collections map[string]shared.Collection
 	loadDataFileMap("collections.yaml", &collections)
@@ -119,11 +134,29 @@ func main() {
 	loadDataFile("tags.yaml", &tags)
 
 	var wg sync.WaitGroup
-	wg.Add(len(locales))
+	wg.Add(1)
+
 	for i, locale := range locales {
 		go startServer(db, collections, sites, technologies, tags, locale, 8081+i)
 	}
 	go startFileServer(8079, "public")
 	go startFileServer(8080, "media")
+
 	wg.Wait()
+}
+
+func loadDatabase() (ortfodb.Database, []string) {
+	var db ortfodb.Database
+	databaseRaw, err := os.ReadFile(filepath.Join(".", "database.json"))
+	if err != nil {
+		panic(err)
+	}
+	err = json.Unmarshal(databaseRaw, &db)
+	if err != nil {
+		panic(err)
+	}
+	locales := db.Languages()
+	sort.Strings(locales)
+	fmt.Printf("[  ] Works database has %d works in %d locales (%s)\n", len(db.Works()), len(locales), strings.Join(locales, ", "))
+	return db, locales
 }

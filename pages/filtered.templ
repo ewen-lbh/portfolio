@@ -1,0 +1,16 @@
+package pages
+
+import "github.com/ewen-lbh/portfolio/shared"
+import "github.com/ortfo/db"
+
+templ TagPage(tag shared.Tag, db ortfodb.Database, locale string) {
+	<main>
+		<h1>{ tag.Plural }</h1>
+	</main>
+}
+
+templ TechnologyPage(tech shared.Technology, db ortfodb.Database, locale string) {
+	<main>
+		<h1>{ tech.Name }</h1>
+	</main>
+}

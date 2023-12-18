@@ -36,7 +36,7 @@
 - slug: csharp
   name: C#
   files: [.cs]
-  aliases: ["cs", "csharp"]
+  aliases: ["cs"]
   by: Microsoft
 
 - slug: c++
@@ -428,10 +428,6 @@
   learn more at: https://www.adaic.org/
   description: A strongly typed, safe programming language
 
-- slug: php
-  name: PHP
-  files: [.php]
-  learn more at: https://php.net
 
 - slug: symfony
   name: symfony

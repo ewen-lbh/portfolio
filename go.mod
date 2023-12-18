@@ -7,6 +7,7 @@ require (
 	github.com/expr-lang/expr v1.15.7
 	github.com/fatih/color v1.13.0
 	github.com/gobwas/glob v0.2.3
+	github.com/goodsign/monday v1.0.1
 	github.com/metal3d/go-slugify v0.0.0-20160607203414-7ac2014b2f23
 	github.com/ortfo/db v0.0.0-20221017203805-89510110520c
 	gopkg.in/yaml.v3 v3.0.1

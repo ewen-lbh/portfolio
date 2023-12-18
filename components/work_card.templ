@@ -1,60 +1,142 @@
 package components
 
+import "fmt"
 import "github.com/ortfo/db"
 import "github.com/ewen-lbh/portfolio/shared"
+import "github.com/goodsign/monday"
 
 func ThumbPath(work ortfodb.AnalyzedWork, language string) string {
-	return shared.Media(work.ThumbnailPath(language, 420))
+	return shared.Media(work.ThumbnailPath(language, 600))
 }
 
-func WorkCreationYear(work ortfodb.AnalyzedWork) string {
-	if work.Metadata.CreatedAt().Year() == 9999 {
-		return "Unknown year"
-	}
-	return work.Metadata.CreatedAt().Format("2006")
+func Thumb(work ortfodb.AnalyzedWork, language string) ortfodb.Media {
+	return work.ThumbnailBlock(language)
 }
 
-func aspectRatio(work ortfodb.AnalyzedWork, language string) float32 {
-	for _, block := range work.Content[language].Blocks {
-		if block.Thumbnails[420] == work.ThumbnailPath(language, 420) {
-			return block.Dimensions.AspectRatio
-		}
+func mondayLocale(language string) monday.Locale {
+	switch language {
+	case "fr":
+		return monday.LocaleFrFR
+	default:
+		return monday.LocaleEnUS
 	}
-	return 0
-}
-
-func variantFromAspectRatio(ratio float32) string {
-	if ratio == 0 {
-		return "no-thumb"
-	}
-	if ratio <= 1.5 {
-		return "portrait"
-	}
-	if ratio <= 1.75 {
-		return "floating"
-	}
-	return "landscape"
 }
 
 func css(work ortfodb.AnalyzedWork, language string) templ.Component {
 	return shared.CSS(map[string]map[string]string{
-		"#work-card-" + work.ID: {
-			"background-color": "#" + work.Metadata.Colors.Secondary,
-			"color":            "#" + work.Metadata.Colors.Primary,
+		"[data-work=" + work.ID + "]": {
+			"--secondary": shared.Color(work.Colors(language).Secondary),
+			"--primary":   shared.Color(work.Colors(language).Primary),
+		},
+		"[data-work=" + work.ID + "] img": {
+			"width":  "300px",
+			"height": fmt.Sprintf("%dpx", int(300/work.ThumbnailBlock(language).Dimensions.AspectRatio)),
 		},
 	})
 }
 
+css card() {
+	display: flex;
+	background-color: var(--primary, white);
+	color: var(--secondary, black);
+	overflow: hidden;
+	border-radius: 0.75em;
+	transition: transform 0.2s ease-in-out;
+	width: 300px;
+}
+
+css image() {
+	height: 100%;
+	width: 100%;
+	background-color: white;
+}
+
+css anchor() {
+	display: block;
+	height: 100%;
+	width: 100%;
+	text-decoration: none;
+}
+
+css info() {
+	padding: 0.5em;
+	transition: max-height 0.2s ease-in-out;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+css infoTitleAndDate() {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+css tags() {
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	column-gap: 0.5em;
+}
+
+css title() {
+	max-width: 65%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
 templ WorkCard(work ortfodb.AnalyzedWork, language string) {
 	@css(work, language)
-	<article id={ "work-card-" + work.ID } class={ "work-card work-card--" + variantFromAspectRatio(aspectRatio(work, language)) } data-no-thumb?={ ThumbPath(work, language) == "http://localhost:8080/" } data-primary={ work.Metadata.Colors.Primary } data-secondary={ work.Metadata.Colors.Secondary }>
-		if ThumbPath(work, language) != "" {
-			<img class="thumb" src={ ThumbPath(work, language) } loading="lazy"/>
+	<style>
+		article.work:hover, article.work:focus-within {
+			transform: scale(1.1);
+			z-index: 1;
 		}
-		<h4 data-long?={ len(work.Content[language].Title.String()) > 10 }>{ work.Content[language].Title.String() }</h4>
-		<p class="summary">
-			{ WorkCreationYear(work) }
-		</p>
-		<div class="button-link"><a href={ templ.URL("/" + work.ID) } class="button">read more</a></div>
+
+		article.work .info * {
+			text-decoration: none;
+		}
+	</style>
+	<article
+ 		data-work={ work.ID }
+ 		class={ "work", card() }
+ 		data-no-thumb?={ ThumbPath(work, language) == "http://localhost:8080/" }
+ 		data-primary={ shared.Color(work.Colors(language).Primary) }
+ 		data-secondary={ shared.Color(work.Colors(language).Secondary) }
+	>
+		<a class={ anchor() } href={ templ.URL("/" + work.ID) }>
+			if ThumbPath(work, language) != "" {
+				<img
+ 					class={ image() }
+ 					class="thumb"
+ 					src={ ThumbPath(work, language) }
+ 					loading="lazy"
+				/>
+			} else {
+				<h4 data-long?={ len(work.Content[language].Title.String()) > 10 }>
+					@shared.HMTL(work.Content[language].Title)
+				</h4>
+			}
+			<div class={ "info", info() }>
+				<div class={ infoTitleAndDate() }>
+					<span class={title()}>
+						@shared.HMTL(work.Content[language].Title)
+					</span>
+					if work.Metadata.CreatedAt().Year() != 9999 {
+						<span class="date">
+							{ monday.Format(work.Metadata.CreatedAt(), "Jan 2006", mondayLocale(language)) }
+						</span>
+					}
+				</div>
+				<ul class={ tags() }>
+					for _, tag := range work.Metadata.Tags {
+						<li i18n>{ tag }</li>
+					}
+				</ul>
+			</div>
+		</a>
 	</article>
 }

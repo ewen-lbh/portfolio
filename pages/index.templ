@@ -3,15 +3,60 @@ package pages
 import "github.com/ortfo/db"
 import "github.com/ewen-lbh/portfolio/components"
 
+script masonry() {
+
+function waitForElm(selector) {
+    return new Promise(resolve => {
+        if (document.querySelector(selector)) {
+            return resolve(document.querySelector(selector));
+        }
+
+        const observer = new MutationObserver(mutations => {
+            if (document.querySelector(selector)) {
+                observer.disconnect();
+                resolve(document.querySelector(selector));
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    });
+}
+
+waitForElm('.works').then(() =>  {
+
+	const mason = Bricks({
+		container: '.works',
+		packed: 'data-packed',
+		sizes: [
+			{ columns: 1, gutter: 30 },
+			{ mq: '768px', columns: 1, gutter: 30 },
+			{ mq: '1024px', columns: 2, gutter: 30 },
+			{ mq: '1200px', columns: 3, gutter: 30 },
+			{ mq: '1500px', columns: 4, gutter: 30 },
+		],
+	})
+	mason.pack()
+	mason.resize(true)
+})
+}
+
+css indexStyles() {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
 templ Index(db ortfodb.Database, language string) {
-	<main>
+	<main class={ indexStyles() }>
 		<h1 i18n>Hi! I'm Ewen Le Bihan.</h1>
 		<p class="intro">These are my creations.</p>
+		@masonry()
 		<section class="works">
 			for _, work := range db.WorksByDate() {
-				if work.ID == "" || work.Content[language].Title == "" {
-					continue	
-				}
 				@components.WorkCard(work, language)
 			}
 		</section>

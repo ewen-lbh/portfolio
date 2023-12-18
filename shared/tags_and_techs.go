@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/metal3d/go-slugify"
+	ortfodb "github.com/ortfo/db"
 )
 
 // stringsLooselyMatch checks if s1 is equal to any of sn, but case-insensitively.
@@ -47,4 +48,30 @@ func (t *Tag) ReferredToBy(name string) bool {
 // ReferredToBy returns whether the given name refers to the tech
 func (t *Technology) ReferredToBy(name string) bool {
 	return stringsLooselyMatch(name, t.Slug, t.Name) || stringsLooselyMatch(name, t.Aliases...)
+}
+
+func TagsOf(all []Tag, metadata ortfodb.WorkMetadata) []Tag {
+	tags := make([]Tag, len(metadata.Tags))
+	for i, tag := range all {
+		for _, t := range metadata.Tags {
+			if tag.ReferredToBy(t) {
+				tags[i] = tag
+				break
+			}
+		}
+	}
+	return tags
+}
+
+func TechsOf(all []Technology, metadata ortfodb.WorkMetadata) []Technology {
+	techs := make([]Technology, len(metadata.MadeWith))
+	for i, tech := range all {
+		for _, t := range metadata.MadeWith {
+			if tech.ReferredToBy(t) {
+				techs[i] = tech
+				break
+			}
+		}
+	}
+	return techs
 }

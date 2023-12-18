@@ -1,10 +1,6 @@
 extract colors:
   enabled: true
-  extract: []
-  default files: []
-make GIFs:
-  enabled: false
-  file name template: ""
+
 make thumbnails:
   enabled: true
   sizes:
@@ -12,9 +8,10 @@ make thumbnails:
   - 400
   - 600
   - 1200
-  input file: ""
-  file name template: <media directory>/<work id>/<block id>@<size>.webp
-build metadata file: .lastbuild.yaml
+  file name template: <work id>/<block id>@<size>.webp
+
 media:
   at: media/
-scattered mode folder: .ortfo
+
+build metadata file: .lastbuild.yaml
+scattered mode folder: .portfoliodb

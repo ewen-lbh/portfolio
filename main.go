@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"sync"
 
@@ -16,6 +17,13 @@ import (
 	ortfodb "github.com/ortfo/db"
 	"gopkg.in/yaml.v3"
 )
+
+func startFileServer(port int, root string) {
+	staticServer := http.NewServeMux()
+	fs := http.FileServer(http.Dir(filepath.Join(".", root)))
+	staticServer.Handle("/", fs)
+	http.ListenAndServe(fmt.Sprintf(":%d", port), staticServer)
+}
 
 func startServer(db ortfodb.Database, collections shared.Collections, sites []shared.Site, technologies []shared.Technology, tags []shared.Tag, locale string, port int) {
 	server := http.NewServeMux()
@@ -95,6 +103,7 @@ func main() {
 	}
 
 	locales := db.Languages()
+	sort.Strings(locales)
 	fmt.Printf("[  ] Works database has %d works in %d locales (%s)\n", len(db.Works()), len(locales), strings.Join(locales, ", "))
 
 	var collections map[string]shared.Collection
@@ -111,12 +120,10 @@ func main() {
 
 	var wg sync.WaitGroup
 	wg.Add(len(locales))
-	for i, locale := range db.Languages() {
+	for i, locale := range locales {
 		go startServer(db, collections, sites, technologies, tags, locale, 8081+i)
 	}
-	staticServer := http.NewServeMux()
-	fs := http.FileServer(http.Dir(filepath.Join("/home/ewen/projects/ortfo/db/dist/media")))
-	staticServer.Handle("/", fs)
-	http.ListenAndServe(":8080", staticServer)
+	go startFileServer(8079, "public")
+	go startFileServer(8080, "media")
 	wg.Wait()
 }

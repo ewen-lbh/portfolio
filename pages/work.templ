@@ -4,7 +4,7 @@ import "github.com/ortfo/db"
 import "strings"
 import "github.com/ewen-lbh/portfolio/shared"
 
-func cssGridTemplateAreasDeclaration(layout ortfodb.Layout) templ.Component {
+func gridAreas(layout ortfodb.Layout) map[string]map[string]string {
 	var areas []string
 	for _, row := range layout.Normalize() {
 		var rowAreas []string
@@ -27,11 +27,21 @@ func cssGridTemplateAreasDeclaration(layout ortfodb.Layout) templ.Component {
 		}
 	}
 
-	return shared.CSS(declarations)
+	return declarations
+}
+
+func colorVariables(work ortfodb.AnalyzedWork, language string) map[string]map[string]string {
+	palette := work.Colors(language)
+	return map[string]map[string]string {
+		"body": map[string]string{
+			"--primary":   shared.Color(palette.Secondary),
+			"--secondary": shared.Color(palette.Primary),
+		},
+	}
 }
 
 func MediaSrc(block ortfodb.Media) string {
-	thumb := shared.Media(block.Thumbnails[1000])
+	thumb := shared.Media(block.Thumbnails.Closest(1000))
 	if thumb != "" {
 		return thumb
 	}
@@ -39,7 +49,7 @@ func MediaSrc(block ortfodb.Media) string {
 }
 
 templ ParagraphBlock(block ortfodb.Paragraph) {
-	@shared.GeneratedHTML(block.Content)
+	@shared.HMTL(block.Content)
 }
 
 func GeneralContentType(contentType string) string {
@@ -63,7 +73,7 @@ templ MediaBlock(block ortfodb.Media) {
 		switch GeneralContentType(block.ContentType) {
 			case "image":
 				<a href={ templ.URL(shared.Media(block.DistSource)) }>
-					<img src={ MediaSrc(block) } alt={ block.Title }/>
+					<img src={ MediaSrc(block) } alt={ block.Alt }/>
 				</a>
 			case "video":
 				<video controls>
@@ -77,14 +87,14 @@ templ MediaBlock(block ortfodb.Media) {
 				switch block.ContentType {
 					case "application/pdf":
 						<a href={ templ.URL(shared.Media(block.DistSource)) }>
-							<img src={ MediaSrc(block) } alt={ block.Title }/>
+							<img src={ MediaSrc(block) } alt={ block.Alt }/>
 						</a>
 					default:
 						@UnsupportedMediaTypeConsoleError(block.ContentType)
 				}
 		}
-		if block.Title != "" {
-			<figcaption>{ block.Title }</figcaption>
+		if block.Caption != "" {
+			<figcaption>{ block.Caption }</figcaption>
 		}
 	</figure>
 }
@@ -95,19 +105,27 @@ templ LinkBlock(block ortfodb.Link) {
 
 templ Work(work ortfodb.AnalyzedWork, lang string) {
 	<main>
+		@shared.CSS(shared.Merge(colorVariables(work, lang), gridAreas(work.Content[lang].Layout)))
 		<section class="tags">
 			for _, tag := range work.Metadata.Tags {
 				<a href={ templ.URL("/" + tag) }>#{ tag }</a>
 			}
 		</section>
 		<h1>{ work.Content[lang].Title.String() }</h1>
+		if work.Metadata.CreatedAt().Year() != 9999 {
+			<p class="date">{work.Metadata.CreatedAt().Format("2006")}
+				if work.Metadata.WIP {
+					<span class="wip">· Work in progress</span>
+				}
+			</p>
+		}
 		<section class="content">
 			for _, block := range work.Content[lang].Blocks {
 				<div
  					class="block"
  					data-block={ block.ID }
- 					if block.Anchor() != "" {
-						id={ block.Anchor() }
+ 					if block.Anchor != "" {
+						id={ block.Anchor }
 					}
 				>
 					if block.Type.IsParagraph() {
@@ -138,13 +156,12 @@ templ Work(work ortfodb.AnalyzedWork, lang string) {
 				<ol>
 					for ref, footnote := range work.Content[lang].Footnotes {
 						<li id={ "fn:" + ref }>
-							@shared.GeneratedHTML(footnote)
-							<sup><a href={ templ.URL("#fnref:" + ref) }>↑</a></sup>
+							@shared.HMTL(footnote)
+							<sup><a href={ templ.SafeURL("#fnref:" + ref) }>↑</a></sup>
 						</li>
 					}
 				</ol>
 			</section>
 		}
 	</main>
-	@cssGridTemplateAreasDeclaration(work.Content[lang].Layout)
 }

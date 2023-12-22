@@ -33,7 +33,7 @@ func gridAreas(layout ortfodb.Layout) map[string]map[string]string {
 func colorVariables(work ortfodb.AnalyzedWork, language string) map[string]map[string]string {
 	palette := work.Colors(language)
 	return map[string]map[string]string{
-		"body": map[string]string{
+		"body": {
 			"--primary":   shared.Color(palette.Secondary),
 			"--secondary": shared.Color(palette.Primary),
 		},
@@ -49,7 +49,7 @@ func MediaSrc(block ortfodb.Media) string {
 }
 
 templ ParagraphBlock(block ortfodb.Paragraph) {
-	@shared.HMTL(block.Content)
+	@shared.HTML(block.Content)
 }
 
 func GeneralContentType(contentType string) string {
@@ -139,13 +139,13 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 				</div>
 			}
 		</section>
-		if len(work.Metadata.MadeWith) > 0 {
+		if len(techs) > 0 {
 			<section class="made-with">
 				<h2>Made with</h2>
 				<ul>
-					for _, tool := range work.Metadata.MadeWith {
+					for _, tool := range techs {
 						<li>
-							<a href={ templ.URL("/using/" + tool) }>{ tool }</a>
+							<a href={ templ.URL("/using/" + tool.Slug) }>{ tool.Name }</a>
 						</li>
 					}
 				</ul>
@@ -157,7 +157,7 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 				<ol>
 					for ref, footnote := range work.Content[lang].Footnotes {
 						<li id={ "fn:" + ref }>
-							@shared.HMTL(footnote)
+							@shared.HTML(footnote)
 							<sup><a href={ templ.SafeURL("#fnref:" + ref) }>↑</a></sup>
 						</li>
 					}

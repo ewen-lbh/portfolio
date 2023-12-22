@@ -117,13 +117,13 @@ templ WorkCard(work ortfodb.AnalyzedWork, language string) {
 				/>
 			} else {
 				<h4 data-long?={ len(work.Content[language].Title.String()) > 10 }>
-					@shared.HMTL(work.Content[language].Title)
+					@shared.HTML(work.Content[language].Title)
 				</h4>
 			}
 			<div class={ "info", info() }>
 				<div class={ infoTitleAndDate() }>
 					<span class={title()}>
-						@shared.HMTL(work.Content[language].Title)
+						@shared.HTML(work.Content[language].Title)
 					</span>
 					if work.Metadata.CreatedAt().Year() != 9999 {
 						<span class="date">

@@ -8,7 +8,7 @@ import (
 	ortfodb "github.com/ortfo/db"
 )
 
-func HMTL(html ortfodb.HTMLString) templ.Component {
+func HTML(html ortfodb.HTMLString) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		_, err = io.WriteString(w, string(html))
 		return
@@ -28,5 +28,5 @@ func CSS(declarations map[string]map[string]string) templ.Component {
 		}
 		css += "}\n"
 	}
-	return HMTL(ortfodb.HTMLString("<style>\n" + css + "</style>"))
+	return HTML(ortfodb.HTMLString("<style>\n" + css + "</style>"))
 }

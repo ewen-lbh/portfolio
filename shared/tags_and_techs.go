@@ -1,6 +1,7 @@
 package shared
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/metal3d/go-slugify"
@@ -52,26 +53,34 @@ func (t *Technology) ReferredToBy(name string) bool {
 
 func TagsOf(all []Tag, metadata ortfodb.WorkMetadata) []Tag {
 	tags := make([]Tag, len(metadata.Tags))
-	for i, tag := range all {
-		for _, t := range metadata.Tags {
-			if tag.ReferredToBy(t) {
-				tags[i] = tag
-				break
-			}
-		}
+	for i, t := range metadata.Tags {
+		tags[i] = LookupTag(all, t)
 	}
 	return tags
 }
 
 func TechsOf(all []Technology, metadata ortfodb.WorkMetadata) []Technology {
 	techs := make([]Technology, len(metadata.MadeWith))
-	for i, tech := range all {
-		for _, t := range metadata.MadeWith {
-			if tech.ReferredToBy(t) {
-				techs[i] = tech
-				break
-			}
-		}
+	for i, t := range metadata.MadeWith {
+		techs[i] = LookupTech(all, t)
 	}
 	return techs
+}
+
+func LookupTag(all []Tag, name string) Tag {
+	for _, t := range all {
+		if t.ReferredToBy(name) {
+			return t
+		}
+	}
+	panic(fmt.Errorf("no tag found with name %q", name))
+}
+
+func LookupTech(all []Technology, name string) Technology {
+	for _, t := range all {
+		if t.ReferredToBy(name) {
+			return t
+		}
+	}
+	panic(fmt.Errorf("no technology found with name %q", name))
 }

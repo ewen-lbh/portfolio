@@ -1,5 +1,11 @@
 package shared
 
+import (
+	"fmt"
+
+	ortfodb "github.com/ortfo/db"
+)
+
 type LocalizableString map[string]string
 
 func (ls LocalizableString) Localized(locale string) string {
@@ -23,12 +29,36 @@ type Technology struct {
 	Description  string   `yaml:"description"`
 }
 
+func (tech Technology) Works(db ortfodb.Database) (worksWithTech []ortfodb.AnalyzedWork) {
+	for _, work := range db.Works() {
+		for _, name := range work.Metadata.MadeWith {
+			if tech.ReferredToBy(name) {
+				fmt.Printf("%s referred to by %s", name, tech.Slug)
+				worksWithTech = append(worksWithTech, work)
+			}
+		}
+	}
+	return
+}
+
 type Tag struct {
 	Singular     string   `yaml:"singular"`
 	Plural       string   `yaml:"plural"`
 	Aliases      []string `yaml:"aliases"`
 	Description  string   `yaml:"description"`
 	LearnMoreURL string   `yaml:"learn more at"`
+}
+
+func (tag Tag) Works(db ortfodb.Database) (worksWithTag []ortfodb.AnalyzedWork) {
+	for _, work := range db.Works() {
+		for _, tagName := range work.Metadata.Tags {
+			if tag.ReferredToBy(tagName) {
+				fmt.Printf("%s referred to by %s", tagName, tag.URLName())
+				worksWithTag = append(worksWithTag, work)
+			}
+		}
+	}
+	return
 }
 
 type Collection struct {

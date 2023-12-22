@@ -32,7 +32,7 @@ func gridAreas(layout ortfodb.Layout) map[string]map[string]string {
 
 func colorVariables(work ortfodb.AnalyzedWork, language string) map[string]map[string]string {
 	palette := work.Colors(language)
-	return map[string]map[string]string {
+	return map[string]map[string]string{
 		"body": map[string]string{
 			"--primary":   shared.Color(palette.Secondary),
 			"--secondary": shared.Color(palette.Primary),
@@ -103,17 +103,18 @@ templ LinkBlock(block ortfodb.Link) {
 	<a href={ templ.URL(block.URL) } class="standalone-link">{ block.Text.String() }</a>
 }
 
-templ Work(work ortfodb.AnalyzedWork, lang string) {
+templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technology, lang string) {
 	<main>
 		@shared.CSS(shared.Merge(colorVariables(work, lang), gridAreas(work.Content[lang].Layout)))
 		<section class="tags">
-			for _, tag := range work.Metadata.Tags {
-				<a href={ templ.URL("/" + tag) }>#{ tag }</a>
+			for _, tag := range tags {
+				<a href={ templ.URL("/" + tag.URLName()) }>#{ tag.Singular }</a>
 			}
 		</section>
 		<h1>{ work.Content[lang].Title.String() }</h1>
 		if work.Metadata.CreatedAt().Year() != 9999 {
-			<p class="date">{work.Metadata.CreatedAt().Format("2006")}
+			<p class="date">
+				{ work.Metadata.CreatedAt().Format("2006") }
 				if work.Metadata.WIP {
 					<span class="wip">· Work in progress</span>
 				}

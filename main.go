@@ -37,7 +37,7 @@ func startServer(db ortfodb.Database, collections shared.Collections, sites []sh
 				return
 			}
 		}
-		fmt.Printf("[%s] Registering page /%s\n", locale, path)
+		// fmt.Printf("[%s] Registering page /%s\n", locale, path)
 		server.Handle(fmt.Sprintf("/%s", path), templ.Handler(pages.Layout(page, collections.URLsToNames(true, locale), sites, locale)))
 		registeredPaths = append(registeredPaths, path)
 	}
@@ -46,13 +46,13 @@ func startServer(db ortfodb.Database, collections shared.Collections, sites []sh
 		if !strings.HasPrefix(to, "https://") && !strings.HasPrefix(to, "mailto:") {
 			to = fmt.Sprintf("/%s", to)
 		}
-		fmt.Printf("[%s] Registering redirect /%s -> %s\n", locale, from, to)
+		// fmt.Printf("[%s] Registering redirect /%s -> %s\n", locale, from, to)
 		server.Handle(fmt.Sprintf("/%s", from), http.RedirectHandler(to, http.StatusSeeOther))
 	}
 
 	handlePage("", pages.Index(db, locale))
 	for _, work := range db.Works() {
-		handlePage(work.ID, pages.Work(work, locale))
+		handlePage(work.ID, pages.Work(work, shared.TagsOf(tags, work.Metadata), shared.TechsOf(technologies, work.Metadata), locale))
 	}
 
 	for id, collection := range collections {

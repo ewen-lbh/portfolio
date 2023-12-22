@@ -1,0 +1,50 @@
+package components
+
+import "github.com/ortfo/db"
+
+script masonry(selector string) {
+    function waitForElm(selector) {
+        return new Promise(resolve => {
+            if (document.querySelector(selector)) {
+                return resolve(document.querySelector(selector));
+            }
+
+            const observer = new MutationObserver(mutations => {
+                if (document.querySelector(selector)) {
+                    observer.disconnect();
+                    resolve(document.querySelector(selector));
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
+    }
+
+    waitForElm(selector).then(() =>  {
+        const mason = Bricks({
+            container: '.works',
+            packed: 'data-packed',
+            sizes: [
+                { columns: 1, gutter: 30 },
+                { mq: '768px', columns: 1, gutter: 30 },
+                { mq: '1024px', columns: 2, gutter: 30 },
+                { mq: '1200px', columns: 3, gutter: 30 },
+                { mq: '1500px', columns: 4, gutter: 30 },
+            ],
+        })
+        mason.pack()
+        mason.resize(true)
+    })
+}
+
+templ WorksGrid(works []ortfodb.AnalyzedWork, language string, sectionName string) {
+	@masonry("." + sectionName)
+	<section class={ sectionName }>
+		for _, work := range ortfodb.SortWorksByDate(works) {
+			@WorkCard(work, language)
+		}
+	</section>
+}

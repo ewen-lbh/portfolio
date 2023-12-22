@@ -1,5 +1,5 @@
 dev: 
-    air
+    ENV=development air
 
 db:
     ortfodb ~/projects --scattered build to database.json --config ortfodb.yaml

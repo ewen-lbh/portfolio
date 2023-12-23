@@ -3,17 +3,8 @@ package pages
 import "github.com/ortfo/db"
 import "github.com/ewen-lbh/portfolio/components"
 
-css indexStyles() {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-
 templ Index(db ortfodb.Database, language string) {
-	<main class={ indexStyles() }>
-		<h1 i18n>Hi! I'm Ewen Le Bihan.</h1>
+	@components.GalleryPage(db.WorksSlice(), language, "Hi! I'm Ewen Le Bihan.") {
 		<p class="intro">These are my creations.</p>
-		@components.WorksGrid(db.WorksSlice(), language, "works")
-	</main>
+	}
 }

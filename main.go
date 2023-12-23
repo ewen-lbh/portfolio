@@ -25,7 +25,7 @@ func startFileServer(port int, root string) {
 	http.ListenAndServe(fmt.Sprintf(":%d", port), staticServer)
 }
 
-func startServer(db ortfodb.Database, collections shared.Collections, sites []shared.Site, technologies []shared.Technology, tags []shared.Tag, translations *Translations, port int) {
+func startServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Collections, sites []shared.Site, technologies []shared.Technology, tags []shared.Tag, translations *Translations, port int) {
 	server := http.NewServeMux()
 
 	registeredPaths := []string{}
@@ -86,8 +86,24 @@ func startServer(db ortfodb.Database, collections shared.Collections, sites []sh
 		redirect(filepath.Join("to", site.Name), site.URL)
 	}
 
+	go http.ListenAndServe(":"+fmt.Sprint(port), server)
 	fmt.Printf("[%s] Server started on http://localhost:%d\n", translations.language, port)
-	http.ListenAndServe(":"+fmt.Sprint(port), server)
+
+	if os.Getenv("ENV") == "static" {
+		defer wg.Done()
+		fmt.Printf("[%s] Statically rendering %d paths\n", translations.language, len(registeredPaths))
+		for _, path := range registeredPaths {
+			err := StaticallyRender(filepath.Join("dist", translations.language), fmt.Sprintf("http://localhost:%d", port), path)
+			if err != nil {
+				color.Red("[%s] Couln't render %s: %s", translations.language, path, err)
+				os.Exit(1)
+			}
+			if len(translations.missingMessages) > 0 {
+				color.Red("[%s] Some content is not translated. See errors above.", translations.language)
+				os.Exit(1)
+			}
+		}
+	}
 }
 
 func loadDataFile[T any](path string, into *[]T) {
@@ -112,6 +128,22 @@ func loadDataFileMap[K comparable, V any](path string, into *map[K]V) {
 		panic(err)
 	}
 	fmt.Printf("[  ] Loaded %d items from %s\n", len(*into), path)
+}
+
+func loadDatabase() (ortfodb.Database, []string) {
+	var db ortfodb.Database
+	databaseRaw, err := os.ReadFile(filepath.Join(".", "database.json"))
+	if err != nil {
+		panic(err)
+	}
+	err = json.Unmarshal(databaseRaw, &db)
+	if err != nil {
+		panic(err)
+	}
+	locales := db.Languages()
+	sort.Strings(locales)
+	fmt.Printf("[  ] Works database has %d works in %d locales (%s)\n", len(db.Works()), len(locales), strings.Join(locales, ", "))
+	return db, locales
 }
 
 func main() {
@@ -147,29 +179,13 @@ func main() {
 	loadDataFile("tags.yaml", &tags)
 
 	var wg sync.WaitGroup
-	wg.Add(1)
+	wg.Add(len(locales))
 
 	for i, locale := range locales {
-		go startServer(db, collections, sites, technologies, tags, translations[locale], 8081+i)
+		go startServer(&wg, db, collections, sites, technologies, tags, translations[locale], 8081+i)
 	}
 	go startFileServer(8079, "public")
 	go startFileServer(8080, "media")
 
 	wg.Wait()
-}
-
-func loadDatabase() (ortfodb.Database, []string) {
-	var db ortfodb.Database
-	databaseRaw, err := os.ReadFile(filepath.Join(".", "database.json"))
-	if err != nil {
-		panic(err)
-	}
-	err = json.Unmarshal(databaseRaw, &db)
-	if err != nil {
-		panic(err)
-	}
-	locales := db.Languages()
-	sort.Strings(locales)
-	fmt.Printf("[  ] Works database has %d works in %d locales (%s)\n", len(db.Works()), len(locales), strings.Join(locales, ", "))
-	return db, locales
 }

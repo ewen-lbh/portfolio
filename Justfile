@@ -7,7 +7,7 @@ dev:
 
 start:
     just build
-    ENV=prod ./tmp/main
+    ENV=production ./tmp/main
 
 build:
     templ generate

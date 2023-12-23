@@ -38,12 +38,25 @@ func startServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Col
 			}
 		}
 
+		if os.Getenv("ENV") == "production" {
+			// Try to get rendered static page first
+			content, err := GetPage(filepath.Join("dist", translations.language), path)
+			if err != nil {
+				color.Cyan("[%s] Could not get static page for /%s: %s, falling back to server rendering until next restart", translations.language, path, err)
+			} else {
+				server.Handle(fmt.Sprintf("/%s", path), http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+					w.Write(content)
+				}))
+				registeredPaths = append(registeredPaths, path)
+				return
+			}
+		}
+
 		translator := HttpTranslator{
 			translations: translations,
 			ch:           templ.Handler(pages.Layout(page, collections.URLsToNames(true, translations.language), sites, translations.language)),
 		}
 
-		// fmt.Printf("[%s] Registering page /%s\n", locale, path)
 		server.Handle(fmt.Sprintf("/%s", path), translator)
 		registeredPaths = append(registeredPaths, path)
 	}

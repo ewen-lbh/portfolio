@@ -8,6 +8,11 @@ import (
 	"path/filepath"
 )
 
+func GetPage(inside string, path string) ([]byte, error) {
+	pagePath := filepath.Join(inside, path, "index.html")
+	return os.ReadFile(pagePath)
+}
+
 func StaticallyRender(inside string, origin string, path string) error {
 	outputPath := filepath.Join(inside, path, "index.html")
 	url := fmt.Sprintf("%s/%s", origin, path)

@@ -23,7 +23,7 @@ func mondayLocale(language string) monday.Locale {
 }
 
 func css(work ortfodb.AnalyzedWork, language string) templ.Component {
-	return shared.CSS(map[string]map[string]string{
+	return shared.CSS(shared.Selectors{
 		"[data-work=" + work.ID + "]": {
 			"--secondary": shared.Color(work.Colors(language).Secondary),
 			"--primary":   shared.Color(work.Colors(language).Primary),
@@ -37,18 +37,19 @@ func css(work ortfodb.AnalyzedWork, language string) templ.Component {
 
 css card() {
 	display: flex;
-	background-color: var(--primary, white);
-	color: var(--secondary, black);
+	background-color: white;
+	color: black;
 	overflow: hidden;
-	border-radius: 0.75em;
-	transition: transform 0.2s ease-in-out;
+	transition: all 0.25s ease,  box-shadow 0.12s ease-in-out;
 	width: 300px;
+	box-shadow: 0 0 0 0px var(--primary, black);
 }
 
 css image() {
 	height: 100%;
 	width: 100%;
 	background-color: white;
+	transition: all 0.25s ease 0.12s;
 }
 
 css anchor() {
@@ -79,6 +80,7 @@ css tags() {
 	padding: 0;
 	margin: 0;
 	column-gap: 0.5em;
+	font-size: 0.8em;
 }
 
 css title() {
@@ -92,8 +94,13 @@ templ WorkCard(work ortfodb.AnalyzedWork, language string) {
 	@css(work, language)
 	<style>
 		article.work:hover, article.work:focus-within {
-			transform: scale(1.1);
-			z-index: 1;
+			box-shadow: 0 0 0 5px var(--primary, black);
+			color: var(--secondary, black);
+			background-color: var(--primary, white);
+			border-radius: 0.75em;
+		}
+		article.work:hover img, article.work:focus-within img {
+			border-radius: 0 0 0.75em 0.75em;
 		}
 
 		article.work .info * {
@@ -122,7 +129,7 @@ templ WorkCard(work ortfodb.AnalyzedWork, language string) {
 			}
 			<div class={ "info", info() }>
 				<div class={ infoTitleAndDate() }>
-					<span class={title()}>
+					<span class={ title() }>
 						@shared.HTML(work.Content[language].Title)
 					</span>
 					if work.Metadata.CreatedAt().Year() != 9999 {

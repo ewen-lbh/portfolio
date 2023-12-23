@@ -12,8 +12,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.4.1\n"
 
+msgid "Get my resume"
+msgstr "Voir mon CV"
+
 msgid "Hi! I'm Ewen Le Bihan."
 msgstr "Hey! Je suis Ewen Le Bihan."
+
+msgid "I'm interested in almost anything that is both creative and digital."
+msgstr "Je suis intéressé par tout ce qui est à la fois créatif et numérique."
+
+msgid "Learn more"
+msgstr "En savoir plus"
 
 msgid "Proudly powered by <a href=\"https://github.com/ortfo\">ortfo</a>, my portfolio database management system and <a href=\"https://github.com/a-h/templ\">templ</a>"
 msgstr "Fièrement propulsé par <a href=\"https://github.com/ortfo\">ortfo</a>, mon système de gestion de base de données pour les portfolios et <a href=\"https://github.com/a-h/templ\">templ</a>"
@@ -132,30 +141,6 @@ msgstr "maths"
 msgid "motion design"
 msgstr "motion design"
 
-msgid "posters"
-msgstr "affiches"
-
-msgid "programs"
-msgstr "programmes"
-
-msgid "sites"
-msgstr "sites"
-
-msgid "thumbnails"
-msgstr "miniatures"
-
-msgid "typefaces"
-msgstr "fontes"
-
-msgid "typography"
-msgstr "typographie"
-
-msgid "visual identities"
-msgstr "identités visuelles"
-
-msgid "web extensions"
-msgstr "extensions web"
-
 msgid "music"
 msgstr "musique"
 
@@ -174,8 +159,20 @@ msgstr "compte privé"
 msgid "poster"
 msgstr "affiche"
 
+msgid "posters"
+msgstr "affiches"
+
 msgid "program"
 msgstr "programme"
+
+msgid "programs"
+msgstr "programmes"
+
+msgid "sites"
+msgstr "sites"
+
+msgid "thumbnails"
+msgstr "miniatures"
 
 msgid "programming"
 msgstr "programmation"
@@ -191,6 +188,18 @@ msgstr "science"
 
 msgid "typeface"
 msgstr "fonte"
+
+msgid "typefaces"
+msgstr "fontes"
+
+msgid "typography"
+msgstr "typographie"
+
+msgid "visual identities"
+msgstr "identités visuelles"
+
+msgid "web extensions"
+msgstr "extensions web"
 
 msgid "visual identity"
 msgstr "identité visuelle"

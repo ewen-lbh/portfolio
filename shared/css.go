@@ -2,11 +2,15 @@ package shared
 
 import (
 	"context"
+	"fmt"
 	"io"
 
 	"github.com/a-h/templ"
 	ortfodb "github.com/ortfo/db"
 )
+
+type Declarations map[string]string
+type Selectors map[string]Declarations
 
 func HTML(html ortfodb.HTMLString) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
@@ -19,7 +23,7 @@ func CSSDeclaration(property string, value string) string {
 	return property + ": " + value + ";\n"
 }
 
-func CSS(declarations map[string]map[string]string) templ.Component {
+func CSS(declarations Selectors) templ.Component {
 	var css string
 	for selector, decls := range declarations {
 		css += selector + " {\n"
@@ -29,4 +33,11 @@ func CSS(declarations map[string]map[string]string) templ.Component {
 		css += "}\n"
 	}
 	return HTML(ortfodb.HTMLString("<style>\n" + css + "</style>"))
+}
+
+func OnHover(class templ.CSSClass, rules Declarations) templ.Component {
+	selector := fmt.Sprintf(".%s:hover, .%s:focus-visible", class.ClassName(), class.ClassName())
+	return CSS(Selectors{
+		selector: rules,
+	})
 }

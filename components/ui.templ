@@ -1,0 +1,33 @@
+package components
+
+import "github.com/ewen-lbh/portfolio/shared"
+
+css iconedLink() {
+	display: inline-flex;
+	align-items: center;
+	text-decoration: none;
+	transition: font-weight 0.125s ease-in-out;
+}
+
+css iconedLinkIcon() {
+	height: 1.3em;
+}
+
+css iconedLinkText() {
+	margin-left: 0.5em;
+}
+
+templ ArrowLink(href string) {
+	@shared.OnHover(
+        iconedLink(), 
+        shared.Declarations{ 
+            "font-weight": "bold",
+        },
+	)
+	<a class={ iconedLink() } href={ templ.SafeURL(href) }>
+		<img class={ iconedLinkIcon() } src={ string(shared.Asset("icons/arrow-right.svg")) }/>
+		<span i18n>
+			{ children... }
+		</span>
+	</a>
+}

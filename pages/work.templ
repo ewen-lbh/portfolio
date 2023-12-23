@@ -5,7 +5,7 @@ import "strings"
 import "github.com/ewen-lbh/portfolio/shared"
 import "fmt"
 
-func gridAreas(layout ortfodb.Layout) map[string]map[string]string {
+func gridAreas(layout ortfodb.Layout) shared.Selectors {
 	var areas []string
 	for _, row := range layout.Normalize() {
 		var rowAreas []string
@@ -15,15 +15,15 @@ func gridAreas(layout ortfodb.Layout) map[string]map[string]string {
 		areas = append(areas, "'"+strings.Join(rowAreas, " ")+"'")
 	}
 
-	declarations := make(map[string]map[string]string)
+	declarations := make(shared.Selectors)
 
-	declarations["section.content"] = map[string]string{
+	declarations["section.content"] = shared.Declarations{
 		"display":             "grid",
 		"grid-template-areas": strings.Join(areas, " "),
 	}
 
 	for _, id := range layout.BlockIDs() {
-		declarations["[data-block='"+id+"']"] = map[string]string{
+		declarations["[data-block='"+id+"']"] = shared.Declarations{
 			"grid-area": string(id),
 		}
 	}
@@ -31,9 +31,9 @@ func gridAreas(layout ortfodb.Layout) map[string]map[string]string {
 	return declarations
 }
 
-func colorVariables(work ortfodb.AnalyzedWork, language string) map[string]map[string]string {
+func colorVariables(work ortfodb.AnalyzedWork, language string) shared.Selectors {
 	palette := work.Colors(language)
-	return map[string]map[string]string{
+	return shared.Selectors{
 		"body": {
 			"--primary":   shared.Color(palette.Secondary),
 			"--secondary": shared.Color(palette.Primary),

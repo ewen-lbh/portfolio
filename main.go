@@ -99,6 +99,8 @@ func startServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Col
 		redirect(filepath.Join("to", site.Name), site.URL)
 	}
 
+	handlePage("about", pages.AboutPage(translations.language))
+
 	go http.ListenAndServe(":"+fmt.Sprint(port), server)
 	fmt.Printf("[%s] Server started on http://localhost:%d\n", translations.language, port)
 

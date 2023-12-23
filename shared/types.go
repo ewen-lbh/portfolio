@@ -1,8 +1,6 @@
 package shared
 
 import (
-	"fmt"
-
 	ortfodb "github.com/ortfo/db"
 )
 
@@ -33,7 +31,6 @@ func (tech Technology) Works(db ortfodb.Database) (worksWithTech []ortfodb.Analy
 	for _, work := range db.Works() {
 		for _, name := range work.Metadata.MadeWith {
 			if tech.ReferredToBy(name) {
-				fmt.Printf("%s referred to by %s", name, tech.Slug)
 				worksWithTech = append(worksWithTech, work)
 			}
 		}
@@ -53,7 +50,6 @@ func (tag Tag) Works(db ortfodb.Database) (worksWithTag []ortfodb.AnalyzedWork) 
 	for _, work := range db.Works() {
 		for _, tagName := range work.Metadata.Tags {
 			if tag.ReferredToBy(tagName) {
-				fmt.Printf("%s referred to by %s", tagName, tag.URLName())
 				worksWithTag = append(worksWithTag, work)
 			}
 		}

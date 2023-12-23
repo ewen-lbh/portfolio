@@ -77,11 +77,24 @@ templ MediaBlock(block ortfodb.Media) {
 					<img src={ MediaSrc(block) } alt={ block.Alt }/>
 				</a>
 			case "video":
-				<video controls height={ fmt.Sprintf("%dpx", block.Dimensions.Height) } width={ fmt.Sprintf("%dpx", block.Dimensions.Width) }>
+				<video
+ 					loop?={ block.Attributes.Loop }
+ 					controls?={ block.Attributes.Controls }
+ 					autoplay?={ block.Attributes.Autoplay }
+ 					muted?={ block.Attributes.Muted }
+ 					playsinline?={ block.Attributes.Playsinline }
+ 					height={ fmt.Sprintf("%dpx", block.Dimensions.Height) }
+ 					width={ fmt.Sprintf("%dpx", block.Dimensions.Width) }
+				>
 					<source src={ shared.Media(block.DistSource) } type={ block.ContentType }/>
 				</video>
 			case "audio":
-				<audio controls>
+				<audio
+ 					loop?={ block.Attributes.Loop }
+ 					controls?={ block.Attributes.Controls }
+ 					autoplay?={ block.Attributes.Autoplay }
+ 					playsinline?={ block.Attributes.Playsinline }
+				>
 					<source src={ shared.Media(block.DistSource) } type={ block.ContentType }/>
 				</audio>
 			default:

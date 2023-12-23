@@ -12,6 +12,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.4.1\n"
 
+msgid "%s’s logo"
+msgstr "Logo de %s"
+
+msgid "%v-day streak on Duolingo, %v league"
+msgstr "streak de %v jours sur Duolingo, ligue %v"
+
+msgid "1104<sup>th</sup>"
+msgstr "1104<sup>e</sup>"
+
+msgid "12 March 2020"
+msgstr "12 mars 2020"
+
+msgid "1791<sup>st</sup>"
+msgstr "1791<sup>e</sup>"
+
+msgid "A <a href='https://svelte.dev'>Svelte</a>-powered framework for building web applications of all sizes, with a beautiful development experience and flexible filesystem-based routing"
+msgstr "Un framework alimenté par <a href='https://svelte.dev'>Svelte</a> pour construire des applications web de toutes tailles, avec une belle expérience de développement et un routage flexible basé sur le système de fichiers."
+
+msgid "A PHP Model-View-Controller framework"
+msgstr "Un framework PHP Modèle-Vue-Contrôleur"
+
+msgid "A high-performance template engine heavily influenced by <a href='https://haml.info/'>Haml</a> and implemented with JavaScript for Node.js and browsers."
+msgstr "Un moteur de template haute performance fortement influencé par <a href='https://haml.info/'>Haml</a> et implémenté avec JavaScript pour Node.js et les navigateurs."
+
+msgid "A simple cross-platform library to create graphical user interfaces in [Go](/using/go) that work on Android, iOS, Linux, MacOS and Windows."
+msgstr "Une bibliothèque multiplateforme simple pour créer des interfaces graphiques en [Go](/using/go) qui fonctionnent sur Android, iOS, Linux, MacOS et Windows."
+
+msgid "A strongly typed, safe programming language"
+msgstr "Un langage de programmation sûr et fortement typé"
+
+msgid "Application Programming Interfaces, mostly _Web_ APIs, meaning machine-redable sites that allow data processing and interaction without going to the client-facing website"
+msgstr "Interfaces de programmation d'applications, principalement des API _Web_, c'est-à-dire des sites accessibles aux machines qui permettent le traitement des données et l'interaction sans passer par le site web orienté vers le client."
+
 msgid "Get my resume"
 msgstr "Voir mon CV"
 
@@ -21,35 +54,412 @@ msgstr "Hey! Je suis Ewen Le Bihan."
 msgid "I'm interested in almost anything that is both creative and digital."
 msgstr "Je suis intéressé par tout ce qui est à la fois créatif et numérique."
 
-msgid "Learn more"
-msgstr "En savoir plus"
-
 msgid "Proudly powered by <a href=\"https://github.com/ortfo\">ortfo</a>, my portfolio database management system and <a href=\"https://github.com/a-h/templ\">templ</a>"
 msgstr "Fièrement propulsé par <a href=\"https://github.com/ortfo\">ortfo</a>, mon système de gestion de base de données pour les portfolios et <a href=\"https://github.com/a-h/templ\">templ</a>"
 
 msgid "Source code"
 msgstr "Code source"
 
-msgid "These are my creations."
-msgstr "Voici mes créations."
+msgid "Un système de génération de portfolios faits maison."
+msgstr "Un système de génération de portfolios faits maison."
+
+msgid "2022—now"
+msgstr "2022—maintenant"
+
+msgid "A <a href=\"https://svelte.dev\">Svelte</a>-powered framework for building web applications of all sizes, with a beautiful development experience and flexible filesystem-based routing"
+msgstr "Un framework basé sur <a href=\"https://svelte.dev\">Svelte</a> pour la construction d'applications web de toutes tailles, avec une belle expérience de développement et un routage flexible basé sur le système de fichiers"
+
+msgid "A bundler for javascript and friends. Packs many modules into a few bundled assets."
+msgstr "Un bundler pour javascript et autres. Regroupe de nombreux modules en quelques fichiers groupés."
+
+msgid "A collaborative web-based vector editor, UX design and prototyping tool"
+msgstr "Un éditeur vectoriel, outil de conception et de prototypage UX collaboratif basé sur le web"
 
 msgid "Works"
 msgstr "Œuvres"
 
+msgid "command line"
+msgstr "terminal"
+
+msgid "personal account"
+msgstr "compte personnel"
+
+msgid "web extension"
+msgstr "extension pour navigateur"
+
+msgid "A community-maintained Python library for creating mathematical animations"
+msgstr "Une bibliothèque Python permettant la création d'animations mathématiques"
+
+msgid "A desktop publishing and typesetting software application used to create works such as posters, flyers, brochures, magazines, newspapers, presentations, books and ebooks"
+msgstr "Un logiciel de publication assistée par ordinateur et de composition utilisé pour créer des œuvres telles que des affiches, des prospectus, des brochures, des magazines, des journaux, des présentations, des livres et des livres électroniques"
+
+msgid "A digital audio workstation (DAW)"
+msgstr "Un logiciel de création musicale"
+
+msgid "A digital visual effects, motion graphics, and compositing application"
+msgstr "Une application d'effets visuels numériques, de motion graphics et de compositing"
+
+msgid "A dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write."
+msgstr "Un langage de programmation open source dynamique, axé sur la simplicité et la productivité. Il possède une syntaxe élégante, naturelle et facile à écrire."
+
+msgid "A graphism technique that involves the composition of multiple images into a single, cohesive one"
+msgstr "Une technique de graphisme qui implique la composition de plusieurs images en un ensemble cohérent"
+
+msgid "A high-level Python Web framework that encourages rapid development and clean, pragmatic design"
+msgstr "Un framework Web Python de haut niveau qui encourage un développement rapide et une conception propre et pragmatique"
+
+msgid "A high-level programming language that enables interactive web pages"
+msgstr "Un langage de programmation de haut niveau qui permet l'intéractivité de pages web"
+
+msgid "A high-performance template engine heavily influenced by <a href=\"https://haml.info/\">Haml</a> and implemented with JavaScript for Node.js and browsers."
+msgstr "Un moteur de template haute performance fortement influencé par <a href=\"https://haml.info\"/>Haml</a> et implémenté avec JavaScript pour Node.js et les navigateurs."
+
+msgid "A high-quality typesetting & document preparation system"
+msgstr "Un système de composition et de préparation des documents de haute qualité"
+
+msgid "A human friendly data serialization standard for all programming languages"
+msgstr "Une norme de sérialisation des données pour tous les langages de programmation"
+
+msgid "A language empowering everyone to build reliable and efficient software"
+msgstr "Un langage permettant à chacun de construire des logiciels fiables et efficaces"
+
+msgid "A language for generating UML diagrams from textual descriptions"
+msgstr "Un langage permettant de générer des diagrammes UML à partir de descriptions textuelles"
+
+msgid "A language which compiles to JavaScript that adds many features to assist in functional style programming. LiveScript is an indirect descendant of CoffeeScript, with which it has much compatibility."
+msgstr "Un langage qui se compile en JavaScript et qui ajoute de nombreuses fonctionnalités pour aider à la programmation de style fonctionnel. LiveScript est un descendant indirect de CoffeeScript, avec lequel il a une grande compatibilité."
+
+msgid "Computer science"
+msgstr "Sciences du numérique"
+
+msgid "A library that parses command-line arguments based on a help message. “Don't write parser code: a good help message already has all the necessary information in it”"
+msgstr "Une bibliothèque qui analyse les arguments de la ligne de commande sur la base d'un message d'aide. \"N'écrivez pas de code pour parser vos arguments : un bon message d'aide contient déjà toutes les informations nécessaires\"."
+
+msgid "A library that parses command-line arguments based on a help message. “Don’t write parser code: a good help message already has all the necessary information in it”"
+msgstr "Une bibliothèque qui analyse les arguments de ligne de commande en fonction d'un message d'aide. « Ne pas écrire de code d'analyse : un bon message d'aide contient déjà toutes les informations nécessaires »"
+
+msgid "A lightweight data-interchange format"
+msgstr "Un format léger d'échange de données"
+
+msgid "A minimal configuration file format that's easy to read due to obvious semantics. Designed to map unambiguously to a hash table."
+msgstr "Un format de fichier de configuration minimal et facile à lire grâce à une sémantique évidente."
+
+msgid "A minimal configuration file format that’s easy to read due to obvious semantics. Designed to map unambiguously to a hash table."
+msgstr "Un format de fichier de configuration minimal facile à lire grâce à des sémantiques évidentes. Conçu pour correspondre sans ambiguïté à une table de hachage."
+
+msgid "A minimal language to describe interactive, terminal-based text adventure games"
+msgstr "Un langage minimal pour écrire des jeux d'aventure textuelles"
+
+msgid "A modern parsing library for Python capable of parsing any context-free grammar"
+msgstr "Une bibliothèque d'analyse moderne pour Python capable d'analyser toute grammaire non contextuelle"
+
+msgid "A modern parsing library for Python. Lark can parse any context-free grammar"
+msgstr "Une bibliothèque d'analyse syntaxique pour Python. Lark peut analyser n'importe quel langage non contextuel (langage algébrique)"
+
+msgid "A popular general-purpose scripting language that is especially suited to web development"
+msgstr "Un langage de script polyvalent et populaire, particulièrement adapté au développement web"
+
+msgid "A powerful and flexible toolkit for building Web APIs with Django"
+msgstr "Un toolkit puissant et flexibl pour construire des API Web avec Django"
+
+msgid "A powerful, efficient, lightweight, embeddable scripting language"
+msgstr "Un langage de script puissant, efficace, léger et utilisable sur de l'embarqué"
+
+msgid "A programming language that compiles to JavaScript. It adds syntactic sugar inspired by Ruby, Python and Haskell in an effort to enhance JavaScript's brevity and readability. Specific additional features include list comprehension and destructuring assignment"
+msgstr "Un langage de programmation qui se compile en JavaScript. Il ajoute du sucre syntactique inspiré de Ruby, Python et Haskell dans le but d'améliorer la brièveté et la lisibilité de JavaScript. Les caractéristiques supplémentaires spécifiques comprennent la définition de listes en compréhension et l'affectation par déstructuration"
+
+msgid "A programming language that compiles to JavaScript. It adds syntactic sugar inspired by Ruby, Python and Haskell in an effort to enhance JavaScript’s brevity and readability. Specific additional features include list comprehension and destructuring assignment"
+msgstr "Un langage de programmation qui se compile en JavaScript. Il ajoute du sucre syntaxique inspiré de Ruby, Python et Haskell dans le but d'améliorer la brièveté et la lisibilité de JavaScript. Les fonctionnalités supplémentaires spécifiques incluent la compréhension de liste et l'affectation par décomposition"
+
+msgid "A programming language that lets you work quickly and integrate systems more effectively"
+msgstr "Un langage de programmation permettant de travailler rapidement et d'intégrer des systèmes plus efficacement"
+
+msgid "A progressive Node.js framework for building efficient, reliable and scalable server-side applications"
+msgstr "Un framework Node.js progressif pour construire des applications côté serveur efficaces, fiables et évolutives"
+
+msgid "A radical new approach to building user interfaces. Whereas traditional frameworks like React and Vue do the bulk of their work in the browser, Svelte shifts that work into a compile step that happens when the app is built"
+msgstr "Une approche radicalement nouvelle de la construction d'interfaces utilisateurs. Alors que les frameworks traditionnels comme React et Vue font l'essentiel de leur travail dans le navigateur, Svelte transforme ce travail en une étape de compilation qui se produit lors de la création de l'application"
+
+msgid "A radical new approach to building user interfaces. Whereas traditional frameworks like React and Vue do the bulk of their work in the browser, Svelte shifts that work into a compile step that happens when you build your app."
+msgstr "Une approche radicale pour la création d'interfaces utilisateur. Alors que les frameworks traditionnels tels que React et Vue effectuent la majeure partie de leur travail dans le navigateur, Svelte déplace ce travail dans une étape de compilation qui se produit lors de la création de l'application."
+
+msgid "A raster graphics editor"
+msgstr "Un éditeur d'images raster"
+
+msgid "A series of small single-board computers"
+msgstr "Une série de nano-ordinateurs"
+
+msgid "A set of brand resources like logos and banners that make up a brand's visal identity"
+msgstr "Un ensemble de ressources de marque, comme des logos et des bannières, qui constituent l'identité visuelle d'une marque"
+
+msgid "A set of brand resources like logos and banners that make up a brand’s visal identity"
+msgstr "Un ensemble de ressources telles que des logos et des bannières qui constituent l'identité visuelle d'une marque"
+
+msgid "A simple cross-platform library to create graphical user interfaces in <a href=\"/using/go\">Go</a> that work on Android, iOS, Linux, MacOS and Windows."
+msgstr "Une bibliothèque simple et multiplateforme pour créer des interfaces graphiques en <a href=\"/using/go\">Go</a> qui fonctionnent sur Android, iOS, Linux, MacOS et Windows."
+
+msgid "A smart and user-friendly command line shell for Linux, macOS, and the rest of the family"
+msgstr "Un shell en ligne de commande intelligent et convivial pour Linux, macOS et le reste de la famille"
+
+msgid "A statically typed compiled systems programming language. It combines successful concepts from mature languages like Python, Ada and Modula."
+msgstr "Langage de programmation de systèmes compilés, typés statiquement. Il combine des concepts à succès de langages matures comme Python, Ada et Modula."
+
+msgid "A stylesheet language used to describe the presentation of a document written in HTML or XML"
+msgstr "Un langage de feuille de style utilisé pour décrire la présentation d'un document écrit en HTML ou XML"
+
+msgid "A text document format for writing notes, documentation, articles, books, ebooks, slideshows, web pages, man pages and blogs. AsciiDoc files can be translated to many formats including HTML, PDF, EPUB, man page."
+msgstr "Un format de document texte pour écrire des notes, de la documentation, des articles, des livres, des ebooks, des diaporamas, des pages web, des pages de manuel et des blogs. Les fichiers AsciiDoc peuvent être traduits dans de nombreux formats, notamment HTML, PDF, EPUB ou man page."
+
+msgid "A text-to-HTML conversion tool and language for web writers. The overriding design goal for Markdown’s formatting syntax is to make it as readable as possible: a Markdown-formatted document should be publishable as-is, as plain text, without looking like it’s been marked up with tags or formatting instructions."
+msgstr "Un outil de conversion du texte en HTML et un langage pour les rédacteurs web. L'objectif principal de la syntaxe de formatage de Markdown est de rendre le document aussi lisible que possible : un document formaté par Markdown doit pouvoir être publié tel quel, en texte brut, sans avoir l'air d'avoir été marqué par des balises ou des instructions de formatage."
+
+msgid "A timeline-based video editing software application"
+msgstr "Un logiciel de montage vidéo"
+
+msgid "A vector graphics editor and design program"
+msgstr "Un éditeur de graphiques vectoriels et un programme de design"
+
+msgid "A web-application framework that includes everything needed to create database-backed web applications according to the Model-View-Controller (MVC) pattern"
+msgstr "Un framework d'application web qui inclut tout ce qui est nécessaire pour créer des applications web basées sur une base de données selon le motif MVC"
+
+msgid "An advanced open source relational database"
+msgstr "Une base de données relationnelle open source avancée"
+
+msgid "An intuitive vector graphics editor for iOS"
+msgstr "Un éditeur de graphiques vectoriels intuitive pour iOS"
+
+msgid "An open Node.js CLI framework"
+msgstr "Un framework Node.js pour <abbr title='Command Line Interface (interface en ligne de commande)'>CLIs</abbr> ouvert"
+
+msgid "An open source image editor"
+msgstr "Un éditeur d'images open source"
+
+msgid "An open-source language which builds on JavaScript by adding static type definitions"
+msgstr "Un langage open-source qui construit sur JavaScript en ajoutant des définitions de type statiques"
+
+msgid "An straightforward low-level open source programming language supported by Google featuring built-in concurrency and a robust standard library"
+msgstr "Un langage de programmation open source supporté par Google, comprenant une concurrence intégrée et une bibliothèque standard robuste"
+
+msgid "Any piece of work related to languages (programming languages or natural languages)"
+msgstr "Projets liés au langage (langages de programmation ou langages naturels)"
+
+msgid "Any piece of work that involves programming, such as libraries, programs, scripts, et cætera."
+msgstr "Toute œuvre qui implique de la programmation, telles que des bibliothèques, des programmes, des scripts, etc."
+
+msgid "Application Programming Interfaces, mostly <em>Web</em> APIs, meaning machine-redable sites that allow data processing and interaction without going to the client-facing website"
+msgstr "Interfaces de programmation d'application, principalement des <em>Web</em> APIs, signifiant des sites lisibles par machine qui permettent le traitement et l'interaction sans avoir à visiter le site web conçu pour les utilisateurs"
+
+msgid "Audiovisual & transmedia production company"
+msgstr "Companie de production audiovisuelle et transmédia"
+
+msgid "Back home"
+msgstr "Retour à l'accueil"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Design and coded by hand"
+msgstr "Site web fait maison"
+
+msgid "Designed and coded by hand"
+msgstr "Site web fait maison"
+
+msgid "Digital audiovisual agency"
+msgstr "Agence audiovisuelle numérique"
+
+msgid "Engineering consulting firm"
+msgstr "Société de conseil en ingénierie"
+
+msgid "Expressive, robust, feature-rich CSS language built for nodejs"
+msgstr "Langage CSS expressif, robuste, riche en fonctionnalités pour nodejs"
+
+msgid "Extensions or add-ons that add features to web browsers"
+msgstr "Extensions ou add-ons qui ajoutent des fonctionnalités à un navigateurs web"
+
+msgid "Free and open-source digital painting software"
+msgstr "Logiciel de peinture numérique gratuit et open source"
+
+msgid "Get a one-page PDF resume"
+msgstr "CV monopage en PDF"
+
+msgid "Graphic designer & printer"
+msgstr "Graphiste & imprimeur"
+
+msgid "Hi! I'm Ewen Le Bihan. I'm interested in almost anything that is both creative and digital."
+msgstr "Hey! Je suis Ewen Le Bihan. Je suis intéressé par presque tout ce qui est à la fois créatif et digital."
+
+msgid "Hi, I'm Ewen Le Bihan."
+msgstr "Hey, je suis Ewen Le Bihan."
+
+msgid "I also make electronic music."
+msgstr "Je crée aussi de la musique."
+
+msgid "INP-ENSEEIHT (“École nationale supérieure d'électrotechnique, d'électronique, d'informatique, d'hydraulique et des télécommunication”), a top-ranking engineering graduate school based in Toulouse, France."
+msgstr "INP-ENSEEIHT (« École nationale supérieure d'électrotechnique, d'électronique, d'informatique, d'hydraulique et des télécommunication »), une école d'ingénieurs de premier plan basée à Toulouse."
+
+msgid "If this doesn't work, you can <a href=\"%s\">go to %s</a> by clicking here"
+msgstr "Si cela ne fonctionne pas, vous pouvez <a href=\"%s\">allez sur %s</a> en cliquant ici"
+
+msgid "If this doesn't work, you can <a href=\"https://github.com/users/ewen-lbh/projects/2\">go to it by clicking here</a>"
+msgstr "Si cela ne fonctionne pas, vous pouvez <a href=\"https://github.com/users/ewen-lbh/projects/2\">y aller en cliquant ici</a>"
+
+msgid "Images that represent a media, such as a video, in a single glance. Might be shown at a small size."
+msgstr "Images qui représentent un média, tel qu'une vidéo, d'un seul coup d'œil. Peut être affiché à petite taille."
+
+msgid "Internship @"
+msgstr "Stage à"
+
+msgid "I’ve been experimenting with sounds, their textures and their musicality since I was 7 years old."
+msgstr "J'expérimente les sons, leurs textures et leur musicalité depuis que j'ai 7 ans."
+
+msgid "Learn more"
+msgstr "En savoir plus"
+
+msgid "Made with <3 by Ewen Le Bihan"
+msgstr "Fait avec <3 par Ewen Le Bihan"
+
+msgid "Made with the intent to discover, not necessarily to be useful or aesthetic."
+msgstr "Réalisé dans le but de découvrir sans contrainte d'utilité ou d'esthétique."
+
+msgid "Mathematics & Physics"
+msgstr "Mathématiques & Physique"
+
+msgid "More..."
+msgstr "Plus..."
+
+msgid "Music covers for albums, EPs and singles"
+msgstr "Pochettes pour albums, EPs et singles"
+
+msgid "My ranks at entrance exams"
+msgstr "Mon classement aux concours d'entrée"
+
+msgid "Native"
+msgstr "Natif"
+
+msgid "Open Source design and prototyping platform meant for cross-domain teams. Non dependent on operating systems, Penpot is web based and works with open web standards (SVG)."
+msgstr "Plateforme de conception et prototypage open source visant des équipes multi-domaines. Non dépendante des systèmes d'exploitation, Penpot est un logiciel web et fonctionne avec les standards web ouverts (SVG)."
+
+msgid "Programs that run in the terminal, a text-based interface for computers."
+msgstr "Programmes qui s'exécutent dans une console, une interface de texte pour les ordinateurs."
+
+msgid "Set of glyphs (letters, punctuation marks and more) that define how text looks."
+msgstr "Ensemble de glyphes (lettres, signes de ponctuation et plus encore) qui définissent l'apparence du texte."
+
+msgid "Proudly\n"
+"          <strong>\n"
+"            not\n"
+"          </strong>\n"
+"          powered by Wordpress"
+msgstr "Fièrement\n"
+"          <strong>\n"
+"            non\n"
+"          </strong>\n"
+"          propulsé par Wordpress"
+
+msgid "Proudly <strong>not</strong> powered by Wordpress"
+msgstr "Fièrement <strong>non</strong> propulsé par Wordpress"
+
+msgid "Redirecting you to %s..."
+msgstr "Redirection vers %s..."
+
+msgid "Redirecting you to my github incubator..."
+msgstr "Redirection vers mon incubateur github..."
+
+msgid "School projects and school-related projects"
+msgstr "Projets scolaires et projets liés à l'école"
+
+msgid "Server error. I f*cked up somewhere."
+msgstr "Erreur serveur. J'ai foiré quelque part."
+
+msgid "Short introductory video sequences typically played at the beginning of every video"
+msgstr "Séquences vidéo introducientrières courtes qui sont typiquement jouées au début de chaque vidéo"
+
+msgid "The Intuitive Vue Framework"
+msgstr "Le Framework Vue Intuitif"
+
+msgid "The progressive JavaScript framework"
+msgstr "Un framework JavaScript progressif"
+
+msgid "The standard markup language for documents designed to be displayed in a web browser"
+msgstr "Le langage de balisage standard conçu pour représenter des pages web"
+
+msgid "arts"
+msgstr "arts"
+
+msgid "education"
+msgstr "éducation"
+
+msgid "experience"
+msgstr "expérience"
+
+msgid "hours of use"
+msgstr "heures d'utilisation"
+
+msgid "The study of language"
+msgstr "L'étude du langage"
+
+msgid "These are my creations."
+msgstr "Voici mes créations."
+
+msgid "This page does not exist (anymore)"
+msgstr "Cette page n'existe pas"
+
+msgid "Unknown error"
+msgstr "Erreur inconnue"
+
+msgid "Unknown year"
+msgstr "Année inconnue"
+
+msgid "User interfaces that utilize graphical elements such as icons, and images."
+msgstr "Intefaces utilisateur qui utilisent des éléments graphiques tels que des icônes et des images."
+
+msgid "Web sites, web apps and web-related libraries"
+msgstr "Sites web, applications web et bibliothèques liées au web"
+
+msgid "With a scientific side"
+msgstr "Avec un côté scientifique"
+
+msgid "a web server that can also be used as a reverse proxy, load balancer, mail proxy and HTTP cache"
+msgstr "un serveur web qui peut aussi être utilisé comme un proxy inverse, un répartiteur de charge, un proxy de courrier et un cache HTTP"
+
+msgid "about"
+msgstr "à propos"
+
+msgid "about me"
+msgstr "à propos"
+
 msgid "abstract"
-msgstr "abstrait"
+msgstr "asbtrait"
+
+msgid "all"
+msgstr "tout"
+
+msgid "also my music"
+msgstr "ma musique également"
+
+msgid "an XML-based vector image format for defining two-dimensional graphics, having support for interactivity and animation. The SVG specification is an open standard developed by the World Wide Web Consortium since 1999"
+msgstr "un format d'image vectorielle basé sur XML pour définir des graphiques bidimensionnels, ayant un support pour l'interactivité et l'animation. La spécification SVG est un standard ouvert développé par le World Wide Web Consortium depuis 1999"
 
 msgid "apis"
-msgstr "apis"
+msgstr "APIs"
 
 msgid "app"
-msgstr "app"
+msgstr "application"
 
 msgid "apps"
-msgstr "applis"
+msgstr "applications"
 
 msgid "automation"
 msgstr "automatisation"
+
+msgid "banner"
+msgstr "bannière"
+
+msgid "beautiful OFL typeface"
+msgstr "magnifique fonte sous OFL"
+
+msgid "blog"
+msgstr "blogue"
 
 msgid "book"
 msgstr "livre"
@@ -57,14 +467,20 @@ msgstr "livre"
 msgid "books"
 msgstr "livres"
 
+msgid "by"
+msgstr "par"
+
+msgid "card"
+msgstr "carte"
+
 msgid "cards"
 msgstr "cartes"
 
 msgid "cli"
 msgstr "cli"
 
-msgid "command line"
-msgstr "terminal"
+msgid "collections"
+msgstr "collections"
 
 msgid "command-line"
 msgstr "terminal"
@@ -75,14 +491,26 @@ msgstr "compositing"
 msgid "contact"
 msgstr "contact"
 
+msgid "contact me"
+msgstr "contactez-moi"
+
+msgid "cover art"
+msgstr "pochette"
+
 msgid "cover arts"
-msgstr "pochettes d'albums"
+msgstr "pochettes"
 
 msgid "drawing"
 msgstr "dessin"
 
 msgid "drawings"
 msgstr "dessins"
+
+msgid "efficient and comfortable programming language"
+msgstr "langage de programmation efficient et confortable"
+
+msgid "en français"
+msgstr "in english"
 
 msgid "experiment"
 msgstr "expérience"
@@ -93,26 +521,41 @@ msgstr "expérimental"
 msgid "experiments"
 msgstr "expériences"
 
-msgid "flyers"
-msgstr "flyers"
-
-msgid "games"
-msgstr "jeux"
-
-msgid "guis"
-msgstr "interfaces graphiques"
+msgid "fine"
+msgstr "c'est pas grave"
 
 msgid "flyer"
 msgstr "flyer"
 
+msgid "flyers"
+msgstr "flyers"
+
+msgid "footnotes"
+msgstr "notes de bas de page"
+
+msgid "game"
+msgstr "jeu"
+
+msgid "games"
+msgstr "jeux"
+
 msgid "graphism"
 msgstr "graphisme"
 
+msgid "guis"
+msgstr "intefaces graphiques"
+
 msgid "hardware"
-msgstr "matériel"
+msgstr "matériel informatique"
+
+msgid "hours spent on this"
+msgstr "heures passées là-dessus"
 
 msgid "i can work for you"
 msgstr "je peux travailler pour vous"
+
+msgid "iconography"
+msgstr "icônes"
 
 msgid "icons"
 msgstr "icônes"
@@ -123,6 +566,9 @@ msgstr "illustration"
 msgid "illustrations"
 msgstr "illustrations"
 
+msgid "intro"
+msgstr "intro"
+
 msgid "intros"
 msgstr "intros"
 
@@ -132,17 +578,47 @@ msgstr "langage"
 msgid "languages"
 msgstr "langages"
 
+msgid "latest release"
+msgstr "dernière sortie"
+
+msgid "learn more"
+msgstr "en savoir plus"
+
+msgid "programming<p class=\"inline\" i18n=\"\">work time tracked by <a href=\"https://wakatime.com\">WakaTime</a></p>"
+msgstr "programmation<p class=\"inline\" i18n=\"\">temps de travail suivi par <a href=\"https://wakatime.com\">WakaTime</a></p>"
+
+msgid "results"
+msgstr "résultats"
+
 msgid "linguistics"
 msgstr "linguistique"
 
+msgid "loading image in full resolution…"
+msgstr "chargement de l'image en pleine résolution…"
+
+msgid "programming"
+msgstr "programmation"
+
+msgid "logo"
+msgstr "logo"
+
+msgid "made with"
+msgstr "réalisé avec"
+
 msgid "math"
 msgstr "maths"
+
+msgid "most recent one"
+msgstr "la plus récente"
 
 msgid "motion design"
 msgstr "motion design"
 
 msgid "music"
 msgstr "musique"
+
+msgid "music+visual"
+msgstr "musique+vidéo"
 
 msgid "my carreer"
 msgstr "ma carrière"
@@ -151,10 +627,13 @@ msgid "my music"
 msgstr "ma musique"
 
 msgid "open-source code"
-msgstr "code open source"
+msgstr "code open-source"
 
-msgid "personal account"
-msgstr "compte privé"
+msgid "others"
+msgstr "autres"
+
+msgid "past releases"
+msgstr "autres sorties"
 
 msgid "poster"
 msgstr "affiche"
@@ -168,17 +647,17 @@ msgstr "programme"
 msgid "programs"
 msgstr "programmes"
 
-msgid "sites"
-msgstr "sites"
+msgid "project"
+msgstr "projet"
 
-msgid "thumbnails"
-msgstr "miniatures"
-
-msgid "programming"
-msgstr "programmation"
+msgid "projects"
+msgstr "projets"
 
 msgid "random thoughts"
-msgstr "pensées aléatoires"
+msgstr "pensées diverses"
+
+msgid "read more"
+msgstr "plus"
 
 msgid "school"
 msgstr "scolaire"
@@ -186,11 +665,65 @@ msgstr "scolaire"
 msgid "science"
 msgstr "science"
 
+msgid "send a mail at"
+msgstr "envoyer un mail à"
+
+msgid "site"
+msgstr "site"
+
+msgid "sites"
+msgstr "sites"
+
+msgid "skills"
+msgstr "compétences"
+
+msgid "this work is part of the following collection"
+msgstr "ce projet fait partie de la collection suivante"
+
+msgid "what"
+msgstr "quoi"
+
+msgid "slide into my dms at"
+msgstr "contactez-moi par message privé à"
+
+msgid "thumbnails"
+msgstr "miniatures"
+
 msgid "typeface"
-msgstr "fonte"
+msgstr "police de caractères"
 
 msgid "typefaces"
-msgstr "fontes"
+msgstr "polices de caractères"
+
+msgid "work time tracked by <a href=\"https://wakatime.com\">WakaTime</a>"
+msgstr "temps de travail suivi par <a href=\"https://wakatime.com\">WakaTime</a>"
+
+msgid "slide into my twitter dms"
+msgstr "contactez-moi par message privé sur twitter à"
+
+msgid "source code at"
+msgstr "code source disponible à"
+
+msgid "web extensions"
+msgstr "extensions web"
+
+msgid "tags"
+msgstr "catégories"
+
+msgid "technologies i use"
+msgstr "les technologies que j'utilise"
+
+msgid "thanks"
+msgstr "merci à"
+
+msgid "the software, frameworks, libraries, materials and services I used to make this"
+msgstr "les logiciels, frameworks, bibliothèques, matériaux et services utilisés pour cette création"
+
+msgid "this site is not finished yet. Not all works have been added, and some pages are rough around the edges."
+msgstr "ce site n'est pas encore terminé. Il manque des projets, et certaines pages ne sont pas finiolées."
+
+msgid "thumbnail"
+msgstr "miniature"
 
 msgid "typography"
 msgstr "typographie"
@@ -198,18 +731,41 @@ msgstr "typographie"
 msgid "visual identities"
 msgstr "identités visuelles"
 
-msgid "web extensions"
-msgstr "extensions web"
-
 msgid "visual identity"
 msgstr "identité visuelle"
+
+msgid "visual+music"
+msgstr "vidéo+musique"
 
 msgid "web"
 msgstr "web"
 
-msgid "web extension"
-msgstr "extension web"
+msgid "work in progress"
+msgstr "work in progress"
 
-msgid "visual+music"
-msgstr "visuel+musique"
+msgid "works"
+msgstr "projets"
+
+msgid "works by tag"
+msgstr "projets par catégories"
+
+msgid "works made with"
+msgstr "projets réalisées avec"
+
+msgid "works made with %s"
+msgstr "fait avec %s"
+
+msgid "“Syntactically Awesome Style Sheets”—A mature, stable, and powerful professional grade CSS extension language."
+msgstr "“Syntactically Awesome Style Sheets”—Une extension puissante, stable et professionelle du langage CSS."
+
+msgid "↖ Back to the text"
+msgstr "↖ Retour au texte"
+
+msgctxt "Link to /using on homepage"
+msgid "technologies used"
+msgstr "technologies utilisées"
+
+msgctxt "On homepage, as a section header for indexes"
+msgid "browse works by..."
+msgstr "projets par..."
 

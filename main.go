@@ -113,14 +113,14 @@ func startServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Col
 				color.Red("[%s] Couln't render %s: %s", translations.language, path, err)
 				os.Exit(1)
 			}
-			if len(translations.missingMessages) > 0 {
-				color.Red("[%s] Some content is not translated. See errors above.", translations.language)
-				os.Exit(1)
-			}
 		}
 		unusedTranslationsCount, _ := translations.WriteUnusedMessages()
 		if unusedTranslationsCount > 0 {
 			color.Yellow("[%s] %s contains %d unused messages, see %s", translations.language, translations.PoFilePath(), unusedTranslationsCount, translations.UnusedMessagesFilePath())
+		}
+		if len(translations.missingMessages) > 0 {
+			color.Red("[%s] Some content is not translated. See errors above.", translations.language)
+			os.Exit(1)
 		}
 	}
 }

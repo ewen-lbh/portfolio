@@ -3,6 +3,7 @@ package pages
 import "github.com/ortfo/db"
 import "strings"
 import "github.com/ewen-lbh/portfolio/shared"
+import "fmt"
 
 func gridAreas(layout ortfodb.Layout) map[string]map[string]string {
 	var areas []string
@@ -76,12 +77,12 @@ templ MediaBlock(block ortfodb.Media) {
 					<img src={ MediaSrc(block) } alt={ block.Alt }/>
 				</a>
 			case "video":
-				<video controls>
-					<source src={ MediaSrc(block) } type={ block.ContentType }/>
+				<video controls height={ fmt.Sprintf("%dpx", block.Dimensions.Height) } width={ fmt.Sprintf("%dpx", block.Dimensions.Width) }>
+					<source src={ shared.Media(block.DistSource) } type={ block.ContentType }/>
 				</video>
 			case "audio":
 				<audio controls>
-					<source src={ MediaSrc(block) } type={ block.ContentType }/>
+					<source src={ shared.Media(block.DistSource) } type={ block.ContentType }/>
 				</audio>
 			default:
 				switch block.ContentType {

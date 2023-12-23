@@ -54,7 +54,7 @@ func startServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Col
 
 		translator := HttpTranslator{
 			translations: translations,
-			ch:           templ.Handler(pages.Layout(page, collections.URLsToNames(true, translations.language), sites, translations.language)),
+			ch:           templ.Handler(pages.Layout(page, path, collections.URLsToNames(true, translations.language), sites, translations.language)),
 		}
 
 		server.Handle(fmt.Sprintf("/%s", path), translator)

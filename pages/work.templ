@@ -118,9 +118,12 @@ templ LinkBlock(block ortfodb.Link) {
 }
 
 css tagLink() {
-	display: inline-block;
+	display: inline-flex;
 	padding: 0.2em 0.5em;
 	text-decoration: none;
+	align-items: center;
+	column-gap: 0.25ch;
+	opacity: 0.7;
 }
 
 css tagLinks() {
@@ -129,16 +132,25 @@ css tagLinks() {
 	justify-content: center;
 }
 
+css hashtag() {
+	font-family: Inconsolata, monospace;
+	font-weight: 500;
+	font-size: 1.5em;
+}
+
 templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technology, lang string) {
 	@components.IntroWith(
 		shared.FormatDate(work.Metadata.CreatedAt(), "January 2006", lang), 
 		work.Content[lang].Title.String(),
 		false,
 	) {
+		@shared.OnHover(tagLink(), shared.Declarations{
+			"opacity":     "1",
+		})
 		<section class={ tagLinks() }>
 			for _, tag := range tags {
 				<a class={ tagLink() } href={ templ.URL("/" + tag.URLName()) }>
-					#<i18n>{ tag.Singular }</i18n>
+					<span class={ hashtag() }>#</span><i18n>{ tag.Singular }</i18n>
 				</a>
 			}
 		</section>

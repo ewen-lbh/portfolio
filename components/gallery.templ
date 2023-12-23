@@ -11,8 +11,8 @@ css galleryPageMain() {
 }
 
 templ GalleryPage(works []ortfodb.AnalyzedWork, language string) {
-	<main class={ galleryPageMain() }>
+	<section class={ galleryPageMain() }>
 		{ children... }
 		@WorksGrid(works, language, "works")
-	</main>
+	</section>
 }

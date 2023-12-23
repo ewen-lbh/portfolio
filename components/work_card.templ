@@ -3,7 +3,6 @@ package components
 import "fmt"
 import "github.com/ortfo/db"
 import "github.com/ewen-lbh/portfolio/shared"
-import "github.com/goodsign/monday"
 
 func ThumbPath(work ortfodb.AnalyzedWork, language string) string {
 	return shared.Media(work.ThumbnailPath(language, 600))
@@ -11,15 +10,6 @@ func ThumbPath(work ortfodb.AnalyzedWork, language string) string {
 
 func Thumb(work ortfodb.AnalyzedWork, language string) ortfodb.Media {
 	return work.ThumbnailBlock(language)
-}
-
-func mondayLocale(language string) monday.Locale {
-	switch language {
-	case "fr":
-		return monday.LocaleFrFR
-	default:
-		return monday.LocaleEnUS
-	}
 }
 
 func css(work ortfodb.AnalyzedWork, language string) templ.Component {
@@ -134,7 +124,7 @@ templ WorkCard(work ortfodb.AnalyzedWork, language string) {
 					</span>
 					if work.Metadata.CreatedAt().Year() != 9999 {
 						<span class="date">
-							{ monday.Format(work.Metadata.CreatedAt(), "Jan 2006", mondayLocale(language)) }
+							{ shared.FormatDate(work.Metadata.CreatedAt(), "Jan 2006", language) }
 						</span>
 					}
 				</div>

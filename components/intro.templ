@@ -1,10 +1,47 @@
 package components
 
+css h1() {
+	text-align: center;
+	font-weight: 800;
+	font-size: clamp(3rem, 10vw, 7rem);
+	line-height: 0.8;
+}
+
+css explain() {
+	margin: 0 auto;
+	margin-top: -2rem;
+	text-align: center;
+}
+
+css preH1() {
+	text-align: center;
+	font-size: 1.2rem;
+	opacity: 0.5;
+	margin-bottom: 0;
+}
+
+css introSection() {
+	margin-bottom: 2rem;
+}
+
 templ Intro() {
-	<section class="intro">
-		<p class="pre-h1" i18n>Hi! I'm Ewen Le Bihan.</p>
-		<h1 i18n>These are my creations.</h1>
-		<p i18n>I'm interested in almost anything that is both creative and digital.</p>
-		{ children... }
+	<section class={ introSection() }>
+		<p class={ preH1() } i18n>Hi! I'm Ewen Le Bihan.</p>
+		<h1 class={ h1() } i18n>These are my creations.</h1>
+		<p class={ explain() }>
+			<i18n>I'm interested in almost anything that is both creative and digital.</i18n>
+			<br/>
+			{ children... }
+		</p>
+	</section>
+}
+
+templ IntroWith(pre string, title string, titleNeedsTranslation bool) {
+	<section class={ introSection() }>
+		<p class={ preH1() }>{ pre }</p>
+		<h1 i18n?={ titleNeedsTranslation } class={ h1() }>{ title }</h1>
+		<p class={ explain() }>
+			{ children... }
+		</p>
 	</section>
 }

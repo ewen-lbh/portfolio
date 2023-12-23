@@ -3,6 +3,9 @@ package shared
 import (
 	"encoding/hex"
 	"sort"
+	"time"
+
+	"github.com/goodsign/monday"
 )
 
 type MapEntry[K comparable, V any] struct {
@@ -44,4 +47,20 @@ func Color(color string) string {
 		return "#" + color
 	}
 	return color
+}
+
+func MondayLocale(language string) monday.Locale {
+	switch language {
+	case "fr":
+		return monday.LocaleFrFR
+	default:
+		return monday.LocaleEnUS
+	}
+}
+
+func FormatDate(date time.Time, format string, locale string) string {
+	if date.Year() == 9999 {
+		return ""
+	}
+	return monday.Format(date, format, MondayLocale(locale))
 }

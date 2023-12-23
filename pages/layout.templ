@@ -35,6 +35,59 @@ script switchDomain(domain string) {
 	window.location.host = domain
 }
 
+css footer() {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 10rem 1rem 0;
+	background-color: #fff;
+	color: #000;
+}
+
+css footerLinkHint() {
+	opacity: 0.5;
+}
+
+css footerLinks() {
+	display: inline-grid;
+	margin-top: 0;
+	grid-template-columns: 3rem auto;
+}
+
+css footerLinkPurpose() {
+	font-family: Manrope Variable, Manrope, sans-serif;
+	opacity: 0.5;
+}
+
+css footerLinkAnchor() {
+	font-family: Inconsolata Variable, Inconsolata, monospace;
+	display: block;
+	text-decoration: none;
+	transition: font-weight 0.125s ease;
+}
+
+css footerCredits() {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	margin: 3rem 0;
+}
+
+css footerCreditsParagraph() {
+	text-align: center;
+}
+
+css footerLicense() {
+	margin: 0 auto;
+	width: min-content;
+}
+
+css footerLicenseImage() {
+	margin-top: 0.5rem;
+	height: 1.5rem;
+}
+
 templ Layout(contents templ.Component, collections map[string]string, sites []shared.Site, lang string) {
 	<!DOCTYPE html>
 	<html lang={ lang }>
@@ -64,19 +117,22 @@ templ Layout(contents templ.Component, collections map[string]string, sites []sh
 				</nav>
 			</header>
 			@contents
-			<footer>
-				<section class="sites">
+			<footer class={ footer() }>
+				<section>
 					<code>ewen.works/to/</code>
-					<dl>
+					<dl class={ footerLinks() }>
 						for _, site := range sites {
-							<dt><a href={ templ.URL("/to/" + site.Name) }>{ site.Name }</a> </dt>
-							<dd i18n>{ site.Purpose } </dd>
+							<dt><a class={ footerLinkAnchor() } href={ templ.URL("/to/" + site.Name) }>{ site.Name }</a> </dt>
+							<dd class={ footerLinkPurpose() } i18n>{ site.Purpose } </dd>
 						}
 					</dl>
 				</section>
-				<section class="credits">
-					<p i18n class="powered-by">Proudly powered by <a href="https://github.com/ortfo">ortfo</a>, my portfolio database management system and <a href="https://github.com/a-h/templ">templ</a></p>
-					<p class="source-code"><a href="https://github.com/ewen-lbh/portfolio" i18n>Source code</a></p>
+				<section class={ footerCredits() }>
+					<p i18n class={ footerCreditsParagraph() }>Proudly powered by <a href="https://github.com/ortfo">ortfo</a>, my portfolio database management system and <a href="https://github.com/a-h/templ">templ</a></p>
+					<p class={ footerCreditsParagraph() }><a href="https://github.com/ewen-lbh/portfolio" i18n>Source code</a></p>
+					<a href="https://creativecommons.org/licenses/by-sa/4.0/">
+						<img class={ footerLicenseImage() } src={ string(shared.Asset("icons/cc-by-sa.svg")) } alt="Creative Commons Attribution-ShareAlike 4.0 International License"/>
+					</a>
 				</section>
 			</footer>
 		</body>

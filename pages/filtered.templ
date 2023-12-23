@@ -5,19 +5,21 @@ import "github.com/ortfo/db"
 import "github.com/ewen-lbh/portfolio/components"
 
 templ TagPage(tag shared.Tag, db ortfodb.Database, locale string) {
+	@components.IntroWith("", tag.Plural, true) {
+		<i18n>{ tag.Description }</i18n>
+	}
 	@components.GalleryPage(
 		tag.Works(db),
 		locale,
-		tag.Plural,
-		false,
 	)
 }
 
 templ TechnologyPage(tech shared.Technology, db ortfodb.Database, locale string) {
+	@components.IntroWith("", tech.Name, true) {
+		<i18n>{ tech.Description }</i18n>
+	}
 	@components.GalleryPage(
 		tech.Works(db),
 		locale,
-		tech.Name,
-		true,
 	)
 }

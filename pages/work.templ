@@ -1,9 +1,9 @@
 package pages
 
 import "github.com/ortfo/db"
-import "strings"
 import "github.com/ewen-lbh/portfolio/shared"
 import "fmt"
+import "github.com/ewen-lbh/portfolio/components"
 
 func gridAreas(layout ortfodb.Layout) shared.Selectors {
 	var areas []string
@@ -117,25 +117,34 @@ templ LinkBlock(block ortfodb.Link) {
 	<a href={ templ.URL(block.URL) } class="standalone-link">{ block.Text.String() }</a>
 }
 
+css tagLink() {
+	display: inline-block;
+	padding: 0.2em 0.5em;
+	text-decoration: none;
+}
+
+css tagLinks() {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
 templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technology, lang string) {
-	<main>
-		@shared.CSS(shared.Merge(colorVariables(work, lang), gridAreas(work.Content[lang].Layout)))
-		<section class="tags">
+	@components.IntroWith(
+		shared.FormatDate(work.Metadata.CreatedAt(), "January 2006", lang), 
+		work.Content[lang].Title.String(),
+		false,
+	) {
+		<section class={ tagLinks() }>
 			for _, tag := range tags {
-				<a href={ templ.URL("/" + tag.URLName()) }>
+				<a class={ tagLink() } href={ templ.URL("/" + tag.URLName()) }>
 					#<i18n>{ tag.Singular }</i18n>
 				</a>
 			}
 		</section>
-		<h1>{ work.Content[lang].Title.String() }</h1>
-		if work.Metadata.CreatedAt().Year() != 9999 {
-			<p class="date">
-				{ work.Metadata.CreatedAt().Format("2006") }
-				if work.Metadata.WIP {
-					<span class="wip">· Work in progress</span>
-				}
-			</p>
-		}
+	}
+	<main>
+		@shared.CSS(shared.Merge(colorVariables(work, lang), gridAreas(work.Content[lang].Layout)))
 		<section class="content">
 			for _, block := range work.Content[lang].Blocks {
 				<div

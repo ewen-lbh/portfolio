@@ -37,6 +37,10 @@ func (t Translations) PoFilePath() string {
 	return filepath.Join("i18n", fmt.Sprintf("%s.po", t.language))
 }
 
+func (t Translations) UnusedMessagesFilePath() string {
+	return filepath.Join("i18n", fmt.Sprintf("%s-unused-messages.yaml", t.language))
+}
+
 type TranslationsCatalog map[string]*Translations
 
 type HttpTranslator struct {
@@ -51,6 +55,7 @@ func (h HttpTranslator) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			color.Yellow("[%s] Failed to reload translations: %s", h.translations.language, err)
 		} else {
+			newCatalog[h.translations.language].seenMessages = h.translations.seenMessages
 			*h.translations = *newCatalog[h.translations.language]
 		}
 	}
@@ -82,7 +87,6 @@ func (h HttpTranslator) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.translations.WriteUnusedMessages()
 	h.translations.SavePO()
 }
 
@@ -172,37 +176,37 @@ func WriteEmptyPOFile(language string) error {
 	return poFile.Save(t.PoFilePath())
 }
 
-func (t Translations) WriteUnusedMessages() error {
+func (t Translations) WriteUnusedMessages() (count int, err error) {
 	unused := make([]po.Message, 0)
-	to := fmt.Sprintf("i18n/%s-unused-messages.yaml", t.language)
 	for _, message := range t.poFile.Messages {
 		if !t.seenMessages.Contains(message.MsgId + message.MsgContext) {
 			unused = append(unused, message)
 		}
 	}
 
-	if len(unused) == 0 {
-		os.Remove(to)
+	count = len(unused)
+
+	if count == 0 {
+		os.Remove(t.UnusedMessagesFilePath())
 	} else {
-		file, err := os.OpenFile(to, os.O_APPEND|os.O_WRONLY, 0644)
+		file, err := os.OpenFile(t.UnusedMessagesFilePath(), os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
 		if err != nil {
-			return err
+			return 0, err
 		}
 		defer file.Close()
-		os.WriteFile(to, []byte("# Generated at "+time.Now().String()+"\n"), 0644)
+		os.WriteFile(t.UnusedMessagesFilePath(), []byte("# Generated at "+time.Now().String()+"\n"), 0644)
 		for _, message := range unused {
-
 			if message.MsgContext != "" {
 				_, err = file.WriteString(fmt.Sprintf("- {msgid: %q, msgctxt: %q}\n", message.MsgId, message.MsgContext))
 			} else {
 				_, err = file.WriteString(fmt.Sprintf("- %q\n", message.MsgId))
 			}
 			if err != nil {
-				return err
+				return 0, err
 			}
 		}
 	}
-	return nil
+	return count, nil
 }
 
 // SavePO writes the .po file to the disk, with its potential modifications

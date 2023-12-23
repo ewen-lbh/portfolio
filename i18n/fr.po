@@ -15,29 +15,41 @@ msgstr ""
 msgid "Hi! I'm Ewen Le Bihan."
 msgstr "Hey! Je suis Ewen Le Bihan."
 
-msgid "These are my creations."
-msgstr "Voici mes créations."
-
 msgid "Proudly powered by <a href=\"https://github.com/ortfo\">ortfo</a>, my portfolio database management system and <a href=\"https://github.com/a-h/templ\">templ</a>"
 msgstr "Fièrement propulsé par <a href=\"https://github.com/ortfo\">ortfo</a>, mon système de gestion de base de données pour les portfolios et <a href=\"https://github.com/a-h/templ\">templ</a>"
 
 msgid "Source code"
 msgstr "Code source"
 
-msgid "abstract"
-msgstr "abstrait"
-
-msgid "app"
-msgstr "app"
-
-msgid "automation"
-msgstr "automatisation"
+msgid "These are my creations."
+msgstr "Voici mes créations."
 
 msgid "Works"
 msgstr "Œuvres"
 
+msgid "abstract"
+msgstr "abstrait"
+
+msgid "apis"
+msgstr "apis"
+
+msgid "app"
+msgstr "app"
+
+msgid "apps"
+msgstr "applis"
+
+msgid "automation"
+msgstr "automatisation"
+
 msgid "book"
 msgstr "livre"
+
+msgid "books"
+msgstr "livres"
+
+msgid "cards"
+msgstr "cartes"
 
 msgid "cli"
 msgstr "cli"
@@ -45,8 +57,23 @@ msgstr "cli"
 msgid "command line"
 msgstr "terminal"
 
+msgid "command-line"
+msgstr "terminal"
+
+msgid "compositing"
+msgstr "compositing"
+
+msgid "contact"
+msgstr "contact"
+
+msgid "cover arts"
+msgstr "pochettes d'albums"
+
 msgid "drawing"
 msgstr "dessin"
+
+msgid "drawings"
+msgstr "dessins"
 
 msgid "experiment"
 msgstr "expérience"
@@ -54,8 +81,17 @@ msgstr "expérience"
 msgid "experimental"
 msgstr "expérimental"
 
-msgid "contact"
-msgstr "contact"
+msgid "experiments"
+msgstr "expériences"
+
+msgid "flyers"
+msgstr "flyers"
+
+msgid "games"
+msgstr "jeux"
+
+msgid "guis"
+msgstr "interfaces graphiques"
 
 msgid "flyer"
 msgstr "flyer"
@@ -63,20 +99,62 @@ msgstr "flyer"
 msgid "graphism"
 msgstr "graphisme"
 
+msgid "hardware"
+msgstr "matériel"
+
 msgid "i can work for you"
 msgstr "je peux travailler pour vous"
+
+msgid "icons"
+msgstr "icônes"
 
 msgid "illustration"
 msgstr "illustration"
 
+msgid "illustrations"
+msgstr "illustrations"
+
+msgid "intros"
+msgstr "intros"
+
 msgid "language"
 msgstr "langage"
+
+msgid "languages"
+msgstr "langages"
+
+msgid "linguistics"
+msgstr "linguistique"
 
 msgid "math"
 msgstr "maths"
 
 msgid "motion design"
 msgstr "motion design"
+
+msgid "posters"
+msgstr "affiches"
+
+msgid "programs"
+msgstr "programmes"
+
+msgid "sites"
+msgstr "sites"
+
+msgid "thumbnails"
+msgstr "miniatures"
+
+msgid "typefaces"
+msgstr "fontes"
+
+msgid "typography"
+msgstr "typographie"
+
+msgid "visual identities"
+msgstr "identités visuelles"
+
+msgid "web extensions"
+msgstr "extensions web"
 
 msgid "music"
 msgstr "musique"
@@ -102,6 +180,9 @@ msgstr "programme"
 msgid "programming"
 msgstr "programmation"
 
+msgid "random thoughts"
+msgstr "pensées aléatoires"
+
 msgid "school"
 msgstr "scolaire"
 
@@ -119,9 +200,6 @@ msgstr "web"
 
 msgid "web extension"
 msgstr "extension web"
-
-msgid "random thoughts"
-msgstr "pensées aléatoires"
 
 msgid "visual+music"
 msgstr "visuel+musique"

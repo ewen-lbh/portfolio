@@ -103,6 +103,10 @@ func startServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Col
 				os.Exit(1)
 			}
 		}
+		unusedTranslationsCount, _ := translations.WriteUnusedMessages()
+		if unusedTranslationsCount > 0 {
+			color.Yellow("[%s] %s contains %d unused messages, see %s", translations.language, translations.PoFilePath(), unusedTranslationsCount, translations.UnusedMessagesFilePath())
+		}
 	}
 }
 

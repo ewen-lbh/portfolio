@@ -108,7 +108,9 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 		@shared.CSS(shared.Merge(colorVariables(work, lang), gridAreas(work.Content[lang].Layout)))
 		<section class="tags">
 			for _, tag := range tags {
-				<a href={ templ.URL("/" + tag.URLName()) }>#{ tag.Singular }</a>
+				<a href={ templ.URL("/" + tag.URLName()) }>
+					#<i18n>{ tag.Singular }</i18n>
+				</a>
 			}
 		</section>
 		<h1>{ work.Content[lang].Title.String() }</h1>
@@ -141,7 +143,7 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 		</section>
 		if len(techs) > 0 {
 			<section class="made-with">
-				<h2>Made with</h2>
+				<h2 i18n>Made with</h2>
 				<ul>
 					for _, tool := range techs {
 						<li>
@@ -153,7 +155,7 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 		}
 		if len(work.Content[lang].Footnotes) > 0 {
 			<section class="footnotes">
-				<h2>Footnotes</h2>
+				<h2 i18n>Footnotes</h2>
 				<ol>
 					for ref, footnote := range work.Content[lang].Footnotes {
 						<li id={ "fn:" + ref }>

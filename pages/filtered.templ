@@ -9,6 +9,7 @@ templ TagPage(tag shared.Tag, db ortfodb.Database, locale string) {
 		tag.Works(db),
 		locale,
 		tag.Plural,
+		false,
 	)
 }
 
@@ -17,5 +18,6 @@ templ TechnologyPage(tech shared.Technology, db ortfodb.Database, locale string)
 		tech.Works(db),
 		locale,
 		tech.Name,
+		true,
 	)
 }

@@ -1,0 +1,128 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.1\n"
+
+msgid "Hi! I'm Ewen Le Bihan."
+msgstr "Hey! Je suis Ewen Le Bihan."
+
+msgid "These are my creations."
+msgstr "Voici mes créations."
+
+msgid "Proudly powered by <a href=\"https://github.com/ortfo\">ortfo</a>, my portfolio database management system and <a href=\"https://github.com/a-h/templ\">templ</a>"
+msgstr "Fièrement propulsé par <a href=\"https://github.com/ortfo\">ortfo</a>, mon système de gestion de base de données pour les portfolios et <a href=\"https://github.com/a-h/templ\">templ</a>"
+
+msgid "Source code"
+msgstr "Code source"
+
+msgid "abstract"
+msgstr "abstrait"
+
+msgid "app"
+msgstr "app"
+
+msgid "automation"
+msgstr "automatisation"
+
+msgid "Works"
+msgstr "Œuvres"
+
+msgid "book"
+msgstr "livre"
+
+msgid "cli"
+msgstr "cli"
+
+msgid "command line"
+msgstr "terminal"
+
+msgid "drawing"
+msgstr "dessin"
+
+msgid "experiment"
+msgstr "expérience"
+
+msgid "experimental"
+msgstr "expérimental"
+
+msgid "contact"
+msgstr "contact"
+
+msgid "flyer"
+msgstr "flyer"
+
+msgid "graphism"
+msgstr "graphisme"
+
+msgid "i can work for you"
+msgstr "je peux travailler pour vous"
+
+msgid "illustration"
+msgstr "illustration"
+
+msgid "language"
+msgstr "langage"
+
+msgid "math"
+msgstr "maths"
+
+msgid "motion design"
+msgstr "motion design"
+
+msgid "music"
+msgstr "musique"
+
+msgid "my carreer"
+msgstr "ma carrière"
+
+msgid "my music"
+msgstr "ma musique"
+
+msgid "open-source code"
+msgstr "code open source"
+
+msgid "personal account"
+msgstr "compte privé"
+
+msgid "poster"
+msgstr "affiche"
+
+msgid "program"
+msgstr "programme"
+
+msgid "programming"
+msgstr "programmation"
+
+msgid "school"
+msgstr "scolaire"
+
+msgid "science"
+msgstr "science"
+
+msgid "typeface"
+msgstr "fonte"
+
+msgid "visual identity"
+msgstr "identité visuelle"
+
+msgid "web"
+msgstr "web"
+
+msgid "web extension"
+msgstr "extension web"
+
+msgid "random thoughts"
+msgstr "pensées aléatoires"
+
+msgid "visual+music"
+msgstr "visuel+musique"
+

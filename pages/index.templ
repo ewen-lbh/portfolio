@@ -4,7 +4,7 @@ import "github.com/ortfo/db"
 import "github.com/ewen-lbh/portfolio/components"
 
 templ Index(db ortfodb.Database, language string) {
-	@components.GalleryPage(db.WorksSlice(), language, "Hi! I'm Ewen Le Bihan.") {
-		<p class="intro">These are my creations.</p>
+	@components.GalleryPage(db.WorksSlice(), language, "Hi! I'm Ewen Le Bihan.", false) {
+		<p i18n class="intro">These are my creations.</p>
 	}
 }

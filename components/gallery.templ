@@ -10,9 +10,9 @@ css galleryPageMain() {
 	padding: 1rem;
 }
 
-templ GalleryPage(works []ortfodb.AnalyzedWork, language string, title string) {
+templ GalleryPage(works []ortfodb.AnalyzedWork, language string, title string, titleIsAlreadyTranslated bool) {
 	<main class={ galleryPageMain() }>
-		<h1 i18n>{ title }</h1>
+		<h1 i18n?={ !titleIsAlreadyTranslated }>{ title }</h1>
 		{ children... }
 		@WorksGrid(works, language, "works")
 	</main>

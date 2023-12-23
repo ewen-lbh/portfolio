@@ -25,7 +25,7 @@ func startFileServer(port int, root string) {
 	http.ListenAndServe(fmt.Sprintf(":%d", port), staticServer)
 }
 
-func startServer(db ortfodb.Database, collections shared.Collections, sites []shared.Site, technologies []shared.Technology, tags []shared.Tag, locale string, port int) {
+func startServer(db ortfodb.Database, collections shared.Collections, sites []shared.Site, technologies []shared.Technology, tags []shared.Tag, translations *Translations, port int) {
 	server := http.NewServeMux()
 
 	registeredPaths := []string{}
@@ -33,12 +33,18 @@ func startServer(db ortfodb.Database, collections shared.Collections, sites []sh
 	handlePage := func(path string, page templ.Component) {
 		for _, registeredPath := range registeredPaths {
 			if registeredPath == path {
-				color.Yellow("[%s] Page /%s is already registered, skipping", locale, path)
+				color.Yellow("[%s] Page /%s is already registered, skipping", translations.language, path)
 				return
 			}
 		}
+
+		translator := HttpTranslator{
+			translations: translations,
+			ch:           templ.Handler(pages.Layout(page, collections.URLsToNames(true, translations.language), sites, translations.language)),
+		}
+
 		// fmt.Printf("[%s] Registering page /%s\n", locale, path)
-		server.Handle(fmt.Sprintf("/%s", path), templ.Handler(pages.Layout(page, collections.URLsToNames(true, locale), sites, locale)))
+		server.Handle(fmt.Sprintf("/%s", path), translator)
 		registeredPaths = append(registeredPaths, path)
 	}
 
@@ -50,27 +56,27 @@ func startServer(db ortfodb.Database, collections shared.Collections, sites []sh
 		server.Handle(fmt.Sprintf("/%s", from), http.RedirectHandler(to, http.StatusSeeOther))
 	}
 
-	handlePage("", pages.Index(db, locale))
+	handlePage("", pages.Index(db, translations.language))
 	for _, work := range db.Works() {
-		handlePage(work.ID, pages.Work(work, shared.TagsOf(tags, work.Metadata), shared.TechsOf(technologies, work.Metadata), locale))
+		handlePage(work.ID, pages.Work(work, shared.TagsOf(tags, work.Metadata), shared.TechsOf(technologies, work.Metadata), translations.language))
 	}
 
 	for id, collection := range collections {
-		handlePage(id, pages.Collection(collection, db, tags, technologies, locale))
+		handlePage(id, pages.Collection(collection, db, tags, technologies, translations.language))
 		for _, pathname := range collection.Aliases {
 			redirect(pathname, id)
 		}
 	}
 
 	for _, technology := range technologies {
-		handlePage("using/"+technology.Slug, pages.TechnologyPage(technology, db, locale))
+		handlePage("using/"+technology.Slug, pages.TechnologyPage(technology, db, translations.language))
 		for _, pathname := range technology.Aliases {
 			redirect("using/"+pathname, "using/"+technology.Slug)
 		}
 	}
 
 	for _, tag := range tags {
-		handlePage(tag.URLName(), pages.TagPage(tag, db, locale))
+		handlePage(tag.URLName(), pages.TagPage(tag, db, translations.language))
 		for _, pathname := range tag.Aliases {
 			redirect(pathname, tag.URLName())
 		}
@@ -80,7 +86,7 @@ func startServer(db ortfodb.Database, collections shared.Collections, sites []sh
 		redirect(filepath.Join("to", site.Name), site.URL)
 	}
 
-	fmt.Printf("[%s] Server started on http://localhost:%d\n", locale, port)
+	fmt.Printf("[%s] Server started on http://localhost:%d\n", translations.language, port)
 	http.ListenAndServe(":"+fmt.Sprint(port), server)
 }
 
@@ -121,6 +127,13 @@ func main() {
 		fmt.Println("[  ] Running in production mode")
 	}
 
+	translations, err := LoadTranslations(locales)
+	if err != nil {
+		color.Yellow("[!!] Couldn't load translations: %s", err)
+		os.Exit(1)
+		return
+	}
+
 	var collections map[string]shared.Collection
 	loadDataFileMap("collections.yaml", &collections)
 
@@ -137,7 +150,7 @@ func main() {
 	wg.Add(1)
 
 	for i, locale := range locales {
-		go startServer(db, collections, sites, technologies, tags, locale, 8081+i)
+		go startServer(db, collections, sites, technologies, tags, translations[locale], 8081+i)
 	}
 	go startFileServer(8079, "public")
 	go startFileServer(8080, "media")

@@ -38,3 +38,6 @@ tmp/
 *.json
 .lastbuild.yaml
 media
+
+# i18n
+*.mo

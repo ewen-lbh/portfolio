@@ -7,6 +7,7 @@ css iconedLink() {
 	align-items: center;
 	text-decoration: none;
 	transition: font-weight 0.125s ease-in-out;
+	text-underline-offset: .5ch;
 }
 
 css iconedLinkIcon() {
@@ -17,18 +18,40 @@ css iconedLinkText() {
 	margin-left: 0.5em;
 }
 
-templ ArrowLink(href string) {
+func optionalStyles(styles ...templ.CSSClass) templ.CSSClass {
+	if len(styles) == 0 {
+		return templ.ConstantCSSClass("")
+	}
+	return styles[0]
+}
+
+templ ArrowLink(href string, styles ...templ.CSSClass) {
 	@shared.OnHover(
         iconedLink(), 
         shared.Declarations{ 
-            "font-weight": "bold",
+            "text-decoration": "underline 0.125em",
+        },
+	)
+	<a class={ iconedLink(), optionalStyles(styles...) } href={ templ.SafeURL(href) }>
+		<svg class={ iconedLinkIcon() } width="66" height="33" viewBox="0 0 66 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M17.9625 2L3 16.5M3 16.5L17.9625 31M3 16.5H66" stroke="currentColor" stroke-width="3" transform="rotate(180 33 16.5)"></path>
+		</svg>
+		{ children... }
+	</a>
+}
+
+templ GoBackLink(href string) {
+	@shared.OnHover(
+        iconedLink(), 
+        shared.Declarations{ 
+            "text-decoration": "underline 0.125em",
         },
 	)
 	<a class={ iconedLink() } href={ templ.SafeURL(href) }>
-		<img class={ iconedLinkIcon() } src={ string(shared.Asset("icons/arrow-right.svg")) }/>
-		<span i18n>
-			{ children... }
-		</span>
+		<svg class={ iconedLinkIcon() } width="66" height="33" viewBox="0 0 66 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M17.9625 2L3 16.5M3 16.5L17.9625 31M3 16.5H66" stroke="currentColor" stroke-width="3"></path>
+		</svg>
+		{ children... }
 	</a>
 }
 

@@ -2,7 +2,9 @@ package shared
 
 import (
 	"encoding/hex"
+	"net/url"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/goodsign/monday"
@@ -63,4 +65,13 @@ func FormatDate(date time.Time, format string, locale string) string {
 		return ""
 	}
 	return monday.Format(date, format, MondayLocale(locale))
+}
+
+func DomainOfURL(urlString string) string {
+	url, err := url.Parse(urlString)
+	if err != nil {
+		panic(err)
+	}
+
+	return strings.TrimPrefix(url.Hostname(), "www.")
 }

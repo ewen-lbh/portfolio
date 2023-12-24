@@ -10,7 +10,7 @@ func gridAreas(layout ortfodb.Layout) shared.Selectors {
 	for _, row := range layout.Normalize() {
 		var rowAreas []string
 		for _, cell := range row {
-			rowAreas = append(rowAreas, string(cell))
+			rowAreas = append(rowAreas, string("_"+cell))
 		}
 		areas = append(areas, "'"+strings.Join(rowAreas, " ")+"'")
 	}
@@ -18,13 +18,12 @@ func gridAreas(layout ortfodb.Layout) shared.Selectors {
 	declarations := make(shared.Selectors)
 
 	declarations["section.content"] = shared.Declarations{
-		"display":             "grid",
 		"grid-template-areas": strings.Join(areas, " "),
 	}
 
 	for _, id := range layout.BlockIDs() {
 		declarations["[data-block='"+id+"']"] = shared.Declarations{
-			"grid-area": string(id),
+			"grid-area": fmt.Sprintf("_%s", id),
 		}
 	}
 
@@ -70,11 +69,14 @@ script UnsupportedMediaTypeConsoleError(msg string) {
 }
 
 templ MediaBlock(block ortfodb.Media) {
-	<figure>
+	<figure class={ figureStyles() }>
+		if block.Caption != "" {
+			<figcaption class={ figureCaptionStyles() }>{ block.Caption }</figcaption>
+		}
 		switch GeneralContentType(block.ContentType) {
 			case "image":
-				<a href={ templ.URL(shared.Media(block.DistSource)) }>
-					<img src={ MediaSrc(block) } alt={ block.Alt }/>
+				<a class={ figureLinkStyles() } href={ templ.URL(shared.Media(block.DistSource)) }>
+					<img class={ imageStyles() } src={ MediaSrc(block) } alt={ block.Alt }/>
 				</a>
 			case "video":
 				<video
@@ -100,21 +102,44 @@ templ MediaBlock(block ortfodb.Media) {
 			default:
 				switch block.ContentType {
 					case "application/pdf":
-						<a href={ templ.URL(shared.Media(block.DistSource)) }>
+						<a class={ figureLinkStyles() } href={ templ.URL(shared.Media(block.DistSource)) }>
 							<img src={ MediaSrc(block) } alt={ block.Alt }/>
 						</a>
 					default:
 						@UnsupportedMediaTypeConsoleError(block.ContentType)
 				}
 		}
-		if block.Caption != "" {
-			<figcaption>{ block.Caption }</figcaption>
-		}
 	</figure>
 }
 
+css linkBlockDomain() {
+	font-family: Inconsolata, monospace;
+	font-weight: 500;
+	font-size: 0.8em;
+	opacity: 0.7;
+	line-height: 1;
+}
+
+css linkBlockText() {
+	line-height: 1;
+}
+
+css linkBlockContent() {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	row-gap: 0.25em;
+}
+
 templ LinkBlock(block ortfodb.Link) {
-	<a href={ templ.URL(block.URL) } class="standalone-link">{ block.Text.String() }</a>
+	@components.ArrowLink(block.URL, linkBlockLinkStyle()) {
+		<div class={ linkBlockContent() }>
+			<span class={ linkBlockText() }>
+				@shared.HTML(block.Text)
+			</span>
+			<div class={ linkBlockDomain() }>{ shared.DomainOfURL(block.URL) }</div>
+		</div>
+	}
 }
 
 css tagLink() {
@@ -138,6 +163,61 @@ css hashtag() {
 	font-size: 1.5em;
 }
 
+css contentSectionStyles() {
+	display: grid;
+	gap: 2em;
+	margin: 2rem auto;
+	max-width: 1200px;
+}
+
+css blockStyles() {
+	background-color: var(--primary, black);
+	color: var(--secondary, white);
+	display: flex;
+	justify-content: center;
+	border-radius: 0.5rem;
+	overflow: hidden;
+	min-width: 0;
+	min-height: 0;
+	font-size: 1.2rem;
+}
+
+css paragraphBlockStyle() {
+	padding: 1rem 2rem;
+}
+
+css linkBlockLinkStyle() {
+	padding: 1rem 2rem;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-decoration: none;
+}
+
+css figureLinkStyles() {
+	display: flex;
+}
+
+css figureStyles() {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+}
+
+css figureCaptionStyles() {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-grow: 1;
+	padding: 1rem 2rem;
+	font-size: 1rem;
+}
+
+css imageStyles() {
+	width: 100%;
+}
+
 templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technology, lang string) {
 	@components.IntroWith(
 		shared.FormatDate(work.Metadata.CreatedAt(), "January 2006", lang), 
@@ -157,10 +237,10 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 	}
 	<main>
 		@shared.CSS(shared.Merge(colorVariables(work, lang), gridAreas(work.Content[lang].Layout)))
-		<section class="content">
+		<section class={ contentSectionStyles(), "content" }>
 			for _, block := range work.Content[lang].Blocks {
 				<div
- 					class="block"
+ 					class={ blockStyles(), templ.KV(paragraphBlockStyle(), block.Type.IsParagraph()) }
  					data-block={ block.ID }
  					if block.Anchor != "" {
 						id={ block.Anchor }

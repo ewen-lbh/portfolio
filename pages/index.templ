@@ -6,7 +6,7 @@ import "github.com/ewen-lbh/portfolio/components"
 templ Index(db ortfodb.Database, language string) {
 	@components.Intro() {
 		@components.ArrowLink("/about") {
-			Learn more 
+			<i18n>Learn more</i18n>
 		}
 	}
 	@components.GalleryPage(db.WorksSlice(), language)

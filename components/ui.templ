@@ -71,12 +71,23 @@ css searchBarInput() {
 	font-family: Manrope;
 }
 
+script queryFromUrl(inputClass string) {
+	document.addEventListener("DOMContentLoaded", () => {
+		var q = new URLSearchParams(window.location.search).get("q")
+		if (q) {
+			document.querySelector("." + inputClass).value = q
+			document.search(q)
+		}
+	})
+}
+
 templ SearchBar(placeholder string, onInput func(string) templ.ComponentScript) {
 	<label class={ searchBar() }>
 		@shared.OnHover(searchBar(), shared.Declarations{
 			"background-color": "lightgray",
 		})
 		<img src={ string(shared.Asset("icons/magnifying_glass.svg")) }/>
+		@queryFromUrl(searchBarInput().ClassName())
 		<input i18n-attrs name="q" oninput={ onInput(searchBarInput().ClassName()) } type="text" class={ searchBarInput() } i18n:placeholder="Search"/>
 	</label>
 }

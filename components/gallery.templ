@@ -24,7 +24,6 @@ css gallerySearch() {
 
 script onInput(inputClass string, galleryClass string) {
 	var query = document.querySelector("." + inputClass).value.toLowerCase();
-
 	document.search(query)
 }
 
@@ -44,6 +43,7 @@ script setupSearcher(galleryClass string) {
 		})
 
 		console.log(`Indexed ${works.length} works`)
+
 	})
 	
 	function debounce(delay, fn) {
@@ -77,6 +77,12 @@ script setupSearcher(galleryClass string) {
 		document.mason.pack()
 		document.mason.resize(true)
 		document.querySelector('.works').style.width = realWidth + "px";
+
+		if (history.pushState) {
+			// set query param "q" to query
+			var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + (query ? '?q=' + query : '');
+			window.history.pushState({path:newurl},'',newurl);
+		}
 	})
 }
 

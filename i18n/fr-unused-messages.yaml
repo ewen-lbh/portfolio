@@ -1,4 +1,4 @@
-# Generated at 2023-12-23 18:28:11.936834364 +0100 CET m=+0.310897677
+# Generated at 2023-12-24 15:16:17.424568197 +0100 CET m=+0.334085318
 - "%s’s logo"
 - "%v-day streak on Duolingo, %v league"
 - "1104<sup>th</sup>"
@@ -46,6 +46,7 @@
 - "This page does not exist (anymore)"
 - "Unknown error"
 - "Unknown year"
+- "Works"
 - "about"
 - "about me"
 - "all"
@@ -102,7 +103,6 @@
 - "what"
 - "work in progress"
 - "work time tracked by <a href=\"https://wakatime.com\">WakaTime</a>"
-- "works"
 - "works by tag"
 - "works made with"
 - "works made with %s"

@@ -53,6 +53,6 @@ templ SearchBar(placeholder string, onInput func(string) templ.ComponentScript) 
 			"background-color": "lightgray",
 		})
 		<img src={ string(shared.Asset("icons/magnifying_glass.svg")) }/>
-		<input name="q" oninput={ onInput(searchBarInput().ClassName()) } type="text" class={ searchBarInput() } i18n:placeholder="Search"/>
+		<input i18n-attrs name="q" oninput={ onInput(searchBarInput().ClassName()) } type="text" class={ searchBarInput() } i18n:placeholder="Search"/>
 	</label>
 }

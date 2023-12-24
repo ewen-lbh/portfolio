@@ -32,7 +32,11 @@ script setupSearcher(galleryClass string) {
 	document.addEventListener("DOMContentLoaded", () => {
 		works = Array.from(document.querySelectorAll("." + galleryClass + " [data-work]"));
 
-		console.log(works.map(w => Object.assign({}, w.dataset)))
+		console.log(works.map(w => {
+			var result = Object.assign({}, w.dataset)
+			result.tags = result.tags.split(",").join(' ')
+			return result
+		}))
 
 		document.searcher = new Fuse(works.map(w => Object.assign({}, w.dataset)), {
 			keys: ['work', 'title', 'tags'],

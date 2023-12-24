@@ -126,6 +126,54 @@ func (t *Translations) Translate(root *html.Node) string {
 			}
 		}
 	})
+	doc.Find("[i18n-attrs]").Each(func(_ int, element *goquery.Selection) {
+		element.RemoveAttr("i18n-attrs")
+		// find all attributes that start with "i18n:"
+		for _, attribute := range element.Nodes[0].Attr {
+			if !strings.HasPrefix(attribute.Key, "i18n:") {
+				continue
+			}
+			if strings.HasPrefix(attribute.Key, "i18n:commas:") {
+				// Multi-valued attributes
+				translated := attribute.Val
+				if t.language != SourceLanguage {
+					translated = ""
+					for _, val := range strings.Split(attribute.Val, ",") {
+						translatedItem, err := t.GetTranslation(val, "")
+						if err != nil {
+							color.Yellow("[%s] Missing translation for %q", t.language, val)
+							t.missingMessages = append(t.missingMessages, po.Message{
+								MsgId:      val,
+								MsgContext: "",
+							})
+							translatedItem = val
+						}
+						translated += "," + translatedItem
+					}
+					translated = strings.Trim(translated, ",")
+				}
+				element.RemoveAttr(attribute.Key)
+				element.SetAttr(strings.TrimPrefix(attribute.Key, "i18n:commas:"), translated)
+			} else {
+				// Translate the attribute
+				translated := attribute.Val
+				if t.language != SourceLanguage {
+					var err error
+					translated, err = t.GetTranslation(attribute.Val, "")
+					if err != nil {
+						color.Yellow("[%s] Missing translation for %q", t.language, attribute.Val)
+						t.missingMessages = append(t.missingMessages, po.Message{
+							MsgId:      attribute.Val,
+							MsgContext: "",
+						})
+						translated = attribute.Val
+					}
+				}
+				element.RemoveAttr(attribute.Key)
+				element.SetAttr(strings.TrimPrefix(attribute.Key, "i18n:"), translated)
+			}
+		}
+	})
 	htmlString, _ := doc.Html()
 	htmlString = strings.ReplaceAll(htmlString, "<i18n>", "")
 	htmlString = strings.ReplaceAll(htmlString, "</i18n>", "")
@@ -139,13 +187,16 @@ func LoadTranslations(languages []string) (TranslationsCatalog, error) {
 		translationsFilepath := fmt.Sprintf("i18n/%s.po", languageCode)
 		poFile, err := po.LoadFile(translationsFilepath)
 		if err != nil {
-			color.Yellow("[%s] Couldn't load translations: %s", languageCode, err)
-			err = WriteEmptyPOFile(languageCode)
-			if err != nil {
-				return nil, fmt.Errorf("while writing empty PO file: %w", err)
+			if os.IsNotExist(err) {
+				color.Yellow("[%s] Missing translation file for %s", languageCode, err)
+				err = WriteEmptyPOFile(languageCode)
+				if err != nil {
+					return nil, fmt.Errorf("while writing empty PO file: %w", err)
+				}
+				return LoadTranslations(languages)
+			} else {
+				return nil, fmt.Errorf("while loading translations for %s: %w", languageCode, err)
 			}
-
-			return LoadTranslations(languages)
 		} else {
 			translations[languageCode] = &Translations{
 				poFile:          *poFile,
@@ -262,6 +313,9 @@ func (b ByMsgIdAndCtx) Swap(i, j int) {
 // GetTranslation returns the msgstr corresponding to msgid and msgctxt from the .po file
 // If not found, it returns an error
 func (t Translations) GetTranslation(msgid string, msgctxt string) (string, error) {
+	if msgid == "" {
+		return "", nil
+	}
 	t.seenMessages.Add(msgid + msgctxt)
 	for _, message := range t.poFile.Messages {
 		if message.MsgId == msgid && message.MsgStr != "" && message.MsgContext == msgctxt {

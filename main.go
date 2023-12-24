@@ -114,10 +114,17 @@ func startServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Col
 				os.Exit(1)
 			}
 		}
-		unusedTranslationsCount, _ := translations.WriteUnusedMessages()
+		unusedTranslationsCount := len(translations.UnusedMessages())
 		if unusedTranslationsCount > 0 {
-			color.Yellow("[%s] %s contains %d unused messages, see %s", translations.language, translations.PoFilePath(), unusedTranslationsCount, translations.UnusedMessagesFilePath())
+			if shared.WantToRemoveUnusedMessages() {
+				translations.DeleteUnusedMessages()
+				translations.SavePO()
+				color.Cyan("[%s] Removed %d unused messages", translations.language, unusedTranslationsCount)
+			} else {
+				color.Yellow("[%s] %s contains %d unused messages, see %s", translations.language, translations.PoFilePath(), unusedTranslationsCount, translations.UnusedMessagesFilePath())
+			}
 		}
+		translations.WriteUnusedMessages()
 		if len(translations.missingMessages) > 0 {
 			color.Red("[%s] Some content is not translated. See errors above.", translations.language)
 			os.Exit(1)

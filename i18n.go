@@ -228,14 +228,18 @@ func WriteEmptyPOFile(language string) error {
 	return poFile.Save(t.PoFilePath())
 }
 
-func (t Translations) WriteUnusedMessages() (count int, err error) {
+func (t Translations) UnusedMessages() []po.Message {
 	unused := make([]po.Message, 0)
 	for _, message := range t.poFile.Messages {
 		if !t.seenMessages.Contains(message.MsgId + message.MsgContext) {
 			unused = append(unused, message)
 		}
 	}
+	return unused
+}
 
+func (t Translations) WriteUnusedMessages() (count int, err error) {
+	unused := t.UnusedMessages()
 	count = len(unused)
 
 	if count == 0 {
@@ -259,6 +263,17 @@ func (t Translations) WriteUnusedMessages() (count int, err error) {
 		}
 	}
 	return count, nil
+}
+
+func (t *Translations) DeleteUnusedMessages() {
+	for _, message := range t.UnusedMessages() {
+		for i, msg := range t.poFile.Messages {
+			if msg.MsgId == message.MsgId && msg.MsgContext == message.MsgContext {
+				t.poFile.Messages[i] = t.poFile.Messages[len(t.poFile.Messages)-1]
+				t.poFile.Messages = t.poFile.Messages[:len(t.poFile.Messages)-1]
+			}
+		}
+	}
 }
 
 // SavePO writes the .po file to the disk, with its potential modifications

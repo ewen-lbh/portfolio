@@ -1,6 +1,6 @@
 render:
     just build
-    ENV=static ./tmp/main
+    REMOVE_UNUSED_MESSAGES=1 ENV=static ./tmp/main
 
 dev: 
     ENV=development air

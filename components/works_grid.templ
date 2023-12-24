@@ -24,7 +24,7 @@ script masonry(selector string) {
     }
 
     waitForElm(selector).then(() =>  {
-        const mason = Bricks({
+        document.mason = Bricks({
             container: '.works',
             packed: 'data-packed',
             sizes: [
@@ -35,14 +35,18 @@ script masonry(selector string) {
                 { mq: '1500px', columns: 4, gutter: 30 },
             ],
         })
-        mason.pack()
-        mason.resize(true)
+        document.mason.pack()
+        document.mason.resize(true)
     })
+}
+
+css gridSection() {
+	margin: 0 auto;
 }
 
 templ WorksGrid(works []ortfodb.AnalyzedWork, language string, sectionName string) {
 	@masonry("." + sectionName)
-	<section class={ sectionName }>
+	<section class={ sectionName, gridSection() }>
 		for _, work := range ortfodb.SortWorksByDate(works) {
 			@WorkCard(work, language)
 		}

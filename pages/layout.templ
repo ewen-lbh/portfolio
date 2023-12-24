@@ -150,6 +150,7 @@ templ Layout(contents templ.Component, currentPath string, collections map[strin
 			<link rel="stylesheet" href="https://assets.ewen.works/fonts/import.css"/>
 			<link rel="stylesheet" href="https://assets.ewen.works/global.css"/>
 			<script src={ string(shared.Asset("bricks.js")) }> </script>
+			<script defer src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
 		</head>
 		<body>
 			<header>
@@ -179,7 +180,7 @@ templ Layout(contents templ.Component, currentPath string, collections map[strin
 									case "fr":
 										en français
 									case "en":
-										en anglais
+										in english
 								}
 							</a>
 						</li>

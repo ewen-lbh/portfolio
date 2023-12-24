@@ -2,16 +2,88 @@ package components
 
 import "github.com/ortfo/db"
 
+css galleryMaxWidth() {
+	max-width: 1400px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
 css galleryPageMain() {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	justify-content: center;
 	padding: 1rem;
 }
 
+css gallerySearch() {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 1rem;
+}
+
+script onInput(inputClass string, galleryClass string) {
+	var query = document.querySelector("." + inputClass).value.toLowerCase();
+
+	document.search(query)
+}
+
+script setupSearcher(galleryClass string) {
+	document.addEventListener("DOMContentLoaded", () => {
+		works = Array.from(document.querySelectorAll("." + galleryClass + " [data-work]"));
+
+		console.log(works.map(w => Object.assign({}, w.dataset)))
+
+		document.searcher = new Fuse(works.map(w => Object.assign({}, w.dataset)), {
+			keys: ['work', 'title', 'tags'],
+			threshold: 0.4,
+		})
+
+		console.log(`Indexed ${works.length} works`)
+	})
+	
+	function debounce(delay, fn) {
+		var timer = null;
+		return function () {
+			var context = this, args = arguments;
+			clearTimeout(timer);
+			timer = setTimeout(function () {
+			fn.apply(context, args);
+			}, delay);
+		};
+	}
+
+	document.search = debounce(500, (query) => {
+		var gallery = document.querySelector("." + galleryClass);
+		var works = document.querySelectorAll("." + galleryClass + " [data-work]");
+		var matchingIDs = document.searcher.search(query).map(r => r.item.work);
+
+		works.forEach(work => {
+			if (!query) {
+				work.style.display = "block"
+			} else if (!matchingIDs.includes(work.dataset.work)) {
+				work.style.display = "none";
+			} else {
+				work.style.display = "block";
+			}
+		})
+
+        // Fix the width to prevent resizing when searching
+        var realWidth = document.querySelector('.works').getBoundingClientRect().width; 
+		document.mason.pack()
+		document.mason.resize(true)
+		document.querySelector('.works').style.width = realWidth + "px";
+	})
+}
+
 templ GalleryPage(works []ortfodb.AnalyzedWork, language string) {
-	<section class={ galleryPageMain() }>
+	<form method="get" action="/" class={ galleryMaxWidth(), gallerySearch() }>
+		@setupSearcher("works")
+		@SearchBar(language, func (inputClass string) templ.ComponentScript {
+			return onInput(inputClass, "works")
+		})
+	</form>
+	<section class={ galleryMaxWidth(), galleryPageMain() }>
 		{ children... }
 		@WorksGrid(works, language, "works")
 	</section>

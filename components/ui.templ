@@ -31,3 +31,28 @@ templ ArrowLink(href string) {
 		</span>
 	</a>
 }
+
+css searchBar() {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	column-gap: 0.5em;
+	padding: 0.25em 0.5em;
+	border: 2px solid var(--primary, black);
+}
+
+css searchBarInput() {
+	border: none;
+	background-color: transparent;
+	font-family: Manrope;
+}
+
+templ SearchBar(placeholder string, onInput func(string) templ.ComponentScript) {
+	<label class={ searchBar() }>
+		@shared.OnHover(searchBar(), shared.Declarations{
+			"background-color": "lightgray",
+		})
+		<img src={ string(shared.Asset("icons/magnifying_glass.svg")) }/>
+		<input name="q" oninput={ onInput(searchBarInput().ClassName()) } type="text" class={ searchBarInput() } i18n:placeholder="Search"/>
+	</label>
+}

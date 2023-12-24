@@ -5,8 +5,6 @@ go 1.21.4
 require (
 	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/a-h/templ v0.2.476
-	github.com/anaskhan96/soup v1.2.5
-	github.com/chai2010/gettext-go v1.0.2
 	github.com/deckarep/golang-set v1.8.0
 	github.com/expr-lang/expr v1.15.7
 	github.com/fatih/color v1.13.0
@@ -14,13 +12,16 @@ require (
 	github.com/goodsign/monday v1.0.1
 	github.com/metal3d/go-slugify v0.0.0-20160607203414-7ac2014b2f23
 	github.com/ortfo/db v0.0.0-20221017203805-89510110520c
+	github.com/ortfo/gettext v1.0.3
 	golang.org/x/net v0.17.0
+	golang.org/x/text v0.14.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
 	github.com/EdlinOrg/prominentcolor v1.0.0 // indirect
 	github.com/JohannesKaufmann/html-to-markdown v1.3.3 // indirect
+	github.com/anaskhan96/soup v1.2.5 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/docopt/docopt-go v0.0.0-20180111231733-ee0de3bc6815 // indirect
@@ -52,6 +53,5 @@ require (
 	github.com/xeipuuv/gojsonschema v1.2.0 // indirect
 	golang.org/x/image v0.0.0-20220413100746-70e8d0d3baa9 // indirect
 	golang.org/x/sys v0.13.0 // indirect
-	golang.org/x/text v0.13.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

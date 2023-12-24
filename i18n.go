@@ -7,17 +7,17 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"sort"
 	"strings"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/a-h/templ"
-	"github.com/chai2010/gettext-go/po"
 	mapset "github.com/deckarep/golang-set"
 	"github.com/ewen-lbh/portfolio/shared"
 	"github.com/fatih/color"
+	"github.com/ortfo/gettext/po"
 	"golang.org/x/net/html"
+	"golang.org/x/text/language"
 )
 
 const TRANSLATABLE_MARKER_ATTRIBUTE = "i18n"
@@ -27,7 +27,7 @@ var SourceLanguage = "en"
 // Translations holds both the gettext catalog from the .mo file
 // and a po file object used to update the .po file (e.g. when discovering new translatable strings)
 type Translations struct {
-	poFile          po.File
+	poFile          *po.File
 	seenMessages    mapset.Set
 	missingMessages []po.Message
 	language        string
@@ -186,6 +186,7 @@ func LoadTranslations(languages []string) (TranslationsCatalog, error) {
 	for _, languageCode := range languages {
 		translationsFilepath := fmt.Sprintf("i18n/%s.po", languageCode)
 		poFile, err := po.LoadFile(translationsFilepath)
+		poFile.SetSourceLanguage(language.English)
 		if err != nil {
 			if os.IsNotExist(err) {
 				color.Yellow("[%s] Missing translation file for %s", languageCode, err)
@@ -199,7 +200,7 @@ func LoadTranslations(languages []string) (TranslationsCatalog, error) {
 			}
 		} else {
 			translations[languageCode] = &Translations{
-				poFile:          *poFile,
+				poFile:          poFile,
 				seenMessages:    mapset.NewSet(),
 				missingMessages: make([]po.Message, 0),
 				language:        languageCode,
@@ -289,25 +290,9 @@ func (t *Translations) SavePO() {
 			dedupedMessages = append(dedupedMessages, msg)
 		}
 	}
-	t.poFile.Messages = dedupedMessages
 	// Sort them to guarantee a stable write
-	sort.Sort(ByMsgIdAndCtx(t.poFile.Messages))
+	t.poFile.Messages = dedupedMessages
 	t.poFile.Save(t.PoFilePath())
-}
-
-// ByMsgIdAndCtx implement sorting gettext messages by their msgid+msgctxt
-type ByMsgIdAndCtx []po.Message
-
-func (b ByMsgIdAndCtx) Len() int {
-	return len(b)
-}
-
-func (b ByMsgIdAndCtx) Less(i, j int) bool {
-	return b[i].MsgId < b[j].MsgId || (b[i].MsgId == b[j].MsgId && b[i].MsgContext < b[j].MsgContext)
-}
-
-func (b ByMsgIdAndCtx) Swap(i, j int) {
-	b[i], b[j] = b[j], b[i]
 }
 
 // GetTranslation returns the msgstr corresponding to msgid and msgctxt from the .po file

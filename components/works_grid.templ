@@ -48,7 +48,9 @@ templ WorksGrid(works []ortfodb.AnalyzedWork, language string, sectionName strin
 	@masonry("." + sectionName)
 	<section class={ sectionName, gridSection() }>
 		for _, work := range ortfodb.SortWorksByDate(works) {
-			@WorkCard(work, language)
+			if work.Content[language].Title != "" {
+				@WorkCard(work, language)
+			}
 		}
 	</section>
 }

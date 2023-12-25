@@ -38,8 +38,9 @@ script setupSearcher(galleryClass string) {
 		}))
 
 		document.searcher = new Fuse(works.map(w => Object.assign({}, w.dataset)), {
-			keys: ['work', 'title', 'tags'],
+			keys: ['work', 'title', 'tags','year'],
 			threshold: 0.4,
+			useExtendedSearch: true,
 		})
 
 		console.log(`Indexed ${works.length} works`)

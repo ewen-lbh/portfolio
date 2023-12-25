@@ -98,10 +98,11 @@ templ WorkCard(work ortfodb.AnalyzedWork, language string) {
 		}
 	</style>
 	<article
-		i18n-attrs
+ 		i18n-attrs
  		data-work={ work.ID }
  		data-title={ work.Content[language].Title.String() }
  		i18n:commas:data-tags={ strings.Join(work.Metadata.Tags, ",") }
+ 		data-year={ shared.FormatDate(work.Metadata.CreatedAt(), "2006", language) }
  		class={ "work", card() }
  		data-no-thumb?={ ThumbPath(work, language) == "http://localhost:8080/" }
  		data-primary={ shared.Color(work.Colors(language).Primary) }

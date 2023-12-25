@@ -1,0 +1,73 @@
+package pages
+
+import "github.com/ewen-lbh/portfolio/shared"
+import "github.com/ewen-lbh/portfolio/components"
+
+css contactPage() {
+	max-width: 600px;
+	margin: 3rem auto 0;
+}
+
+css contactForm() {
+}
+
+css submitButton() {
+	display: block;
+	margin: 1.5rem auto 0;
+	padding: 1rem 2rem;
+	color: var(--secondary, white);
+	background-color: var(--primary, black);
+	border: 2px solid var(--primary, black);
+	box-shadow: none;
+	font-size: 1.2em;
+	font-family: Manrope;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+css formEntry() {
+	border: 2px solid var(--primary, black);
+	padding: 0.75rem 1rem;
+	font-family: Manrope;
+	font-weight: 400;
+	font-size: 1.1em;
+	display: block;
+	margin-bottom: 1rem;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+css formLabel() {
+	font-size: 1.2em;
+}
+
+css mailSentBanner() {
+	padding: 1rem 2rem;
+	background: green;
+	color: white;
+	margin-bottom: 2rem;
+}
+
+templ ContactPage(sent bool) {
+	@components.IntroWith("", "Contact me", true)
+	<section class={ contactPage() }>
+		@shared.OnHover(submitButton(), shared.Declarations{
+            "background-color": "var(--secondary, white)",
+            "color": "var(--primary, black)",
+        })
+		<form class={ contactForm() } method="post" action="/mail">
+			if sent {
+				<section class={ mailSentBanner() }>
+					Mail envoyé! 
+				</section>
+			}
+			<label class={ formLabel() } i18n>Your e-mail address</label>
+			<input class={ formEntry() } required type="email" name="from"/>
+			<label class={ formLabel() } i18n>Subject</label>
+			<input class={ formEntry() } required type="text" name="subject"/>
+			<label class={ formLabel() } i18n>Message </label>
+			<textarea rows="10" class={ formEntry() } required name="body"></textarea>
+			<button class={ submitButton() } i18n type="submit">Send</button>
+		</form>
+	</section>
+}

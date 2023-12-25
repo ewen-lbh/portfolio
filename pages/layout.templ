@@ -175,6 +175,9 @@ templ Layout(contents templ.Component, currentPath string, collections map[strin
 							</li>
 						}
 						<li class={ navigationItem() }>
+							<a class={ navigationLink() } href="/contact" i18n>contact</a>
+						</li>
+						<li class={ navigationItem() }>
 							<a class={ navigationLink() } href={ pathInOtherLanguage(lang, currentPath) }>
 								switch otherLocale(lang) {
 									case "fr":

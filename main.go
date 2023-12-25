@@ -101,6 +101,27 @@ func startServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Col
 
 	handlePage("about", pages.AboutPage(translations.language))
 
+	handlePage("contact", pages.ContactPage(false))
+	handlePage("contact/sent", pages.ContactPage(true))
+
+	server.HandleFunc("/mail", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+
+		subject := strings.TrimSpace(r.FormValue("subject"))
+		body := strings.TrimSpace(r.FormValue("body"))
+		from := strings.TrimSpace(r.FormValue("from"))
+
+		err := SendMailToSelf(from, subject, body)
+		if err != nil {
+			color.Red("Could not send mail: %s", err)
+			http.Error(w, "Could not send mail", 500)
+		} else {
+			http.Redirect(w, r, "/contact/sent", http.StatusSeeOther)
+		}
+	})
+
 	go http.ListenAndServe(":"+fmt.Sprint(port), server)
 	fmt.Printf("[%s] Server started on http://localhost:%d\n", translations.language, port)
 

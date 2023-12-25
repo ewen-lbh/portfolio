@@ -216,6 +216,9 @@ msgstr "compositing"
 msgid "contact"
 msgstr "contact"
 
+msgid "Contact me"
+msgstr "Contactez-moi"
+
 msgid "cover arts"
 msgstr "pochettes"
 
@@ -309,6 +312,9 @@ msgstr "Réalisé dans le but de découvrir sans contrainte d'utilité ou d'esth
 msgid "math"
 msgstr "maths"
 
+msgid "Message"
+msgstr "Message"
+
 msgid "motion design"
 msgstr "motion design"
 
@@ -369,6 +375,9 @@ msgstr "science"
 msgid "Search"
 msgstr "Rechercher"
 
+msgid "Send"
+msgstr "Envoyer"
+
 msgid "Set of glyphs (letters, punctuation marks and more) that define how text looks."
 msgstr "Ensemble de glyphes (lettres, signes de ponctuation et plus encore) qui définissent l'apparence du texte."
 
@@ -380,6 +389,9 @@ msgstr "sites"
 
 msgid "Source code"
 msgstr "Code source"
+
+msgid "Subject"
+msgstr "Objet"
 
 msgid "The Intuitive Vue Framework"
 msgstr "Le Framework Vue Intuitif"
@@ -440,4 +452,7 @@ msgstr "Avec un côté scientifique"
 
 msgid "works"
 msgstr "projets"
+
+msgid "Your e-mail address"
+msgstr "Votre adresse mail"
 

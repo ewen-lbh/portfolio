@@ -1,21 +1,24 @@
 package shared
 
 import (
+	"encoding/json"
 	"fmt"
-	"strings"
+	"time"
 
 	"github.com/metal3d/go-slugify"
 	ortfodb "github.com/ortfo/db"
+	"golang.org/x/text/collate"
+	"golang.org/x/text/language"
 )
 
 // stringsLooselyMatch checks if s1 is equal to any of sn, but case-insensitively.
 func stringsLooselyMatch(s1 string, sn ...string) bool {
-	for _, s2 := range sn {
-		if strings.EqualFold(s1, s2) {
-			return true
-		}
+	collator := collate.New(language.English, collate.Loose)
+	if len(sn) == 0 {
+		return false
+	} else {
+		return collator.CompareString(s1, sn[0]) == 0 || stringsLooselyMatch(s1, sn[1:]...)
 	}
-	return false
 }
 
 // String returns the string representation of the external site.
@@ -49,6 +52,45 @@ func (t *Tag) ReferredToBy(name string) bool {
 // ReferredToBy returns whether the given name refers to the tech
 func (t *Technology) ReferredToBy(name string) bool {
 	return stringsLooselyMatch(name, t.Slug, t.Name) || stringsLooselyMatch(name, t.Aliases...)
+}
+
+// CalculateTimeSpent updates the time spent on the technology, using wakatime data
+func (t *Technology) CalculateTimeSpent() error {
+	// In dev, don't calculate times, it just slows everything down
+	// if IsDev() {
+	// 	return nil
+	// }
+
+	if len(timeSpentOnTechs) > 0 {
+		for techName, duration := range timeSpentOnTechs {
+			if t.ReferredToBy(techName) {
+				t.TimeSpent = duration
+				return nil
+			}
+		}
+		return nil
+	}
+
+	var stats struct {
+		Data wakatimeUserStats `json:"data"`
+	}
+
+	resp, err := wakatimeRequest("users/current/stats/all_time")
+	decoder := json.NewDecoder(resp.Body)
+	decoder.Decode(&stats)
+	if err != nil {
+		return fmt.Errorf("while fetching user stats: %w", err)
+	}
+
+	for _, tech := range stats.Data.Languages {
+		timeSpentOnTechs[tech.Name] = time.Duration(tech.TotalSeconds) * time.Second
+		if t.ReferredToBy(tech.Name) {
+			t.TimeSpent = time.Duration(tech.TotalSeconds) * time.Second
+			return nil
+		}
+	}
+
+	return nil
 }
 
 func TagsOf(all []Tag, metadata ortfodb.WorkMetadata) []Tag {

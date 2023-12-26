@@ -411,6 +411,9 @@ msgstr "Voici mes créations."
 msgid "thumbnails"
 msgstr "miniatures"
 
+msgid "Time spent"
+msgstr "Temps passé"
+
 msgid "typeface"
 msgstr "police de caractères"
 

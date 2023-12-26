@@ -3,7 +3,7 @@ render:
     REMOVE_UNUSED_MESSAGES=1 ENV=static ./tmp/main
 
 dev: 
-    MAIL_PASSWORD=$(rbw get mail.ewen.works) ENV=development air
+    WAKATIME_API_KEY=$(rbw get 'wakatime api key') MAIL_PASSWORD=$(rbw get mail.ewen.works) ENV=development air
 
 start:
     just build

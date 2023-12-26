@@ -17,6 +17,10 @@ templ TagPage(tag shared.Tag, db ortfodb.Database, locale string) {
 templ TechnologyPage(tech shared.Technology, db ortfodb.Database, locale string) {
 	@components.IntroWith("", tech.Name, false) {
 		<i18n>{ tech.Description }</i18n>
+		if tech.TimeSpent.Seconds() > 0 {
+			<br/>
+			<strong i18n>Time spent</strong> { formatDuration(tech.TimeSpent, locale) }
+		}
 	}
 	@components.GalleryPage(
 		tech.Works(db),

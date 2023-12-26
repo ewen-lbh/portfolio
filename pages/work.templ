@@ -4,6 +4,7 @@ import "github.com/ortfo/db"
 import "github.com/ewen-lbh/portfolio/shared"
 import "fmt"
 import "github.com/ewen-lbh/portfolio/components"
+import "time"
 
 func gridAreas(layout ortfodb.Layout) shared.Selectors {
 	var areas []string
@@ -218,6 +219,80 @@ css imageStyles() {
 	width: 100%;
 }
 
+// formatDuration formats a duration in a human-readable way using plain words, depending on the language given (fr or en)
+// it handles plurals and singulars, and does not using any words higher than days
+func formatDuration(duration time.Duration, lang string) string {
+	var days, hours, minutes int
+	if duration.Hours() > 24 {
+		days = int(duration.Hours() / 24)
+		duration -= time.Duration(days) * 24 * time.Hour
+	}
+	if duration.Hours() > 1 {
+		hours = int(duration.Hours())
+		duration -= time.Duration(hours) * time.Hour
+	}
+	if duration.Minutes() > 1 {
+		minutes = int(duration.Minutes())
+		duration -= time.Duration(minutes) * time.Minute
+	}
+
+	pluralize := func(word string, count int, lang string) string {
+		switch word {
+		case "day":
+			switch lang {
+			case "fr":
+				if count > 1 {
+					return "jours"
+				} else {
+					return "jour"
+				}
+			default:
+				if count > 1 {
+					return "days"
+				} else {
+					return "day"
+				}
+			}
+		case "hour":
+			switch lang {
+			case "fr":
+				if count > 1 {
+					return "heures"
+				} else {
+					return "heure"
+				}
+			default:
+				if count > 1 {
+					return "hours"
+				} else {
+					return "hour"
+				}
+			}
+		case "minute":
+			if count > 1 {
+				return "minutes"
+			} else {
+				return "minute"
+			}
+		default:
+			return word
+		}
+	}
+
+	var parts []string
+	if days > 0 {
+		parts = append(parts, fmt.Sprintf("%d %s", days, pluralize("day", days, lang)))
+	}
+	if hours > 0 {
+		parts = append(parts, fmt.Sprintf("%d %s", hours, pluralize("hour", hours, lang)))
+	}
+	if minutes > 0 && days == 0 {
+		parts = append(parts, fmt.Sprintf("%d %s", minutes, pluralize("minute", minutes, lang)))
+	}
+
+	return strings.Join(parts, " ")
+}
+
 templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technology, lang string) {
 	@components.IntroWith(
 		shared.FormatDate(work.Metadata.CreatedAt(), "January 2006", lang), 
@@ -256,6 +331,12 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 				</div>
 			}
 		</section>
+		if shared.TimeSpentOnProject(work).Hours() > 0 {
+			<section class="time-spent">
+				<h2 i18n>Time spent</h2>
+				<p>{ formatDuration(shared.TimeSpentOnProject(work), lang) }</p>
+			</section>
+		}
 		if len(techs) > 0 {
 			<section class="made-with">
 				<h2 i18n>Made with</h2>

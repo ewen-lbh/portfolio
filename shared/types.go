@@ -1,6 +1,8 @@
 package shared
 
 import (
+	"time"
+
 	ortfodb "github.com/ortfo/db"
 )
 
@@ -25,6 +27,7 @@ type Technology struct {
 	Aliases      []string `yaml:"aliases"`
 	LearnMoreURL string   `yaml:"learn more at"`
 	Description  string   `yaml:"description"`
+	TimeSpent    time.Duration
 }
 
 func (tech Technology) Works(db ortfodb.Database) (worksWithTech []ortfodb.AnalyzedWork) {

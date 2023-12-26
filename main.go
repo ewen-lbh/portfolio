@@ -225,6 +225,15 @@ func main() {
 	var tags []shared.Tag
 	loadDataFile("tags.yaml", &tags)
 
+	for i := range technologies {
+		err := technologies[i].CalculateTimeSpent()
+		if err != nil {
+			color.Yellow("[!!] While calculating time spent on %s: %s", technologies[i].Name, err)
+		} else if technologies[i].TimeSpent.Seconds() > 0 {
+			fmt.Printf("[  ] Time spent with %s is %s, via wakatime\n", technologies[i].Name, technologies[i].TimeSpent)
+		}
+	}
+
 	var wg sync.WaitGroup
 	wg.Add(len(locales))
 

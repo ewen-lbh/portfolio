@@ -41,6 +41,13 @@ func Merge[K comparable, V any](m1 map[K]V, m2 map[K]V) map[K]V {
 	return out
 }
 
+func Keys[K comparable, V any](m map[K]V) (keys []K) {
+	for k := range m {
+		keys = append(keys, k)
+	}
+	return
+}
+
 func Color(color string) string {
 	if color == "" {
 		return "inherit"

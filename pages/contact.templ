@@ -35,10 +35,12 @@ css formEntry() {
 	margin-bottom: 1rem;
 	box-sizing: border-box;
 	width: 100%;
+	transition: all 0.125s ease;
 }
 
 css formLabel() {
 	font-size: 1.2em;
+	margin-left: .5rem;
 }
 
 css mailSentBanner() {
@@ -55,6 +57,12 @@ templ ContactPage(sent bool) {
             "background-color": "var(--secondary, white)",
             "color": "var(--primary, black)",
         })
+		@shared.OnHover(formEntry(), shared.Declarations{
+			"border-radius": "2rem",
+		})
+		@shared.OnFocus(formEntry(), shared.Declarations{
+			"background-color": "lightgray",
+		})
 		<form class={ contactForm() } method="post" action="/mail">
 			if sent {
 				<section class={ mailSentBanner() }>

@@ -41,3 +41,10 @@ func OnHover(class templ.CSSClass, rules Declarations) templ.Component {
 		selector: rules,
 	})
 }
+
+func OnFocus(class templ.CSSClass, rules Declarations) templ.Component {
+	selector := fmt.Sprintf(".%s:focus", class.ClassName())
+	return CSS(Selectors{
+		selector: rules,
+	})
+}

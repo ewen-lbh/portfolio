@@ -6,7 +6,9 @@ import "github.com/ewen-lbh/portfolio/components"
 
 templ TagPage(tag shared.Tag, db ortfodb.Database, locale string) {
 	@components.IntroWith("", tag.Plural, true) {
-		<i18n>{ tag.Description }</i18n>
+		<i18n>
+			@shared.HTML(tag.Description)
+		</i18n>
 	}
 	@components.GalleryPage(
 		tag.Works(db),
@@ -16,7 +18,9 @@ templ TagPage(tag shared.Tag, db ortfodb.Database, locale string) {
 
 templ TechnologyPage(tech shared.Technology, db ortfodb.Database, locale string) {
 	@components.IntroWith("", tech.Name, false) {
-		<i18n>{ tech.Description }</i18n>
+		<i18n>
+			@shared.HTML(tech.Description)
+		</i18n>
 		if tech.TimeSpent.Seconds() > 0 {
 			<br/>
 			<strong i18n>Time spent</strong> { formatDuration(tech.TimeSpent, locale) }

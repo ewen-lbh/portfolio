@@ -53,9 +53,9 @@ var timeSpentOnTechs map[string]time.Duration = make(map[string]time.Duration)
 
 func TimeSpentOnProject(work ortfodb.AnalyzedWork) time.Duration {
 	// In dev, don't calculate times, it just slows everything down
-	// if IsDev() {
-	// 	return 0, nil
-	// }
+	if IsDev() {
+		return 0
+	}
 
 	timeSpentOnProjects.mu.Lock()
 	defer timeSpentOnProjects.mu.Unlock()

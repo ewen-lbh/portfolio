@@ -54,21 +54,41 @@ func (t *Technology) ReferredToBy(name string) bool {
 	return stringsLooselyMatch(name, t.Slug, t.Name) || stringsLooselyMatch(name, t.Aliases...)
 }
 
-// CalculateTimeSpent updates the time spent on the technology, using wakatime data
-func (t *Technology) CalculateTimeSpent() error {
-	// In dev, don't calculate times, it just slows everything down
-	// if IsDev() {
-	// 	return nil
-	// }
+func (t Technology) ExtendsTech(tech Technology) bool {
+	for _, extendedTech := range t.Extends {
+		if tech.ReferredToBy(extendedTech) {
+			return true
+		}
+	}
+	return false
+}
 
+// CalculateTimeSpent updates the time spent on the technology, using wakatime data
+func (t *Technology) CalculateTimeSpent(techs []Technology) (time.Duration, error) {
 	if len(timeSpentOnTechs) > 0 {
+		totalDuration := time.Duration(0)
 		for techName, duration := range timeSpentOnTechs {
 			if t.ReferredToBy(techName) {
-				t.TimeSpent = duration
-				return nil
+				totalDuration += duration
+				extendors := make([]Technology, 0)
+				for _, otherTech := range techs {
+					if otherTech.ExtendsTech(*t) {
+						extendors = append(extendors, otherTech)
+					}
+				}
+				if len(extendors) > 0 {
+					for _, otherTech := range extendors {
+						timeSpentOnOtherTech, err := otherTech.CalculateTimeSpent(techs)
+						if err != nil {
+							return 0, fmt.Errorf("while resolving time spent of tech %s that extends %s: %w", otherTech.Name, t.Name, err)
+						}
+						totalDuration += timeSpentOnOtherTech
+					}
+				}
 			}
 		}
-		return nil
+		t.TimeSpent = totalDuration
+		return totalDuration, nil
 	}
 
 	var stats struct {
@@ -76,21 +96,22 @@ func (t *Technology) CalculateTimeSpent() error {
 	}
 
 	resp, err := wakatimeRequest("users/current/stats/all_time")
+	if err != nil {
+		return 0, fmt.Errorf("while fetcing user stats: %w",  err)
+	}
+	
+	
 	decoder := json.NewDecoder(resp.Body)
 	decoder.Decode(&stats)
 	if err != nil {
-		return fmt.Errorf("while fetching user stats: %w", err)
+		return 0, fmt.Errorf("while decoding user stats: %w", err)
 	}
 
 	for _, tech := range stats.Data.Languages {
 		timeSpentOnTechs[tech.Name] = time.Duration(tech.TotalSeconds) * time.Second
-		if t.ReferredToBy(tech.Name) {
-			t.TimeSpent = time.Duration(tech.TotalSeconds) * time.Second
-			return nil
-		}
 	}
 
-	return nil
+	return t.CalculateTimeSpent(techs)
 }
 
 func TagsOf(all []Tag, metadata ortfodb.WorkMetadata) []Tag {

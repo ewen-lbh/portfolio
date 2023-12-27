@@ -15,6 +15,7 @@
 
 - slug: assembly
   name: Assembly
+  by: Tayasui
   learn more at: https://apps.apple.com/us/app/assembly-graphic-design-art/id1024210402
   description: |
     An intuitive vector graphics editor for iOS
@@ -22,6 +23,7 @@
 - slug: coffeescript
   name: CoffeeScript
   files: [.coffee]
+  extends: [javascript]
   learn more at: https://coffeescript.org/
   description: |
     A programming language that compiles to JavaScript. It adds syntactic sugar inspired by Ruby, Python and Haskell in an effort to enhance JavaScript's brevity and readability. Specific additional features include list comprehension and destructuring assignment
@@ -51,6 +53,7 @@
 - slug: djangorestframework
   name: Django REST Framework
   by: encode
+  extends: [django]
   autodetect: djangorestframework in pyproject.toml
   learn more at: https://www.django-rest-framework.org
   description: |
@@ -58,6 +61,7 @@
 
 - slug: django
   name: Django
+  extends: [python]
   autodetect: django in pyproject.toml
   learn more at: https://www.djangoproject.com
   description: |
@@ -81,6 +85,7 @@
 - slug: fishshell
   name: Fish Shell
   files: [.fish]
+  extends: [shell]
   autodetect: shebang /usr/bin/env fish
   aliases: ["fish"]
   learn more at: https://fishshell.com
@@ -160,6 +165,7 @@
 - slug: livescript
   name: LiveScript
   files: [.ls]
+  extends: [javascript]
   learn more at: https://livescript.net
   description: |
     A language which compiles to JavaScript that adds many features to assist in functional style programming. LiveScript is an indirect descendant of CoffeeScript, with which it has much compatibility.
@@ -180,6 +186,7 @@
 
 - slug: nestjs
   name: NestJS
+  extends: [javascript]
   autodetect: "@nestjs/core in package.json"
   learn more at: https://nestjs.com/
   description: |
@@ -195,6 +202,7 @@
 - slug: nuxt
   name: Nuxt
   aliases: ["nuxtjs"]
+  extends: [vue]
   autodetect: nuxt in package.json
   learn more at: https://nuxtjs.org
   description: |
@@ -204,6 +212,7 @@
   name: Oclif
   by: Heroku
   autodetect: oclif in package.json
+  extends: [javascript]
   learn more at: https://oclif.io/
   description: |
     An open Node.js CLI framework
@@ -232,6 +241,7 @@
 
 - slug: postgresql
   name: PostGreSQL
+  extends: [sql]
   autodetect: postgres in docker-compose.yaml
   learn more at: https://www.postgresql.org/
   description: |
@@ -248,6 +258,7 @@
 - slug: pug
   name: Pug
   files: [.pug]
+  extends: [html]
   learn more at: https://pugjs.org
   description: |
     A high-performance template engine heavily influenced by <a href='https://haml.info/'>Haml</a> and implemented with JavaScript for Node.js and browsers.
@@ -270,6 +281,7 @@
 - slug: rubyonrails
   name: Ruby On Rails
   autodetect: rails in Gemfile
+  extends: [ruby]
   learn more at: https://rubyonrails.org
   description: |
     A web-application framework that includes everything needed to create database-backed web applications according to the Model-View-Controller (MVC) pattern
@@ -294,6 +306,7 @@
   name: SvelteKit
   by: Svelte
   alias: [sapper]
+  extends: [svelte]
   autodetect: "@sveltejs/kit in package.json"
   learn more at: https://kit.svelte.dev
   description: |
@@ -304,6 +317,7 @@
   alias: [scss]
   learn more at: https://sass-lang.com/
   files: [.scss, .sass]
+  extends: [css]
   description: |
     “Syntactically Awesome Style Sheets”—A mature, stable, and powerful professional grade CSS extension language.
 
@@ -316,12 +330,14 @@
   name: Stylus
   learn more at: https://stylus-lang.com
   files: [.styl]
+  extends: [css]
   description: |
     Expressive, robust, feature-rich CSS language built for nodejs
 
 - slug: svelte
   name: Svelte
   files: [.svelte]
+  extends: [html, js, css]
   learn more at: https://svelte.dev/
   description: |
     A radical new approach to building user interfaces. Whereas traditional frameworks like React and Vue do the bulk of their work in the browser, Svelte shifts that work into a compile step that happens when you build your app.
@@ -337,6 +353,7 @@
   name: TypeScript
   by: Microsoft
   files: [.ts]
+  extends: [javascript]
   learn more at: https://www.typescriptlang.org/
   description: |
     An open-source language which builds on JavaScript by adding static type definitions
@@ -345,6 +362,7 @@
   name: Vue
   aliases: ["vuejs"]
   files: [.vue]
+  extends: [html, javascript, css]
   learn more at: https://vuejs.org
   description: |
     The progressive JavaScript framework
@@ -431,6 +449,7 @@
 
 - slug: symfony
   name: symfony
+  extends: [php]
   autodetect: symfony/symfony in composer.json
   description: A PHP Model-View-Controller framework
   learn more at: https://symfony.com

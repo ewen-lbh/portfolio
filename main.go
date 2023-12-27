@@ -71,7 +71,13 @@ func startServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Col
 
 	handlePage("", pages.Index(db, translations.language))
 	for _, work := range db.Works() {
-		handlePage(work.ID, pages.Work(work, shared.TagsOf(tags, work.Metadata), shared.TechsOf(technologies, work.Metadata), translations.language))
+		handlePage(work.ID, pages.Work(
+			work,
+			shared.TagsOf(tags, work.Metadata),
+			shared.TechsOf(technologies, work.Metadata),
+			collections.ThatIncludeWork(work, shared.Keys(db.Works()), tags, technologies),
+			translations.language,
+		))
 	}
 
 	for id, collection := range collections {
@@ -100,6 +106,7 @@ func startServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Col
 	}
 
 	handlePage("about", pages.AboutPage(translations.language))
+	handlePage("resume", pages.DynamicResume(db, technologies, translations.language))
 
 	handlePage("contact", pages.ContactPage(false))
 	handlePage("contact/sent", pages.ContactPage(true))
@@ -187,6 +194,20 @@ func loadDatabase() (ortfodb.Database, []string) {
 	if err != nil {
 		panic(err)
 	}
+	// Ugly fix while ortfodb isn't fixed
+	for i, work := range db {
+		if work.ID == "#meta" {
+			continue
+		}
+		if work.Metadata.AdditionalMetadata["made_with"] == nil {
+			continue
+		}
+		newWork := work
+		for _, techName := range work.Metadata.AdditionalMetadata["made_with"].([]interface{}) {
+			newWork.Metadata.MadeWith = append(newWork.Metadata.MadeWith, techName.(string))
+		}
+		db[i] = newWork
+	}
 	locales := db.Languages()
 	sort.Strings(locales)
 	fmt.Printf("[  ] Works database has %d works in %d locales (%s)\n", len(db.Works()), len(locales), strings.Join(locales, ", "))
@@ -215,6 +236,11 @@ func main() {
 
 	var collections map[string]shared.Collection
 	loadDataFileMap("collections.yaml", &collections)
+	for id, c := range collections {
+		newCollection := c
+		newCollection.ID = id
+		collections[id] = newCollection
+	}
 
 	var sites []shared.Site
 	loadDataFile("sites.yaml", &sites)
@@ -226,7 +252,7 @@ func main() {
 	loadDataFile("tags.yaml", &tags)
 
 	for i := range technologies {
-		err := technologies[i].CalculateTimeSpent()
+		_, err := technologies[i].CalculateTimeSpent(technologies)
 		if err != nil {
 			color.Yellow("[!!] While calculating time spent on %s: %s", technologies[i].Name, err)
 		} else if technologies[i].TimeSpent.Seconds() > 0 {

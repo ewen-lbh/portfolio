@@ -205,7 +205,13 @@ func LoadTranslations(languages []string) (TranslationsCatalog, error) {
 				missingMessages: make([]po.Message, 0),
 				language:        languageCode,
 			}
-			fmt.Printf("[%s] Loaded %d translations\n", languageCode, len(poFile.Messages))
+			filledTranslationsCount := 0
+			for _, msg := range poFile.Messages {
+				if msg.MsgId != "" {
+					filledTranslationsCount++
+				}
+			}
+			fmt.Printf("[%s] Loaded %d translations\n", languageCode, filledTranslationsCount)
 		}
 	}
 	return translations, nil

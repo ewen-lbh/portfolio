@@ -20,13 +20,14 @@ type Site struct {
 }
 
 type Technology struct {
-	Slug         string   `yaml:"slug"`
-	Name         string   `yaml:"name"`
-	By           string   `yaml:"by"`
-	Files        []string `yaml:"files"`
-	Aliases      []string `yaml:"aliases"`
-	LearnMoreURL string   `yaml:"learn more at"`
-	Description  string   `yaml:"description"`
+	Slug         string             `yaml:"slug"`
+	Name         string             `yaml:"name"`
+	By           string             `yaml:"by"`
+	Files        []string           `yaml:"files"`
+	Aliases      []string           `yaml:"aliases"`
+	LearnMoreURL string             `yaml:"learn more at"`
+	Description  ortfodb.HTMLString `yaml:"description"`
+	Extends      []string           `yaml:"extends"`
 	TimeSpent    time.Duration
 }
 
@@ -42,11 +43,11 @@ func (tech Technology) Works(db ortfodb.Database) (worksWithTech []ortfodb.Analy
 }
 
 type Tag struct {
-	Singular     string   `yaml:"singular"`
-	Plural       string   `yaml:"plural"`
-	Aliases      []string `yaml:"aliases"`
-	Description  string   `yaml:"description"`
-	LearnMoreURL string   `yaml:"learn more at"`
+	Singular     string             `yaml:"singular"`
+	Plural       string             `yaml:"plural"`
+	Aliases      []string           `yaml:"aliases"`
+	Description  ortfodb.HTMLString `yaml:"description"`
+	LearnMoreURL string             `yaml:"learn more at"`
 }
 
 func (tag Tag) Works(db ortfodb.Database) (worksWithTag []ortfodb.AnalyzedWork) {
@@ -61,6 +62,7 @@ func (tag Tag) Works(db ortfodb.Database) (worksWithTag []ortfodb.AnalyzedWork) 
 }
 
 type Collection struct {
+	ID           string
 	Title        map[string]string `yaml:"title"`
 	Aliases      []string          `yaml:"aliases"`
 	Includes     string            `yaml:"includes"`
@@ -81,4 +83,18 @@ func (cs Collections) URLsToNames(canonicalOnly bool, locale string) map[string]
 		urlsToNames[id] = collection.Title[locale]
 	}
 	return urlsToNames
+}
+
+func (cs Collections) ThatIncludeWork(work ortfodb.AnalyzedWork, workIDs []string, tags []Tag, techs []Technology) []Collection {
+	out := make([]Collection, 0)
+	for _, c := range cs {
+		if ok, err := c.Contains(work, workIDs, tags, techs); ok || err != nil {
+			if err != nil {
+				panic(err)
+			}
+
+			out = append(out, c)
+		}
+	}
+	return out
 }

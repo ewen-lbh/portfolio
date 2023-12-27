@@ -15,8 +15,11 @@ msgstr ""
 msgid "“Syntactically Awesome Style Sheets”—A mature, stable, and powerful professional grade CSS extension language."
 msgstr "“Syntactically Awesome Style Sheets”—Une extension puissante, stable et professionelle du langage CSS."
 
-msgid "A <a href='https://svelte.dev'>Svelte</a>-powered framework for building web applications of all sizes, with a beautiful development experience and flexible filesystem-based routing"
-msgstr "Un framework alimenté par <a href='https://svelte.dev'>Svelte</a> pour construire des applications web de toutes tailles, avec une belle expérience de développement et un routage flexible basé sur le système de fichiers."
+msgid "12 March 2020"
+msgstr ""
+
+msgid "A <a href=\"https://svelte.dev\">Svelte</a>-powered framework for building web applications of all sizes, with a beautiful development experience and flexible filesystem-based routing"
+msgstr ""
 
 msgid "A bundler for javascript and friends. Packs many modules into a few bundled assets."
 msgstr "Un bundler pour javascript et autres. Regroupe de nombreux modules en quelques fichiers groupés."
@@ -40,7 +43,7 @@ msgid "A dynamic, open source programming language with a focus on simplicity an
 msgstr "Un langage de programmation open source dynamique, axé sur la simplicité et la productivité. Il possède une syntaxe élégante, naturelle et facile à écrire."
 
 msgid "A graphism technique that involves the composition of multiple images into a single, cohesive one"
-msgstr "Une technique de graphisme qui implique la composition de plusieurs images en un ensemble cohérent"
+msgstr ""
 
 msgid "A high-level programming language that enables interactive web pages"
 msgstr "Un langage de programmation de haut niveau qui permet l'intéractivité de pages web"
@@ -48,8 +51,8 @@ msgstr "Un langage de programmation de haut niveau qui permet l'intéractivité 
 msgid "A high-level Python Web framework that encourages rapid development and clean, pragmatic design"
 msgstr "Un framework Web Python de haut niveau qui encourage un développement rapide et une conception propre et pragmatique"
 
-msgid "A high-performance template engine heavily influenced by <a href='https://haml.info/'>Haml</a> and implemented with JavaScript for Node.js and browsers."
-msgstr "Un moteur de template haute performance fortement influencé par <a href='https://haml.info/'>Haml</a> et implémenté avec JavaScript pour Node.js et les navigateurs."
+msgid "A high-performance template engine heavily influenced by <a href=\"https://haml.info/\">Haml</a> and implemented with JavaScript for Node.js and browsers."
+msgstr ""
 
 msgid "A high-quality typesetting & document preparation system"
 msgstr "Un système de composition et de préparation des documents de haute qualité"
@@ -112,7 +115,7 @@ msgid "A series of small single-board computers"
 msgstr "Une série de nano-ordinateurs"
 
 msgid "A set of brand resources like logos and banners that make up a brand's visal identity"
-msgstr "Un ensemble de ressources de marque, comme des logos et des bannières, qui constituent l'identité visuelle d'une marque"
+msgstr ""
 
 msgid "A simple cross-platform library to create graphical user interfaces in [Go](/using/go) that work on Android, iOS, Linux, MacOS and Windows."
 msgstr "Une bibliothèque multiplateforme simple pour créer des interfaces graphiques en [Go](/using/go) qui fonctionnent sur Android, iOS, Linux, MacOS et Windows."
@@ -172,10 +175,10 @@ msgid "an XML-based vector image format for defining two-dimensional graphics, h
 msgstr "un format d'image vectorielle basé sur XML pour définir des graphiques bidimensionnels, ayant un support pour l'interactivité et l'animation. La spécification SVG est un standard ouvert développé par le World Wide Web Consortium depuis 1999"
 
 msgid "Any piece of work related to languages (programming languages or natural languages)"
-msgstr "Projets liés au langage (langages de programmation ou langages naturels)"
+msgstr ""
 
 msgid "Any piece of work that involves programming, such as libraries, programs, scripts, et cætera."
-msgstr "Toute œuvre qui implique de la programmation, telles que des bibliothèques, des programmes, des scripts, etc."
+msgstr ""
 
 msgid "apis"
 msgstr "APIs"
@@ -184,7 +187,7 @@ msgid "app"
 msgstr "application"
 
 msgid "Application Programming Interfaces, mostly _Web_ APIs, meaning machine-redable sites that allow data processing and interaction without going to the client-facing website"
-msgstr "Interfaces de programmation d'applications, principalement des API _Web_, c'est-à-dire des sites accessibles aux machines qui permettent le traitement des données et l'interaction sans passer par le site web orienté vers le client."
+msgstr ""
 
 msgid "apps"
 msgstr "applications"
@@ -203,9 +206,6 @@ msgstr "cartes"
 
 msgid "cli"
 msgstr "cli"
-
-msgid "command line"
-msgstr "terminal"
 
 msgid "command-line"
 msgstr "terminal"
@@ -241,7 +241,7 @@ msgid "Expressive, robust, feature-rich CSS language built for nodejs"
 msgstr "Langage CSS expressif, robuste, riche en fonctionnalités pour nodejs"
 
 msgid "Extensions or add-ons that add features to web browsers"
-msgstr "Extensions ou add-ons qui ajoutent des fonctionnalités à un navigateurs web"
+msgstr ""
 
 msgid "flyer"
 msgstr "flyer"
@@ -289,7 +289,7 @@ msgid "illustrations"
 msgstr "illustrations"
 
 msgid "Images that represent a media, such as a video, in a single glance. Might be shown at a small size."
-msgstr "Images qui représentent un média, tel qu'une vidéo, d'un seul coup d'œil. Peut être affiché à petite taille."
+msgstr ""
 
 msgid "intros"
 msgstr "intros"
@@ -306,8 +306,11 @@ msgstr "En savoir plus"
 msgid "linguistics"
 msgstr "linguistique"
 
+msgid "made with"
+msgstr "réalisé avec"
+
 msgid "Made with the intent to discover, not necessarily to be useful or aesthetic."
-msgstr "Réalisé dans le but de découvrir sans contrainte d'utilité ou d'esthétique."
+msgstr ""
 
 msgid "math"
 msgstr "maths"
@@ -322,13 +325,16 @@ msgid "music"
 msgstr "musique"
 
 msgid "Music covers for albums, EPs and singles"
-msgstr "Pochettes pour albums, EPs et singles"
+msgstr ""
 
 msgid "my carreer"
 msgstr "ma carrière"
 
 msgid "my music"
 msgstr "ma musique"
+
+msgid "Native"
+msgstr "Langue maternelle"
 
 msgid "Open Source design and prototyping platform meant for cross-domain teams. Non dependent on operating systems, Penpot is web based and works with open web standards (SVG)."
 msgstr "Plateforme de conception et prototypage open source visant des équipes multi-domaines. Non dépendante des systèmes d'exploitation, Penpot est un logiciel web et fonctionne avec les standards web ouverts (SVG)."
@@ -355,7 +361,13 @@ msgid "programs"
 msgstr "programmes"
 
 msgid "Programs that run in the terminal, a text-based interface for computers."
-msgstr "Programmes qui s'exécutent dans une console, une interface de texte pour les ordinateurs."
+msgstr ""
+
+msgid "project"
+msgstr "projet"
+
+msgid "projects"
+msgstr "projets"
 
 msgid "Proudly powered by <a href=\"https://github.com/ortfo\">ortfo</a>, my portfolio database management system and <a href=\"https://github.com/a-h/templ\">templ</a>"
 msgstr "Fièrement propulsé par <a href=\"https://github.com/ortfo\">ortfo</a>, mon système de gestion de base de données pour les portfolios et <a href=\"https://github.com/a-h/templ\">templ</a>"
@@ -367,7 +379,7 @@ msgid "school"
 msgstr "scolaire"
 
 msgid "School projects and school-related projects"
-msgstr "Projets scolaires et projets liés à l'école"
+msgstr ""
 
 msgid "science"
 msgstr "science"
@@ -379,13 +391,19 @@ msgid "Send"
 msgstr "Envoyer"
 
 msgid "Set of glyphs (letters, punctuation marks and more) that define how text looks."
-msgstr "Ensemble de glyphes (lettres, signes de ponctuation et plus encore) qui définissent l'apparence du texte."
+msgstr ""
 
 msgid "Short introductory video sequences typically played at the beginning of every video"
-msgstr "Séquences vidéo introducientrières courtes qui sont typiquement jouées au début de chaque vidéo"
+msgstr ""
+
+msgid "Single-page PDF resume"
+msgstr "CV monopage en PDF"
 
 msgid "sites"
 msgstr "sites"
+
+msgid "skills"
+msgstr ""
 
 msgid "Source code"
 msgstr "Code source"
@@ -403,16 +421,16 @@ msgid "The standard markup language for documents designed to be displayed in a 
 msgstr "Le langage de balisage standard conçu pour représenter des pages web"
 
 msgid "The study of language"
-msgstr "L'étude du langage"
+msgstr ""
 
 msgid "These are my creations."
 msgstr "Voici mes créations."
 
+msgid "This is a dynamic resume, pulling from <em><a href=\"https://wakatime.com\">wakatime</a></em> and other sources, including the portfolio's database itself."
+msgstr ""
+
 msgid "thumbnails"
 msgstr "miniatures"
-
-msgid "Time spent"
-msgstr "Temps passé"
 
 msgid "typeface"
 msgstr "police de caractères"
@@ -427,7 +445,7 @@ msgid "Un système de génération de portfolios faits maison."
 msgstr "Un système de génération de portfolios faits maison."
 
 msgid "User interfaces that utilize graphical elements such as icons, and images."
-msgstr "Intefaces utilisateur qui utilisent des éléments graphiques tels que des icônes et des images."
+msgstr ""
 
 msgid "visual identities"
 msgstr "identités visuelles"
@@ -448,10 +466,10 @@ msgid "web extensions"
 msgstr "extensions web"
 
 msgid "Web sites, web apps and web-related libraries"
-msgstr "Sites web, applications web et bibliothèques liées au web"
+msgstr ""
 
 msgid "With a scientific side"
-msgstr "Avec un côté scientifique"
+msgstr ""
 
 msgid "works"
 msgstr "projets"

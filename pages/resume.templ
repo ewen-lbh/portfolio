@@ -1,0 +1,90 @@
+package pages
+
+import "fmt"
+import "github.com/ewen-lbh/portfolio/shared"
+import "github.com/ewen-lbh/portfolio/components"
+import "github.com/ortfo/db"
+
+templ DynamicResume(db ortfodb.Database, technologies []shared.Technology, language string) {
+	@components.IntroWith("Ewen Le Bihan", "Curriculum Vitæ", false) {
+		<i18n>
+			This is a dynamic resume, pulling from <em><a href="https://wakatime.com">wakatime</a> </em> and other sources, including the portfolio's database itself.
+		</i18n>
+		<br/>
+		@components.ArrowLink("/resume.pdf") {
+			<i18n>Single-page PDF resume</i18n>
+		}
+	}
+	<main>
+		<section>
+			<h2 i18n>skills</h2>
+			<h3 i18n>language</h3>
+			<ul>
+				<li>
+					<h4>Français</h4>
+					<p i18n>Native</p>
+				</li>
+				<li>
+					<h4>日本語</h4>
+					<p></p>
+				</li>
+				<li>
+					<h4>English</h4>
+					<dl>
+						<dt>TOEIC</dt>
+						<dd>
+							950<span>⁄</span>990
+							<span i18n>12 March 2020</span>
+						</dd>
+						<dt>CECRL </dt>
+						<dd>C1 </dd>
+						<dt>ILR </dt>
+						<dd>4 </dd>
+						<dt>ACTFL </dt>
+						<dd>S </dd>
+					</dl>
+				</li>
+			</ul>
+			<h3>programming</h3>
+			<p>
+				work time tracked by <a href="https://wakatime.com">WakaTime</a>
+			</p>
+			<ul>
+				for _, tech := range technologies {
+					if len(tech.Works(db)) > 0 || tech.TimeSpent > 0 {
+						<li>
+							<img src={ string(shared.Asset(fmt.Sprintf("logos/%s.svg", tech.Slug))) }/>
+							<h4>
+								if tech.By != "" {
+									<span>{ tech.By }&nbsp;</span>
+								}
+								{ tech.Name }
+							</h4>
+							if len(tech.Works(db)) > 1 {
+								<a href={ templ.URL(fmt.Sprintf("/using/%s", tech.Slug)) }>
+									{ fmt.Sprint(len(tech.Works(db))) } <i18n>projects</i18n>
+								</a>
+							} else if len(tech.Works(db)) == 1 {
+								<a href={ templ.URL(fmt.Sprintf("/%s", tech.Works(db)[0].ID)) }>
+									1 <i18n>project</i18n>
+								</a>
+							}
+							if tech.TimeSpent > 0 {
+								<span>
+									{ fmt.Sprint(tech.TimeSpent.Hours()) }
+									<i18n>
+										if tech.TimeSpent.Hours() > 1 {
+											hours
+										} else {
+											hour
+										}
+									</i18n>
+								</span>
+							}
+						</li>
+					}
+				}
+			</ul>
+		</section>
+	</main>
+}

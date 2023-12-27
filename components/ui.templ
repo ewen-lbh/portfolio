@@ -2,12 +2,15 @@ package components
 
 import "github.com/ewen-lbh/portfolio/shared"
 
-css iconedLink() {
-	display: inline-flex;
+css simpleLink() {
 	align-items: center;
+	display: inline-flex;
 	text-decoration: none;
 	transition: font-weight 0.125s ease-in-out;
 	text-underline-offset: .5ch;
+}
+
+css iconedLink() {
 	margin-top: 0.5em;
 }
 
@@ -26,6 +29,18 @@ func optionalStyles(styles ...templ.CSSClass) templ.CSSClass {
 	return styles[0]
 }
 
+templ SimpleLink(href string) {
+	@shared.OnHover(
+		simpleLink(), 
+        shared.Declarations{ 
+            "text-decoration": "underline 0.125em",
+        },
+	)
+	<a class={ simpleLink(), iconedLink() } href={ templ.SafeURL(href) }>
+		{ children... }
+	</a>
+}
+
 templ ArrowLink(href string, styles ...templ.CSSClass) {
 	@shared.OnHover(
         iconedLink(), 
@@ -33,7 +48,7 @@ templ ArrowLink(href string, styles ...templ.CSSClass) {
             "text-decoration": "underline 0.125em",
         },
 	)
-	<a class={ iconedLink(), optionalStyles(styles...) } href={ templ.SafeURL(href) }>
+	<a class={ simpleLink(), iconedLink(), optionalStyles(styles...) } href={ templ.SafeURL(href) }>
 		<svg class={ iconedLinkIcon() } width="66" height="33" viewBox="0 0 66 33" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path d="M17.9625 2L3 16.5M3 16.5L17.9625 31M3 16.5H66" stroke="currentColor" stroke-width="3" transform="rotate(180 33 16.5)"></path>
 		</svg>
@@ -48,7 +63,7 @@ templ GoBackLink(href string) {
             "text-decoration": "underline 0.125em",
         },
 	)
-	<a class={ iconedLink() } href={ templ.SafeURL(href) }>
+	<a class={ simpleLink(), iconedLink() } href={ templ.SafeURL(href) }>
 		<svg class={ iconedLinkIcon() } width="66" height="33" viewBox="0 0 66 33" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path d="M17.9625 2L3 16.5M3 16.5L17.9625 31M3 16.5H66" stroke="currentColor" stroke-width="3"></path>
 		</svg>

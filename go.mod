@@ -1,13 +1,13 @@
 module github.com/ewen-lbh/portfolio
 
-go 1.21.4
+go 1.21
 
 require (
 	github.com/PuerkitoBio/goquery v1.8.1
-	github.com/a-h/templ v0.2.476
+	github.com/a-h/templ v0.2.501
 	github.com/deckarep/golang-set v1.8.0
 	github.com/expr-lang/expr v1.15.7
-	github.com/fatih/color v1.13.0
+	github.com/fatih/color v1.16.0
 	github.com/gobwas/glob v0.2.3
 	github.com/goodsign/monday v1.0.1
 	github.com/metal3d/go-slugify v0.0.0-20160607203414-7ac2014b2f23
@@ -35,8 +35,8 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/lafriks/go-svg v0.3.2 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
-	github.com/mattn/go-colorable v0.1.12 // indirect
-	github.com/mattn/go-isatty v0.0.18 // indirect
+	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/mitchellh/colorstring v0.0.0-20190213212951-d06e56a500db // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
@@ -53,7 +53,7 @@ require (
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
 	github.com/xeipuuv/gojsonschema v1.2.0 // indirect
 	golang.org/x/image v0.0.0-20220413100746-70e8d0d3baa9 // indirect
-	golang.org/x/sys v0.13.0 // indirect
+	golang.org/x/sys v0.14.0 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

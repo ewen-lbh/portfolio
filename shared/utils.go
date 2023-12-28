@@ -1,7 +1,6 @@
 package shared
 
 import (
-	"encoding/hex"
 	"net/url"
 	"sort"
 	"strings"
@@ -46,16 +45,6 @@ func Keys[K comparable, V any](m map[K]V) (keys []K) {
 		keys = append(keys, k)
 	}
 	return
-}
-
-func Color(color string) string {
-	if color == "" {
-		return "inherit"
-	}
-	if _, err := hex.DecodeString(color); err == nil {
-		return "#" + color
-	}
-	return color
 }
 
 func MondayLocale(language string) monday.Locale {

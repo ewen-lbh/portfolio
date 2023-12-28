@@ -1,0 +1,44 @@
+/* Import font(s) */
+
+body {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.5;
+	font-family: Manrope Variable, Manrope;
+	font-weight: 500;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0 0 0.5em 0;
+	font-weight: 400;
+	line-height: 1.2;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+a {
+	color: inherit;
+}
+
+code,
+pre {
+	font-family: "Lucida Console", Monaco, monospace;
+}
+
+@media (min-width: 400px) {
+	body {
+		font-size: 16px;
+	}
+}
+
+body {
+	background-color: var(--secondary, white);
+	color: var(--primary, black);
+}

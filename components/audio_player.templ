@@ -1,0 +1,81 @@
+package components
+
+import "github.com/ortfo/db"
+import "github.com/ewen-lbh/portfolio/shared"
+import "fmt"
+
+script audioPlayerSetup(sourceId string) {
+    function minutesAndSeconds(seconds) {
+        var minutes = Math.floor(seconds / 60)
+        var seconds = Math.floor(seconds % 60)
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`
+    }
+
+    function element(thing) {
+        return document.getElementById(`audio-player-${sourceId}` + (
+            thing ? `-${thing}` : ""
+        ))
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        var source = element("")
+
+        source.style.display = "none"
+        source.addEventListener('loadedmetadata', () => {
+            element("timecode-total").innerText = minutesAndSeconds(source.duration)
+        })
+        source.addEventListener('pause', console.log)
+        source.addEventListener('play', console.log)
+        source.addEventListener('timeupdate', () => {
+            element("timecode-current").innerText = minutesAndSeconds(source.currentTime)
+            element("timecode-total").innerText = minutesAndSeconds(source.duration)
+        })
+    })
+}
+
+script audioPlayerPlayPause(sourceId string) {
+    var source = document.getElementById(`audio-player-${sourceId}`)
+    source.paused ? source.play() : source.pause()
+}
+
+templ AudioPlayer(id string, source string, contentType string, title string, attributes ortfodb.MediaAttributes) {
+	<audio
+		id={ fmt.Sprintf("audio-player-%s", id) }
+		loop?={ attributes.Loop }
+		controls?={ attributes.Controls }
+		autoplay?={ attributes.Autoplay }
+		playsinline?={ attributes.Playsinline }
+	>
+		<source src={ source } type={ contentType }/>
+		<a href={ templ.URL(source) } i18n>Listen </a>
+	</audio>
+}
+
+templ AudioPlayerBeta(id string, source string, contentType string, title string, attributes ortfodb.MediaAttributes) {
+	<div class="audio-player">
+		@audioPlayerSetup(id)
+		<audio
+			id={ fmt.Sprintf("audio-player-%s", id) }
+			loop?={ attributes.Loop }
+			controls?={ attributes.Controls }
+			autoplay?={ attributes.Autoplay }
+			playsinline?={ attributes.Playsinline }
+		>
+			<source src={ source } type={ contentType }/>
+			<a href={ templ.URL(source) } i18n>Listen </a>
+		</audio>
+		<noscript>
+			@shared.CSS(shared.Selectors{
+                fmt.Sprintf("#audio-player-%s *:not(audio, p)", id): {
+                    "display": "none",
+                },
+            })
+		</noscript>
+		<p>
+			{ title }
+		</p>
+		<button onclick={ audioPlayerPlayPause(id) }>play/pause</button>
+		<code id={ fmt.Sprintf("audio-player-%s-timecode-current", id) }>0:00</code>
+		<code id={ fmt.Sprintf("audio-player-%s-timecode-total", id) }>…:… </code>
+	</div>
+}

@@ -29,14 +29,14 @@ func optionalStyles(styles ...templ.CSSClass) templ.CSSClass {
 	return styles[0]
 }
 
-templ SimpleLink(href string) {
+templ SimpleLink(href string, styles ...templ.CSSClass) {
 	@shared.OnHover(
 		simpleLink(), 
         shared.Declarations{ 
             "text-decoration": "underline 0.125em",
         },
 	)
-	<a class={ simpleLink(), iconedLink() } href={ templ.SafeURL(href) }>
+	<a class={ simpleLink(), iconedLink(), optionalStyles(styles...) } href={ templ.SafeURL(href) }>
 		{ children... }
 	</a>
 }
@@ -56,14 +56,14 @@ templ ArrowLink(href string, styles ...templ.CSSClass) {
 	</a>
 }
 
-templ GoBackLink(href string) {
+templ GoBackLink(href string, style ...templ.CSSClass) {
 	@shared.OnHover(
         iconedLink(), 
         shared.Declarations{ 
             "text-decoration": "underline 0.125em",
         },
 	)
-	<a class={ simpleLink(), iconedLink() } href={ templ.SafeURL(href) }>
+	<a class={ simpleLink(), iconedLink(), optionalStyles(style...) } href={ templ.SafeURL(href) }>
 		<svg class={ iconedLinkIcon() } width="66" height="33" viewBox="0 0 66 33" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path d="M17.9625 2L3 16.5M3 16.5L17.9625 31M3 16.5H66" stroke="currentColor" stroke-width="3"></path>
 		</svg>
@@ -101,7 +101,7 @@ templ SearchBar(placeholder string, onInput func(string) templ.ComponentScript) 
 		@shared.OnHover(searchBar(), shared.Declarations{
 			"background-color": "lightgray",
 		})
-		<img src={ string(shared.Asset("icons/magnifying_glass.svg")) }/>
+		<img src={ shared.Asset("icons/magnifying_glass.svg") }/>
 		@queryFromUrl(searchBarInput().ClassName())
 		<input i18n-attrs name="q" oninput={ onInput(searchBarInput().ClassName()) } type="text" class={ searchBarInput() } i18n:placeholder="Search"/>
 	</label>

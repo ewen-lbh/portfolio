@@ -25,7 +25,23 @@ func startFileServer(port int, root string) {
 	http.ListenAndServe(fmt.Sprintf(":%d", port), staticServer)
 }
 
-func startServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Collections, sites []shared.Site, technologies []shared.Technology, tags []shared.Tag, translations *Translations, port int) {
+func startSHSServer(wg *sync.WaitGroup, port int, regularSiteURL string, sites []shared.Site) {
+	navigation := pages.Navigation([]pages.NavigationLink{
+		{Text: "home", Link: "/"},
+		{Text: "courses", Link: "/courses"},
+		{Text: "sustainability", Link: "/sustainability"},
+		{Text: "civic engagement", Link: "/civic-engagement"},
+		{Text: "international", Link: "international"},
+		{Text: "career", Link: "/career"},
+		{Text: "projects", Link: regularSiteURL},
+	})
+
+	server := http.NewServeMux()
+	server.Handle("/", templ.Handler(pages.Layout(pages.SHSHome(), navigation, sites, "en")))
+	http.ListenAndServe(fmt.Sprintf(":%d", port), server)
+}
+
+func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Collections, sites []shared.Site, technologies []shared.Technology, tags []shared.Tag, translations *Translations, port int) {
 	server := http.NewServeMux()
 
 	registeredPaths := []string{}
@@ -52,9 +68,11 @@ func startServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Col
 			}
 		}
 
+		navigation := pages.Navigation(pages.RegularLayoutLinks(collections.URLsToNames(true, translations.language), translations.language, path))
+
 		translator := HttpTranslator{
 			translations: translations,
-			ch:           templ.Handler(pages.Layout(page, path, collections.URLsToNames(true, translations.language), sites, translations.language)),
+			ch:           templ.Handler(pages.Layout(page, navigation, sites, translations.language)),
 		}
 
 		server.Handle(fmt.Sprintf("/%s", path), translator)
@@ -264,10 +282,17 @@ func main() {
 	wg.Add(len(locales))
 
 	for i, locale := range locales {
-		go startServer(&wg, db, collections, sites, technologies, tags, translations[locale], 8081+i)
+		go startPagesServer(&wg, db, collections, sites, technologies, tags, translations[locale], 8081+i)
 	}
 	go startFileServer(8079, "public")
 	go startFileServer(8080, "media")
+	var origin string
+	if shared.IsDev() {
+		origin = "http://localhost:8081"
+	} else {
+		origin = "https://ewen.works"
+	}
+	go startSHSServer(&wg, 8666, origin, sites)
 
 	wg.Wait()
 }

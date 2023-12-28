@@ -1,6 +1,7 @@
 package pages
 
 import "github.com/ewen-lbh/portfolio/shared"
+import "github.com/ewen-lbh/portfolio/components"
 
 func domainPerLocale(locale string) string {
 	// TODO generalize
@@ -41,8 +42,6 @@ css footer() {
 	flex-direction: column;
 	align-items: center;
 	padding: 10rem 1rem 0;
-	background-color: #fff;
-	color: #000;
 }
 
 css footerLinkHint() {
@@ -87,10 +86,11 @@ css footerLicense() {
 css footerLicenseImage() {
 	margin-top: 0.5rem;
 	height: 1.5rem;
+	width: 100%;
 }
 
-func pathInOtherLanguage(language string, path string) templ.SafeURL {
-	return templ.URL(domainPerLocale(otherLocale(language)) + "/" + path)
+func pathInOtherLanguage(language string, path string) string {
+	return domainPerLocale(otherLocale(language)) + "/" + path
 }
 
 script toggleNav() {
@@ -99,17 +99,21 @@ script toggleNav() {
     open = id('nav').dataset.state === "open"
     btnIcon = id('nav-toggle');
     if (open) {
-      document.unlockBodyScroll();
-      btnIcon.innerText = '≡';
-      return id('nav').dataset.state = 'closed';
+		// Unlock body scroll
+		document.body.style.overflow = 'auto';
+		btnIcon.querySelector('.icon-close').style.display = 'none';
+		btnIcon.querySelector('.icon-open').style.display = 'block';
+		return id('nav').dataset.state = 'closed';
     } else {
-      document.lockBodyScroll();
-      btnIcon.innerText = '×';
-      return id('nav').dataset.state = 'open';
+		// Lock body scroll
+		document.body.style.overflow = 'hidden';
+		btnIcon.querySelector('.icon-close').style.display = 'block';
+		btnIcon.querySelector('.icon-open').style.display = 'none';
+		return id('nav').dataset.state = 'open';
     }
 }
 
-css navigation() {
+css navigationStyles() {
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -139,7 +143,193 @@ css navigationLink() {
 	transition: all 0.125s ease;
 }
 
-templ Layout(contents templ.Component, currentPath string, collections map[string]string, sites []shared.Site, lang string) {
+css navigationToggle() {
+	font-size: 3rem;
+	cursor: pointer;
+	color: var(--primary, black);
+}
+
+type NavigationLink struct {
+	Text             string
+	Link             string
+	NeedsTranslation bool
+}
+
+templ Navigation(links []NavigationLink) {
+	@shared.OnHover(navigationLink(), shared.Declarations{
+					"opacity": "1",
+					"font-weight": "800",
+				})
+	<style>
+		@media (max-width:600px) {
+			#nav-toggle {
+				position: fixed;
+				bottom: 0;
+				right: 0;
+				width: 5rem;
+				height: 5rem;
+				z-index: 100;
+				padding: .5rem;
+				outline: none;
+				border: none;
+				background-color: var(--secondary, #fff);
+				box-shadow: none;
+				display: flex;
+				justify-content: center;
+				align-items: center
+			}
+
+			#nav-toggle .icon {
+				height: 1em;
+				width: 1em;
+				color: var(--primary, #000)
+			}
+
+			nav#nav:not([data-state=open])>ul {
+				display: none
+			}
+
+			nav#nav[data-state=open] {
+				position: fixed;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				z-index: 100;
+				background-color: var(--secondary, #fff);
+				overflow: auto;
+				display: flex;
+				justify-content: end
+			}
+
+			nav#nav[data-state=open] ul a {
+				font-size: calc(min(12vw, 10vh))
+			}
+
+			nav#nav[data-state=open] ul {
+				flex-direction: column-reverse;
+				align-content: center;
+				justify-content: end;
+				margin-right: 2rem;
+				margin-bottom: 5rem
+			}
+
+			nav#nav[data-state=open] ul li {
+				padding: 0;
+				text-align: right
+			}
+		}
+
+		@media (min-width:600px) {
+			#nav-toggle {
+				display: none
+			}
+
+			main {
+				padding-top: 5rem
+			}
+		}
+	</style>
+	<nav id="nav" data-state="closed" class={ navigationStyles() }>
+		<button id="nav-toggle" class={ navigationToggle() } onclick={ toggleNav() }>
+			<svg
+				class="icon icon-open"
+				width="21"
+				height="21"
+				viewBox="0 0 21 21"
+				fill="none"
+				version="1.1"
+				id="svg4"
+				xmlns="http://www.w3.org/2000/svg"
+				xmlns:svg="http://www.w3.org/2000/svg"
+			>
+				<rect
+					style="fill:currentColor;stroke:none;stroke-width:1.21228"
+					id="rect267"
+					width="21.059233"
+					height="3.8504581"
+					x="-0.060698148"
+					y="-0.019991903"
+				></rect>
+				<rect
+					style="fill:currentColor;stroke:none;stroke-width:1.21228"
+					id="rect267-3"
+					width="21.059233"
+					height="3.8504581"
+					x="-0.059473194"
+					y="8.125473"
+				></rect>
+				<rect
+					style="fill:currentColor;stroke:none;stroke-width:1.21228"
+					id="rect267-3-6"
+					width="21.059233"
+					height="3.8504581"
+					x="-0.058047015"
+					y="17.126282"
+				></rect>
+			</svg>
+			<svg
+				class="icon icon-close"
+				style="display: none;"
+				width="21"
+				height="21"
+				viewBox="0 0 21 21"
+				fill="none"
+				version="1.1"
+				id="svg4"
+				xmlns="http://www.w3.org/2000/svg"
+				xmlns:svg="http://www.w3.org/2000/svg"
+			>
+				<path
+					style="fill:none;stroke:currentColor;stroke-width:2.92512;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+					d="M 1.1074475,1.058842 19.968611,19.968194"
+					id="path1195"
+					sodipodi:nodetypes="cc"
+				></path>
+				<path
+					style="fill:none;stroke:currentColor;stroke-width:2.92512;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+					d="M 19.930427,1.0451515 1.0692456,19.954514"
+					id="path1195-6"
+					sodipodi:nodetypes="cc"
+				></path>
+			</svg>
+		</button>
+		<ul class={ navigationLinks() }>
+			for _, link := range links {
+				<li class={ navigationItem() }>
+					<a class={ navigationLink() } href={ templ.URL(link.Link) } i18n?={ link.NeedsTranslation }>{ link.Text }</a>
+				</li>
+			}
+		</ul>
+	</nav>
+}
+
+func RegularLayoutLinks(collections map[string]string, lang string, currentPath string) []NavigationLink {
+	links := []NavigationLink{
+		{Text: "works", Link: "/", NeedsTranslation: true},
+	}
+
+	for _, entry := range shared.SortedKeys(collections) {
+		links = append(links, NavigationLink{Text: entry.Value, Link: "/" + entry.Key})
+	}
+
+	links = append(links, NavigationLink{Text: "contact", Link: "/contact", NeedsTranslation: true})
+
+	var switchLanguageText string
+
+	switch otherLocale(lang) {
+	case "fr":
+		switchLanguageText = "en français"
+	case "en":
+		switchLanguageText = "in english"
+	}
+
+	links = append(links, NavigationLink{Text: switchLanguageText, Link: pathInOtherLanguage(lang, currentPath)})
+
+	return links
+}
+
+templ Layout(contents templ.Component, header templ.Component, sites []shared.Site, lang string) {
 	<!DOCTYPE html>
 	<html lang={ lang }>
 		<head>
@@ -148,47 +338,13 @@ templ Layout(contents templ.Component, currentPath string, collections map[strin
 			<title>ewen.works</title>
 			<script defer src="https://stats.ewen.works/js/script.js" data-domain="ewen.works"></script>
 			<link rel="stylesheet" href="https://assets.ewen.works/fonts/import.css"/>
-			<link rel="stylesheet" href="https://assets.ewen.works/global.css"/>
-			<script src={ string(shared.Asset("bricks.js")) }> </script>
+			<link rel="stylesheet" href={ shared.Asset("global.css") }/>
+			<script src={ shared.Asset("bricks.js") }> </script>
 			<script defer src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
 		</head>
 		<body>
 			<header>
-				@shared.OnHover(navigationLink(), shared.Declarations{
-					"opacity": "1",
-					"font-weight": "800",
-				})
-				@shared.CSS(shared.Selectors{
-					"#nav[data-state=closed] #nav-toggle": {
-						"display": "none",
-					},
-				})
-				<nav id="nav" data-state="closed" class={ navigation() }>
-					<button id="nav-toggle" onclick={ toggleNav() }>≡</button>
-					<ul class={ navigationLinks() }>
-						<li class={ navigationItem() }>
-							<a class={ navigationLink() } href="/" i18n>works</a>
-						</li>
-						for _, entry := range shared.SortedKeys(collections) {
-							<li class={ navigationItem() }>
-								<a class={ navigationLink() } href={ templ.URL("/" + entry.Key) }>{ entry.Value }</a>
-							</li>
-						}
-						<li class={ navigationItem() }>
-							<a class={ navigationLink() } href="/contact" i18n>contact</a>
-						</li>
-						<li class={ navigationItem() }>
-							<a class={ navigationLink() } href={ pathInOtherLanguage(lang, currentPath) }>
-								switch otherLocale(lang) {
-									case "fr":
-										en français
-									case "en":
-										in english
-								}
-							</a>
-						</li>
-					</ul>
-				</nav>
+				@header
 			</header>
 			<main>
 				@contents
@@ -205,9 +361,270 @@ templ Layout(contents templ.Component, currentPath string, collections map[strin
 				</section>
 				<section class={ footerCredits() }>
 					<p i18n class={ footerCreditsParagraph() }>Proudly powered by <a href="https://github.com/ortfo">ortfo</a>, my portfolio database management system and <a href="https://github.com/a-h/templ">templ</a></p>
-					<p class={ footerCreditsParagraph() }><a href="https://github.com/ewen-lbh/portfolio" i18n>Source code</a></p>
+					<p class={ footerCreditsParagraph() }>
+						@components.ArrowLink("https://github.com/ewen-lbh/portfolio") {
+							<i18n>
+								Source code
+							</i18n>
+						}
+					</p>
 					<a href="https://creativecommons.org/licenses/by-sa/4.0/">
-						<img class={ footerLicenseImage() } src={ string(shared.Asset("icons/cc-by-sa.svg")) } alt="Creative Commons Attribution-ShareAlike 4.0 International License"/>
+						<svg
+							class={ footerLicenseImage() }
+							xmlns:dc="http://purl.org/dc/elements/1.1/"
+							xmlns:cc="http://creativecommons.org/ns#"
+							xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+							xmlns:svg="http://www.w3.org/2000/svg"
+							xmlns="http://www.w3.org/2000/svg"
+							xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+							xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+							width="282.22223mm"
+							height="94.191666mm"
+							viewBox="0 0 1000 333.74999"
+							id="svg2"
+							version="1.1"
+							inkscape:version="0.91 r13725"
+							sodipodi:docname="hjhj.svg"
+						>
+							<defs
+								id="defs4"
+							>
+								<marker
+									inkscape:stockid="Arrow2Sstart"
+									orient="auto"
+									refY="0.0"
+									refX="0.0"
+									id="Arrow2Sstart"
+									style="overflow:visible"
+									inkscape:isstock="true"
+								>
+									<path
+										id="path4193"
+										style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round;stroke:#00ff00;stroke-opacity:1;fill:#00ff00;fill-opacity:1"
+										d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+										transform="scale(0.3) translate(-2.3,0)"
+									></path>
+								</marker>
+								<marker
+									inkscape:stockid="Arrow1Sstart"
+									orient="auto"
+									refY="0.0"
+									refX="0.0"
+									id="marker5081"
+									style="overflow:visible"
+									inkscape:isstock="true"
+								>
+									<path
+										id="path5083"
+										d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+										style="fill-rule:evenodd;stroke:#00ff00;stroke-width:1pt;stroke-opacity:1;fill:#00ff00;fill-opacity:1"
+										transform="scale(0.2) translate(6,0)"
+									></path>
+								</marker>
+								<marker
+									inkscape:stockid="Arrow1Sstart"
+									orient="auto"
+									refY="0.0"
+									refX="0.0"
+									id="marker5029"
+									style="overflow:visible"
+									inkscape:isstock="true"
+								>
+									<path
+										id="path5031"
+										d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+										style="fill-rule:evenodd;stroke:#00ff00;stroke-width:1pt;stroke-opacity:1;fill:#00ff00;fill-opacity:1"
+										transform="scale(0.2) translate(6,0)"
+									></path>
+								</marker>
+								<marker
+									inkscape:stockid="DiamondS"
+									orient="auto"
+									refY="0.0"
+									refX="0.0"
+									id="DiamondS"
+									style="overflow:visible"
+									inkscape:isstock="true"
+								>
+									<path
+										id="path4248"
+										d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+										style="fill-rule:evenodd;stroke:#00ff00;stroke-width:1pt;stroke-opacity:1;fill:#00ff00;fill-opacity:1"
+										transform="scale(0.2)"
+									></path>
+								</marker>
+								<marker
+									inkscape:stockid="Arrow1Mstart"
+									orient="auto"
+									refY="0.0"
+									refX="0.0"
+									id="Arrow1Mstart"
+									style="overflow:visible"
+									inkscape:isstock="true"
+								>
+									<path
+										id="path4169"
+										d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+										style="fill-rule:evenodd;stroke:#00ff00;stroke-width:1pt;stroke-opacity:1;fill:#00ff00;fill-opacity:1"
+										transform="scale(0.4) translate(10,0)"
+									></path>
+								</marker>
+								<marker
+									inkscape:stockid="Arrow1Sstart"
+									orient="auto"
+									refY="0.0"
+									refX="0.0"
+									id="Arrow1Sstart"
+									style="overflow:visible"
+									inkscape:isstock="true"
+								>
+									<path
+										id="path4175"
+										d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+										style="fill-rule:evenodd;stroke:#00ff00;stroke-width:1pt;stroke-opacity:1;fill:#00ff00;fill-opacity:1"
+										transform="scale(0.2) translate(6,0)"
+									></path>
+								</marker>
+								<marker
+									inkscape:stockid="DiamondSstart"
+									orient="auto"
+									refY="0.0"
+									refX="0.0"
+									id="DiamondSstart"
+									style="overflow:visible"
+									inkscape:isstock="true"
+								>
+									<path
+										id="path4257"
+										d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+										style="fill-rule:evenodd;stroke:#00ff00;stroke-width:1pt;stroke-opacity:1;fill:#00ff00;fill-opacity:1"
+										transform="scale(0.2) translate(6,0)"
+									></path>
+								</marker>
+								<marker
+									inkscape:stockid="EmptyDiamondLend"
+									orient="auto"
+									refY="0.0"
+									refX="0.0"
+									id="EmptyDiamondLend"
+									style="overflow:visible"
+									inkscape:isstock="true"
+								>
+									<path
+										id="path4287"
+										d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+										style="fill-rule:evenodd;fill:#ffffff;stroke:#00ff00;stroke-width:1pt;stroke-opacity:1"
+										transform="scale(0.8) translate(-7,0)"
+									></path>
+								</marker>
+							</defs>
+							<sodipodi
+								:namedview
+								id="base"
+								pagecolor="#ffffff"
+								bordercolor="#666666"
+								borderopacity="1.0"
+								inkscape:pageopacity="0.0"
+								inkscape:pageshadow="2"
+								inkscape:zoom="0.48"
+								inkscape:cx="796.96067"
+								inkscape:cy="205.95272"
+								inkscape:document-units="px"
+								inkscape:current-layer="layer1"
+								showgrid="false"
+								fit-margin-top="0"
+								fit-margin-left="0"
+								fit-margin-right="0"
+								fit-margin-bottom="0"
+								inkscape:window-width="1008"
+								inkscape:window-height="1084"
+								inkscape:window-x="1024"
+								inkscape:window-y="0"
+								inkscape:window-maximized="0"
+							></sodipodi>
+							<g
+								inkscape:label="Layer 1"
+								inkscape:groupmode="layer"
+								id="layer1"
+								transform="translate(54.285713,328.79852)"
+							>
+								<ellipse
+									style="opacity:1;fill:transparent;fill-opacity:1;fill-rule:evenodd;stroke:currentColor;stroke-width:15;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+									id="path4147"
+									cx="113.13351"
+									cy="-162.84398"
+									rx="144.77277"
+									ry="144.39655"
+								></ellipse>
+								<ellipse
+									ry="144.39655"
+									rx="144.77277"
+									cy="-162.84398"
+									cx="445.13351"
+									id="ellipse4149"
+									style="opacity:1;fill:transparent;fill-opacity:1;fill-rule:evenodd;stroke:currentColor;stroke-width:15;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+								></ellipse>
+								<ellipse
+									style="opacity:1;fill:transparent;fill-opacity:1;fill-rule:evenodd;stroke:currentColor;stroke-width:15;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+									id="ellipse4151"
+									cx="779.13354"
+									cy="-162.84398"
+									rx="144.77277"
+									ry="144.39655"
+								></ellipse>
+								<path
+									style="fill:currentColor;fill-rule:evenodd;stroke:currentColor;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+									d="m 419.75525,-55.2442 0.35403,-80.26814 -18.41274,-0.24357 -0.0217,-70.72993 c 0.12723,-4.05366 2.11982,-7.72536 7.74539,-7.39135 l 72.98726,-0.53151 c 4.84361,0.9231 9.21337,2.46221 8.83015,10.1802 l -0.35403,69.77828 -19.20956,0.1992 0,79.75927 z"
+									id="path4153"
+									inkscape:connector-curvature="0"
+									sodipodi:nodetypes="ccccccccccc"
+								></path>
+								<ellipse
+									style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:currentColor;stroke-width:15;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+									id="path4155"
+									cx="445.21628"
+									cy="-248.43497"
+									rx="21.015936"
+									ry="20.318726"
+								></ellipse>
+								<path
+									style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:currentColor;stroke-width:31.39999962;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+									id="path4157"
+									sodipodi:type="arc"
+									sodipodi:cx="782.987"
+									sodipodi:cy="-160.20003"
+									sodipodi:rx="63.797535"
+									sodipodi:ry="72.888451"
+									sodipodi:start="3.451922"
+									sodipodi:end="2.9057875"
+									d="m 722.23688,-182.45814 a 63.797535,72.888451 0 0 1 71.78212,-49.53231 63.797535,72.888451 0 0 1 52.72125,74.50577 63.797535,72.888451 0 0 1 -57.43037,69.814246 63.797535,72.888451 0 0 1 -68.35492,-55.500966"
+									sodipodi:open="true"
+								></path>
+								<text
+									xml:space="preserve"
+									style="font-style:normal;font-weight:normal;font-size:5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+									x="16.017319"
+									y="-118.07881"
+									id="text5237"
+									sodipodi:linespacing="125%"
+								>
+									<tspan
+										sodipodi:role="line"
+										id="tspan5239"
+										x="16.017319"
+										y="-118.07881"
+										style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:125px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'"
+									>CC</tspan>
+								</text>
+								<path
+									style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:currentColor;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+									d="m 713.32793,-165.56938 -17.71783,-35.0568 57.71783,19.4413 z"
+									id="path5247"
+									inkscape:connector-curvature="0"
+									sodipodi:nodetypes="cccc"
+								></path>
+							</g>
+						</svg>
 					</a>
 				</section>
 			</footer>

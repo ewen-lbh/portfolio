@@ -26,8 +26,8 @@ music:
   singular: release
   plural: releases
 
-code:
-  title: {en: code, fr: code}
+software:
+  title: {en: software, fr: code}
   includes: '#programs or #web'
   singular: code
   plural: code

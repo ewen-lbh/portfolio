@@ -13,10 +13,14 @@ func Thumb(work ortfodb.AnalyzedWork, language string) ortfodb.Media {
 }
 
 func css(work ortfodb.AnalyzedWork, language string) templ.Component {
+	accentColor := work.Colors(language).Tertiary
+	if accentColor == "" {
+		accentColor = work.Colors(language).Secondary
+	}
 	return shared.CSS(shared.Selectors{
 		"[data-work=" + work.ID + "]": {
-			"--secondary": shared.Color(work.Colors(language).Secondary),
-			"--primary":   shared.Color(work.Colors(language).Primary),
+			"--accent":      shared.Color(accentColor),
+			"--accent-text": shared.ReadableOn(accentColor),
 		},
 		"[data-work=" + work.ID + "] img": {
 			"width":  "300px",
@@ -32,7 +36,7 @@ css card() {
 	overflow: hidden;
 	transition: all 0.25s ease,  box-shadow 0.12s ease-in-out;
 	width: 300px;
-	box-shadow: 0 0 0 0px var(--primary, black);
+	box-shadow: 0 0 0 0px var(--secondary, white);
 }
 
 css image() {
@@ -84,9 +88,9 @@ templ WorkCard(work ortfodb.AnalyzedWork, language string) {
 	@css(work, language)
 	<style>
 		article.work:hover, article.work:focus-within {
-			box-shadow: 0 0 0 5px var(--primary, black);
-			color: var(--secondary, black);
-			background-color: var(--primary, white);
+			box-shadow: 0 0 0 5px var(--accent, black);
+			color: var(--accent-text, black);
+			background-color: var(--accent, white);
 			border-radius: 0.75em;
 		}
 		article.work:hover img, article.work:focus-within img {
@@ -98,23 +102,23 @@ templ WorkCard(work ortfodb.AnalyzedWork, language string) {
 		}
 	</style>
 	<article
- 		i18n-attrs
- 		data-work={ work.ID }
- 		data-title={ work.Content[language].Title.String() }
- 		i18n:commas:data-tags={ strings.Join(work.Metadata.Tags, ",") }
- 		data-year={ shared.FormatDate(work.Metadata.CreatedAt(), "2006", language) }
- 		class={ "work", card() }
- 		data-no-thumb?={ ThumbPath(work, language) == "http://localhost:8080/" }
- 		data-primary={ shared.Color(work.Colors(language).Primary) }
- 		data-secondary={ shared.Color(work.Colors(language).Secondary) }
+		i18n-attrs
+		data-work={ work.ID }
+		data-title={ work.Content[language].Title.String() }
+		i18n:commas:data-tags={ strings.Join(work.Metadata.Tags, ",") }
+		data-year={ shared.FormatDate(work.Metadata.CreatedAt(), "2006", language) }
+		class={ "work", card() }
+		data-no-thumb?={ ThumbPath(work, language) == "http://localhost:8080/" }
+		data-primary={ shared.Color(work.Colors(language).Primary) }
+		data-secondary={ shared.Color(work.Colors(language).Secondary) }
 	>
 		<a class={ anchor() } href={ templ.URL("/" + work.ID) }>
 			if ThumbPath(work, language) != "" {
 				<img
- 					class={ image() }
- 					class="thumb"
- 					src={ ThumbPath(work, language) }
- 					loading="lazy"
+					class={ image() }
+					class="thumb"
+					src={ ThumbPath(work, language) }
+					loading="lazy"
 				/>
 			} else {
 				<h4 data-long?={ len(work.Content[language].Title.String()) > 10 }>

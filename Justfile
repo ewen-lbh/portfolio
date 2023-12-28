@@ -1,13 +1,13 @@
 render:
     just build
-    REMOVE_UNUSED_MESSAGES=1 ENV=static ./tmp/main
+    WAKATIME_API_KEY=$(rbw get 'wakatime api key') REMOVE_UNUSED_MESSAGES=1 ENV=static ./tmp/main
 
 dev: 
     WAKATIME_API_KEY=$(rbw get 'wakatime api key') MAIL_PASSWORD=$(rbw get mail.ewen.works) ENV=development air
 
 start:
     just build
-    ENV=production ./tmp/main
+    WAKATIME_API_KEY=$(rbw get 'wakatime api key') ENV=production ./tmp/main
 
 build:
     templ generate
@@ -17,6 +17,9 @@ db:
     ortfodb ~/projects --scattered build to database.json --config ortfodb.yaml
 
 clean: 
+    rm -f */*_templ.go
     rm -rf dist/
+    rm -f database.json
+
+clean-media:
     rm -rf media/
-    rm database.json

@@ -53,7 +53,7 @@ templ DynamicResume(db ortfodb.Database, technologies []shared.Technology, langu
 				for _, tech := range technologies {
 					if len(tech.Works(db)) > 0 || tech.TimeSpent > 0 {
 						<li>
-							<img src={ string(shared.Asset(fmt.Sprintf("logos/%s.svg", tech.Slug))) }/>
+							<img src={ shared.Asset(fmt.Sprintf("logos/%s.svg", tech.Slug)) }/>
 							<h4>
 								if tech.By != "" {
 									<span>{ tech.By }&nbsp;</span>

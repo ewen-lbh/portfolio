@@ -35,8 +35,12 @@ func colorVariables(work ortfodb.AnalyzedWork, language string) shared.Selectors
 	palette := work.Colors(language)
 	return shared.Selectors{
 		"body": {
-			"--primary":   shared.Color(palette.Secondary),
-			"--secondary": shared.Color(palette.Primary),
+			"--primary":        shared.Color(palette.Primary),
+			"--primary-text":   shared.ReadableOn(palette.Primary),
+			"--secondary":      shared.Color(palette.Secondary),
+			"--secondary-text": shared.ReadableOn(palette.Secondary),
+			"--tertiary":       shared.Color(palette.Tertiary),
+			"--tertiary-text":  shared.ReadableOn(palette.Tertiary),
 		},
 	}
 }
@@ -69,7 +73,7 @@ script UnsupportedMediaTypeConsoleError(msg string) {
 	console.error(`Unsupported media type: ${ msg }`)
 }
 
-templ MediaBlock(block ortfodb.Media) {
+templ MediaBlock(block ortfodb.Media, id string) {
 	<figure class={ figureStyles() }>
 		if block.Caption != "" {
 			<figcaption class={ figureCaptionStyles() }>{ block.Caption }</figcaption>
@@ -77,29 +81,30 @@ templ MediaBlock(block ortfodb.Media) {
 		switch GeneralContentType(block.ContentType) {
 			case "image":
 				<a class={ figureLinkStyles() } href={ templ.URL(shared.Media(block.DistSource)) }>
-					<img class={ imageStyles() } src={ MediaSrc(block) } alt={ block.Alt }/>
+					<img
+						class={ imageStyles() }
+						src={ MediaSrc(block) }
+						srcset={ shared.MediaSrcSet(block) }
+						alt={ block.Alt }
+						height={ fmt.Sprintf("%dpx", block.Dimensions.Height) }
+						width={ fmt.Sprintf("%dpx", block.Dimensions.Width) }
+					/>
 				</a>
 			case "video":
 				<video
- 					loop?={ block.Attributes.Loop }
- 					controls?={ block.Attributes.Controls }
- 					autoplay?={ block.Attributes.Autoplay }
- 					muted?={ block.Attributes.Muted }
- 					playsinline?={ block.Attributes.Playsinline }
- 					height={ fmt.Sprintf("%dpx", block.Dimensions.Height) }
- 					width={ fmt.Sprintf("%dpx", block.Dimensions.Width) }
+					class={ imageStyles() }
+					loop?={ block.Attributes.Loop }
+					controls?={ block.Attributes.Controls }
+					autoplay?={ block.Attributes.Autoplay }
+					muted?={ block.Attributes.Muted }
+					playsinline?={ block.Attributes.Playsinline }
+					height={ fmt.Sprintf("%dpx", block.Dimensions.Height) }
+					width={ fmt.Sprintf("%dpx", block.Dimensions.Width) }
 				>
 					<source src={ shared.Media(block.DistSource) } type={ block.ContentType }/>
 				</video>
 			case "audio":
-				<audio
- 					loop?={ block.Attributes.Loop }
- 					controls?={ block.Attributes.Controls }
- 					autoplay?={ block.Attributes.Autoplay }
- 					playsinline?={ block.Attributes.Playsinline }
-				>
-					<source src={ shared.Media(block.DistSource) } type={ block.ContentType }/>
-				</audio>
+				@components.AudioPlayer(id, shared.Media(block.DistSource), block.ContentType, block.Caption, block.Attributes)
 			default:
 				switch block.ContentType {
 					case "application/pdf":
@@ -169,11 +174,12 @@ css contentSectionStyles() {
 	gap: 2em;
 	margin: 2rem auto;
 	max-width: 1200px;
+	padding: 0 1rem;
 }
 
 css blockStyles() {
-	background-color: var(--secondary, black);
-	color: var(--primary, white);
+	background-color: var(--tertiary, white);
+	color: var(--tertiary-text, black);
 	display: flex;
 	justify-content: center;
 	border-radius: 0.5rem;
@@ -204,6 +210,8 @@ css figureStyles() {
 	display: flex;
 	flex-direction: column;
 	margin: 0;
+	width: 100%;
+	max-width: 75vh;
 }
 
 css figureCaptionStyles() {
@@ -217,12 +225,26 @@ css figureCaptionStyles() {
 
 css imageStyles() {
 	width: 100%;
+	height: auto;
+}
+
+css regularSectionWhiteBackground() {
+	box-sizing: border-box;
+	padding: 4rem;
+	border-radius: 1rem;
+	background-color: white;
+	color: black;
+	max-width: 600px;
+	margin: 5rem auto 2rem;
 }
 
 css madeWithTechnologiesList() {
 	display: flex;
 	flex-wrap: wrap;
 	column-gap: 2rem;
+	row-gap: 1rem;
+	padding: 0;
+	justify-content: center;
 }
 
 css madeWithTechnology() {
@@ -234,6 +256,7 @@ css madeWithTechnology() {
 
 css madeWithTechnologyLogo() {
 	height: 5rem;
+	margin-bottom: 1em;
 }
 
 css madeWithTechnologyDescription() {
@@ -250,6 +273,11 @@ css standardWorkSection() {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+css listItemNoBullet() {
+	list-style-type: none;
+	padding: 0;
 }
 
 // formatDuration formats a duration in a human-readable way using plain words, depending on the language given (fr or en)
@@ -344,7 +372,6 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 					</a>
 				}
 			}
-			<span class={ hashtag() }>·</span>
 			for _, c := range collections {
 				<a class={ tagLink() } href={ templ.URL("/" + c.ID) }>
 					<span class={ hashtag() }>#</span>{ c.Title[lang] }
@@ -354,19 +381,28 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 	}
 	<main>
 		@shared.CSS(shared.Merge(colorVariables(work, lang), gridAreas(work.Content[lang].Layout)))
+		<style>
+			@media (max-width: 600px) {
+				section.content {
+					display: flex;
+					flex-direction: column;
+					gap: 2rem;
+				}
+			}
+		</style>
 		<section class={ contentSectionStyles(), "content" }>
 			for _, block := range work.Content[lang].Blocks {
 				<div
- 					class={ blockStyles(), templ.KV(paragraphBlockStyle(), block.Type.IsParagraph()) }
- 					data-block={ block.ID }
- 					if block.Anchor != "" {
+					class={ blockStyles(), templ.KV(paragraphBlockStyle(), block.Type.IsParagraph()) }
+					data-block={ block.ID }
+					if block.Anchor != "" {
 						id={ block.Anchor }
 					}
 				>
 					if block.Type.IsParagraph() {
 						@ParagraphBlock(block.AsParagraph())
 					} else if block.Type.IsMedia() {
-						@MediaBlock(block.AsMedia())
+						@MediaBlock(block.AsMedia(), block.ID)
 					} else if block.Type.IsLink() {
 						@LinkBlock(block.AsLink())
 					}
@@ -374,7 +410,7 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 			}
 		</section>
 		if len(work.Content[lang].Footnotes) > 0 {
-			<section class="footnotes">
+			<section class={ standardWorkSection() }>
 				<h2 i18n>Footnotes</h2>
 				<ol>
 					for ref, footnote := range work.Content[lang].Footnotes {
@@ -387,24 +423,24 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 			</section>
 		}
 		if shared.TimeSpentOnProject(work).Hours() > 0 {
-			<section class="time-spent">
+			<section class={ standardWorkSection() }>
 				<h2 i18n>Time spent</h2>
 				<p>{ formatDuration(shared.TimeSpentOnProject(work), lang) }</p>
 			</section>
 		}
 		if len(techs) > 0 {
-			<section class={ standardWorkSection() }>
+			<section class={ standardWorkSection(), regularSectionWhiteBackground() }>
 				<h2 i18n>made with</h2>
 				<ul class={ madeWithTechnologiesList() }>
 					for _, tool := range techs {
-						<li class={ madeWithTechnology() }>
-							<img class={ madeWithTechnologyLogo() } src={ string(shared.Asset(fmt.Sprintf("logos/%s.svg", tool.Slug))) }/>
-							@components.SimpleLink("/using/" + tool.Slug) {
+						<li class={ listItemNoBullet() }>
+							@components.SimpleLink("/using/" + tool.Slug, madeWithTechnology()) {
+								<img class={ madeWithTechnologyLogo() } src={ shared.Asset(fmt.Sprintf("logos/%s.svg", tool.Slug)) }/>
 								{ tool.Name }
+								// <div class={ madeWithTechnologyDescription() } i18n>
+								// 	@shared.HTML(tool.Description)
+								// </div>
 							}
-							<div class={ madeWithTechnologyDescription() } i18n>
-								@shared.HTML(tool.Description)
-							</div>
 						</li>
 					}
 				</ul>

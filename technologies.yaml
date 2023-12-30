@@ -463,3 +463,8 @@
   name: PWA
   description: Progressive Web Apps, a web standard to create well-integrated mobile (and desktop) apps using web technologies
   learn more at: https://web.dev/explore/progressive-web-apps
+
+- slug: go-templ
+  name: Go Templ
+  description: A templating language for Go web applications
+  learn more at: https://templ.guide

@@ -140,6 +140,10 @@
   description: |
     Any piece of work that involves programming, such as libraries, programs, scripts, et cætera.
 
+- singular: library
+  plural: libraries
+  description: A collection of useful things to be used by plenty of different projects. In software, a collection of functions and types.
+
 # WAITING for ortfo/db#
 # - singular: math experiment
 #   plural: math experiments
@@ -147,3 +151,4 @@
 #     Expriments on mathematics and art, mostly visual interpretations of concepts that could lead to new insights on said concept.
 #   combines: math and experiments and (graphism or video or music or sound)
 #
+

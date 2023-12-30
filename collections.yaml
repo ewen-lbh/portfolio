@@ -28,7 +28,7 @@ music:
 
 software:
   title: {en: software, fr: code}
-  includes: '#programs or #web'
+  includes: '#programs or #web or #libraries'
   singular: code
   plural: code
 

@@ -1,9 +1,17 @@
 package pages
 
-import "fmt"
 import "github.com/ewen-lbh/portfolio/shared"
 import "github.com/ewen-lbh/portfolio/components"
 import "github.com/ortfo/db"
+import "math"
+import "fmt"
+
+func mostImpresiveStat(db ortfodb.Database, tech shared.Technology) int {
+	numberOfProjects := len(tech.Works(db))
+	timeSpent := int(math.Floor(tech.TimeSpent.Hours()))
+
+	return max(numberOfProjects, timeSpent)
+}
 
 templ DynamicResume(db ortfodb.Database, technologies []shared.Technology, language string) {
 	@components.IntroWith("Ewen Le Bihan", "Curriculum Vitæ", false) {
@@ -49,37 +57,16 @@ templ DynamicResume(db ortfodb.Database, technologies []shared.Technology, langu
 			<p>
 				work time tracked by <a href="https://wakatime.com">WakaTime</a>
 			</p>
-			<ul>
+			<ul class={ components.SkillsList() }>
 				for _, tech := range technologies {
 					if len(tech.Works(db)) > 0 || tech.TimeSpent > 0 {
 						<li>
-							<img src={ shared.Asset(fmt.Sprintf("logos/%s.svg", tech.Slug)) }/>
-							<h4>
-								if tech.By != "" {
-									<span>{ tech.By }&nbsp;</span>
+							@components.SkillCard("/using/"+tech.Slug, mostImpresiveStat(db, tech), fmt.Sprintf("logos/%s.svg", tech.Slug)) {
+								if mostImpresiveStat(db, tech) == len(tech.Works(db)) {
+									<i18n>projects made with { tech.Name }</i18n>
+								} else {
+									<i18n>hours spent using { tech.Name }</i18n>
 								}
-								{ tech.Name }
-							</h4>
-							if len(tech.Works(db)) > 1 {
-								<a href={ templ.URL(fmt.Sprintf("/using/%s", tech.Slug)) }>
-									{ fmt.Sprint(len(tech.Works(db))) } <i18n>projects</i18n>
-								</a>
-							} else if len(tech.Works(db)) == 1 {
-								<a href={ templ.URL(fmt.Sprintf("/%s", tech.Works(db)[0].ID)) }>
-									1 <i18n>project</i18n>
-								</a>
-							}
-							if tech.TimeSpent > 0 {
-								<span>
-									{ fmt.Sprint(tech.TimeSpent.Hours()) }
-									<i18n>
-										if tech.TimeSpent.Hours() > 1 {
-											hours
-										} else {
-											hour
-										}
-									</i18n>
-								</span>
 							}
 						</li>
 					}

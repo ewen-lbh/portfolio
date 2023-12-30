@@ -337,7 +337,7 @@ templ Layout(contents templ.Component, header templ.Component, sites []shared.Si
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<title>ewen.works</title>
 			<script defer src="https://stats.ewen.works/js/script.js" data-domain="ewen.works"></script>
-			<link rel="stylesheet" href="https://assets.ewen.works/fonts/import.css"/>
+			<link rel="stylesheet" href={ shared.Asset("fonts/import.css") }/>
 			<link rel="stylesheet" href={ shared.Asset("global.css") }/>
 			<script src={ shared.Asset("bricks.js") }> </script>
 			<script defer src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>

@@ -1,0 +1,126 @@
+package pages_shs
+
+import "time"
+import "github.com/ewen-lbh/portfolio/shared"
+import "github.com/ortfo/db"
+import "github.com/deckarep/golang-set"
+import "sort"
+import "github.com/ewen-lbh/portfolio/components"
+
+func programmingTechnologies(db ortfodb.Database, collection shared.Collection, tags []shared.Tag, techs []shared.Technology) (slugs []string) {
+	programmingTechs := mapset.NewSet()
+	for _, w := range collection.Works(db, tags, techs) {
+		for _, t := range w.Metadata.MadeWith {
+			programmingTechs.Add(shared.LookupTech(techs, t).Slug)
+		}
+	}
+
+	for _, t := range programmingTechs.ToSlice() {
+		slugs = append(slugs, t.(string))
+	}
+	return
+}
+
+func projectsIn(collection shared.Collection, db ortfodb.Database, tags []shared.Tag, techs []shared.Technology) int {
+	return len(collection.Works(db, tags, techs))
+}
+
+func numberOfTracks(collection shared.Collection, db ortfodb.Database, tags []shared.Tag, techs []shared.Technology) int {
+	total := 0
+	for _, w := range collection.Works(db, tags, techs) {
+		for _, block := range w.Content["en"].Blocks {
+			if block.Type.IsMedia() && strings.HasPrefix(block.ContentType, "audio/") {
+				total++
+			}
+		}
+	}
+	return total
+}
+
+func timeSpentProgramming(collection shared.Collection, db ortfodb.Database, tags []shared.Tag, techs []shared.Technology) time.Duration {
+	var total time.Duration
+	for _, t := range programmingTechnologies(db, collection, tags, techs) {
+		total += shared.LookupTech(techs, t).TimeSpent
+	}
+	return total
+}
+
+func mostUsedLanguages(collection shared.Collection, db ortfodb.Database, tags []shared.Tag, techs []shared.Technology) []string {
+	langs := make([]shared.Technology, 0)
+	for _, t := range programmingTechnologies(db, collection, tags, techs) {
+		langs = append(langs, shared.LookupTech(techs, t))
+	}
+	sort.Slice(langs, func(i, j int) bool {
+		return langs[i].TimeSpent > langs[j].TimeSpent
+	})
+
+	names := make([]string, 0)
+	for _, t := range langs[:3] {
+		names = append(names, t.Name)
+	}
+	return names
+}
+
+
+css main() {
+	display: flex;
+	flex-direction: column;
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+css roundedImage() {
+	margin-top: 2em;
+	max-width: 90vw;
+	max-height: 33vh;
+	clip-path: circle();
+	object-fit: contain;
+}
+
+templ Home(db ortfodb.Database, collections shared.Collections, tags []shared.Tag, techs []shared.Technology) {
+	<main class={ main() }>
+		<img class={ roundedImage() } src={ shared.Asset("shs/profilepic.png") } alt="Profile picture"/>
+		@components.IntroWith("Hi! I'm", "Ewen Le Bihan", false) {
+			I'm interested in almost everything, that is both creative & digital.  
+		}
+		<section>
+			<h2>about me</h2>
+			<p>My skills span a wide range of domains, from programming to design to music production.</p>
+			<ul class={ components.SkillsList() }>
+				<li>
+					@components.SkillCard(
+                        "https://en.ewen.works/software", 
+                        int(timeSpentProgramming(collections["software"], db, tags, techs).Round(time.Hour).Hours()),
+                        "",
+					) {
+						hours spent programming in { strings.Join(mostUsedLanguages( collections["software"], db, tags, techs), ", ") } and more.
+					}
+				</li>
+				<li>
+					@components.SkillCard(
+                        "https://en.ewen.works/design", 
+                        projectsIn(collections["design"], db, tags, techs),
+                        "",
+					) {
+						projects made with software such as Figma, Photoshop, Illustrator, Krita, Premiere Pro or After Effects
+					}
+				</li>
+				<li>
+					@components.SkillCard(
+                        "https://en.ewen.works/music",
+                        numberOfTracks(collections["music"], db, tags, techs),
+                        "",
+					) {
+						tracks released on music streaming platforms such as Spotify, Apple Music, Deezer, YouTube Music, etc.
+					}
+				</li>
+			</ul>
+		</section>
+		<section>
+			@components.ArrowLink("https://en.ewen.works/resume") {
+				Get my resume 
+			}
+		</section>
+	</main>
+}

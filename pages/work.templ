@@ -33,6 +33,10 @@ func gridAreas(layout ortfodb.Layout) shared.Selectors {
 
 func colorVariables(work ortfodb.AnalyzedWork, language string) shared.Selectors {
 	palette := work.Colors(language)
+	variableToUseForText := "primary"
+	if palette.Primary == "" || palette.Secondary == "" || shared.Contrast(palette.Primary, palette.Secondary) < 4.5 {
+		variableToUseForText = "secondary-text"
+	}
 	return shared.Selectors{
 		"body": {
 			"--primary":        shared.Color(palette.Primary),
@@ -41,6 +45,8 @@ func colorVariables(work ortfodb.AnalyzedWork, language string) shared.Selectors
 			"--secondary-text": shared.ReadableOn(palette.Secondary),
 			"--tertiary":       shared.Color(palette.Tertiary),
 			"--tertiary-text":  shared.ReadableOn(palette.Tertiary),
+			"background-color": "var(--secondary)",
+			"color":            fmt.Sprintf("var(--%s)", variableToUseForText),
 		},
 	}
 }
@@ -357,7 +363,7 @@ func formatDuration(duration time.Duration, lang string) string {
 templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technology, collections []shared.Collection, lang string) {
 	@components.IntroWith(
 		shared.FormatDate(work.Metadata.CreatedAt(), "January 2006", lang), 
-		work.Content[lang].Title.String(),
+		work.Content.Localize(lang).Title.String(),
 		false,
 	) {
 		@shared.OnHover(tagLink(), shared.Declarations{
@@ -380,7 +386,7 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 		</section>
 	}
 	<main>
-		@shared.CSS(shared.Merge(colorVariables(work, lang), gridAreas(work.Content[lang].Layout)))
+		@shared.CSS(shared.Merge(colorVariables(work, lang), gridAreas(work.Content.Localize(lang).Layout)))
 		<style>
 			@media (max-width: 600px) {
 				section.content {
@@ -391,7 +397,7 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 			}
 		</style>
 		<section class={ contentSectionStyles(), "content" }>
-			for _, block := range work.Content[lang].Blocks {
+			for _, block := range work.Content.Localize(lang).Blocks {
 				<div
 					class={ blockStyles(), templ.KV(paragraphBlockStyle(), block.Type.IsParagraph()) }
 					data-block={ block.ID }
@@ -409,11 +415,11 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 				</div>
 			}
 		</section>
-		if len(work.Content[lang].Footnotes) > 0 {
+		if len(work.Content.Localize(lang).Footnotes) > 0 {
 			<section class={ standardWorkSection() }>
 				<h2 i18n>Footnotes</h2>
 				<ol>
-					for ref, footnote := range work.Content[lang].Footnotes {
+					for ref, footnote := range work.Content.Localize(lang).Footnotes {
 						<li id={ "fn:" + ref }>
 							@shared.HTML(footnote)
 							<sup><a href={ templ.SafeURL("#fnref:" + ref) }>↑</a></sup>

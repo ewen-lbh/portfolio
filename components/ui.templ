@@ -8,6 +8,7 @@ css simpleLink() {
 	text-decoration: none;
 	transition: font-weight 0.125s ease-in-out;
 	text-underline-offset: .5ch;
+	text-decoration: underline 0.125em;
 }
 
 css iconedLink() {
@@ -33,7 +34,7 @@ templ SimpleLink(href string, styles ...templ.CSSClass) {
 	@shared.OnHover(
 		simpleLink(), 
         shared.Declarations{ 
-            "text-decoration": "underline 0.125em",
+			"font-weight": "bold",
         },
 	)
 	<a class={ simpleLink(), iconedLink(), optionalStyles(styles...) } href={ templ.SafeURL(href) }>
@@ -43,9 +44,9 @@ templ SimpleLink(href string, styles ...templ.CSSClass) {
 
 templ ArrowLink(href string, styles ...templ.CSSClass) {
 	@shared.OnHover(
-        iconedLink(), 
+		simpleLink(), 
         shared.Declarations{ 
-            "text-decoration": "underline 0.125em",
+			"font-weight": "bold",
         },
 	)
 	<a class={ simpleLink(), iconedLink(), optionalStyles(styles...) } href={ templ.SafeURL(href) }>

@@ -186,7 +186,6 @@ func LoadTranslations(languages []string) (TranslationsCatalog, error) {
 	for _, languageCode := range languages {
 		translationsFilepath := fmt.Sprintf("i18n/%s.po", languageCode)
 		poFile, err := po.LoadFile(translationsFilepath)
-		poFile.SetSourceLanguage(language.English)
 		if err != nil {
 			if os.IsNotExist(err) {
 				color.Yellow("[%s] Missing translation file for %s", languageCode, err)
@@ -199,6 +198,7 @@ func LoadTranslations(languages []string) (TranslationsCatalog, error) {
 				return nil, fmt.Errorf("while loading translations for %s: %w", languageCode, err)
 			}
 		} else {
+			poFile.SetSourceLanguage(language.English)
 			translations[languageCode] = &Translations{
 				poFile:          poFile,
 				seenMessages:    mapset.NewSet(),
@@ -215,6 +215,26 @@ func LoadTranslations(languages []string) (TranslationsCatalog, error) {
 		}
 	}
 	return translations, nil
+}
+
+func Localize[T any](thing map[string]T, language string) T {
+	if len(thing) == 0 {
+		panic("cannot localize empty map")
+	}
+
+	if len(thing) == 1 {
+		for _, translated := range thing {
+			return translated
+		}
+	}
+
+	for lang, translated := range thing {
+		if lang == language {
+			return translated
+		}
+	}
+
+	return thing["default"]
 }
 
 func WriteEmptyPOFile(language string) error {

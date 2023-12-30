@@ -1,0 +1,53 @@
+package components
+
+import "fmt"
+import "github.com/ewen-lbh/portfolio/shared"
+
+css skillCard() {
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+	border-radius: 10px;
+	text-align: center;
+	transition: all 250ms ease;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+	text-decoration: none;
+}
+
+css cardFigure() {
+	font-size: 3em;
+    display: flex;
+    align-items: center;
+}
+
+css skillLogo() {
+	height: 1em;
+	width: 1em;
+	object-fit: contain;
+	margin-right: 0.25em;
+}
+
+css SkillsList() {
+	display: grid;
+	padding-left: 0;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 2rem;
+	list-style: none;
+}
+
+templ SkillCard(href string, figure int, logo string) {
+	@shared.OnHover(skillCard(), shared.Declarations{
+		"box-shadow": "0 9px 12px 1px rgba(0, 0, 0, 0.14), 0 3px 16px 2px rgba(0, 0, 0, 0.12), 0 5px 6px -3px rgba(0, 0, 0, 0.2)",
+    })
+	<a class={ skillCard() } href={ templ.URL(href) }>
+		<div class={ cardFigure() }>
+			if logo != "" {
+				<img class={ skillLogo() } src={ shared.Asset(logo) }/>
+			}
+			{ fmt.Sprintf("%d", figure) }+
+		</div>
+		<p>
+			{ children... }
+		</p>
+	</a>
+}

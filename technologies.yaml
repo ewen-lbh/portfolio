@@ -13,9 +13,8 @@
   description: |
     A text document format for writing notes, documentation, articles, books, ebooks, slideshows, web pages, man pages and blogs. AsciiDoc files can be translated to many formats including HTML, PDF, EPUB, man page.
 
-- slug: assembly
-  name: Assembly
-  by: Tayasui
+- slug: tayasui-assembly
+  name: Tayasui's Assembly
   learn more at: https://apps.apple.com/us/app/assembly-graphic-design-art/id1024210402
   description: |
     An intuitive vector graphics editor for iOS
@@ -453,3 +452,14 @@
   autodetect: symfony/symfony in composer.json
   description: A PHP Model-View-Controller framework
   learn more at: https://symfony.com
+
+- slug: graphql
+  name: GraphQL
+  files: [.gql, .graphql]
+  description: An alternative to the REST Web API standard suitable for deeply nested data used by different consumers
+  learn more at: https://graphql.org
+
+- slug: pwa
+  name: PWA
+  description: Progressive Web Apps, a web standard to create well-integrated mobile (and desktop) apps using web technologies
+  learn more at: https://web.dev/explore/progressive-web-apps

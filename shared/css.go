@@ -52,14 +52,14 @@ func OnFocus(class templ.CSSClass, rules Declarations) templ.Component {
 	})
 }
 
-// IsColorDark returns true if the color is dark, false otherwise.
-func IsColorDark(hexstring string) bool {
+// Luminance returns the luminance of the given color, normalized from 0-1.
+func Luminance(hexstring string) float64 {
 	if hexstring == "black" {
-		return true
+		return 0
 	}
 
 	if hexstring == "white" {
-		return false
+		return 1
 	}
 
 	// Convert (#)rrggbb to decimal
@@ -74,11 +74,25 @@ func IsColorDark(hexstring string) bool {
 	b := rgb & 0xFF
 
 	// Calculate luminance (see ITU-R BT.709), normalized from 0-255 to 0-1
-	luminance := (0.2126*float64(r) + 0.7152*float64(g) + 0.0722*float64(b)) / 255
-
-	return luminance < 0.5
+	return (0.2126*float64(r) + 0.7152*float64(g) + 0.0722*float64(b)) / 255
 }
 
+// IsColorDark returns true if the color is dark, false otherwise.
+func IsColorDark(hexstring string) bool {
+	return Luminance(hexstring) < 0.5
+}
+
+// Contrast returns the contrast ratio between two colors.
+func Contrast(hexstring1 string, hexstring2 string) float64 {
+	l1 := Luminance(hexstring1)
+	l2 := Luminance(hexstring2)
+	if l1 > l2 {
+		return (l1 + 0.05) / (l2 + 0.05)
+	}
+	return (l2 + 0.05) / (l1 + 0.05)
+}
+
+// ReadableOn returns a color that is readable on the given color.
 func ReadableOn(color string) string {
 	if color == "" {
 		return ""
@@ -89,6 +103,7 @@ func ReadableOn(color string) string {
 	return "#000"
 }
 
+// Color ensures that the color given has an octothorpe (#) prefix.
 func Color(color string) string {
 	if color == "" {
 		return ""

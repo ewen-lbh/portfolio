@@ -25,6 +25,12 @@ templ TechnologyPage(tech shared.Technology, db ortfodb.Database, locale string)
 			<br/>
 			<strong i18n>Time spent</strong> { formatDuration(tech.TimeSpent, locale) }
 		}
+		if tech.LearnMoreURL != "" {
+			<br/>
+			@components.ArrowLink(tech.LearnMoreURL) {
+				<i18n>Learn more</i18n>
+			}
+		}
 	}
 	@components.GalleryPage(
 		tech.Works(db),

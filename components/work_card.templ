@@ -104,7 +104,7 @@ templ WorkCard(work ortfodb.AnalyzedWork, language string) {
 	<article
 		i18n-attrs
 		data-work={ work.ID }
-		data-title={ work.Content[language].Title.String() }
+		data-title={ work.Content.Localize(language).Title.String() }
 		i18n:commas:data-tags={ strings.Join(work.Metadata.Tags, ",") }
 		data-year={ shared.FormatDate(work.Metadata.CreatedAt(), "2006", language) }
 		class={ "work", card() }
@@ -121,14 +121,14 @@ templ WorkCard(work ortfodb.AnalyzedWork, language string) {
 					loading="lazy"
 				/>
 			} else {
-				<h4 data-long?={ len(work.Content[language].Title.String()) > 10 }>
-					@shared.HTML(work.Content[language].Title)
+				<h4 data-long?={ len(work.Content.Localize(language).Title.String()) > 10 }>
+					@shared.HTML(work.Content.Localize(language).Title)
 				</h4>
 			}
 			<div class={ "info", info() }>
 				<div class={ infoTitleAndDate() }>
 					<span class={ title() }>
-						@shared.HTML(work.Content[language].Title)
+						@shared.HTML(work.Content.Localize(language).Title)
 					</span>
 					if work.Metadata.CreatedAt().Year() != 9999 {
 						<span class="date">

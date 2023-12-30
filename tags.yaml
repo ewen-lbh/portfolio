@@ -66,8 +66,9 @@
   description: Programs that run in the terminal, a text-based interface for computers.
   learn more at: https://www.hostinger.com/tutorials/what-is-cli
 
-- singular: motion design
-  plural:   motion design
+- singular: video
+  plural:   videos
+  aliases: [motion design]
   descripion: |
     Any piece of work that involves motion: animations in user interfaces, video effects in movies, et cætera.
 

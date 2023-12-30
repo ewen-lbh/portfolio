@@ -12,6 +12,7 @@ import (
 
 	"github.com/a-h/templ"
 	"github.com/ewen-lbh/portfolio/pages"
+	pages_shs "github.com/ewen-lbh/portfolio/pages/shs"
 	"github.com/ewen-lbh/portfolio/shared"
 	"github.com/fatih/color"
 	ortfodb "github.com/ortfo/db"
@@ -25,7 +26,7 @@ func startFileServer(port int, root string) {
 	http.ListenAndServe(fmt.Sprintf(":%d", port), staticServer)
 }
 
-func startSHSServer(wg *sync.WaitGroup, port int, regularSiteURL string, sites []shared.Site) {
+func startSHSServer(wg *sync.WaitGroup, port int, regularSiteURL string, sites []shared.Site, db ortfodb.Database, collections shared.Collections, technologies []shared.Technology, tags []shared.Tag) {
 	navigation := pages.Navigation([]pages.NavigationLink{
 		{Text: "home", Link: "/"},
 		{Text: "courses", Link: "/courses"},
@@ -37,7 +38,7 @@ func startSHSServer(wg *sync.WaitGroup, port int, regularSiteURL string, sites [
 	})
 
 	server := http.NewServeMux()
-	server.Handle("/", templ.Handler(pages.Layout(pages.SHSHome(), navigation, sites, "en")))
+	server.Handle("/", templ.Handler(pages.Layout(pages_shs.Home(db, collections, tags, technologies), navigation, sites, "en")))
 	http.ListenAndServe(fmt.Sprintf(":%d", port), server)
 }
 
@@ -80,7 +81,7 @@ func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections share
 	}
 
 	redirect := func(from, to string) {
-		if !strings.HasPrefix(to, "https://") && !strings.HasPrefix(to, "mailto:") {
+		if !strings.HasPrefix(to, "https://") && !strings.HasPrefix(to, "mailto:") && !strings.HasPrefix(to, "http://") {
 			to = fmt.Sprintf("/%s", to)
 		}
 		// fmt.Printf("[%s] Registering redirect /%s -> %s\n", locale, from, to)
@@ -124,7 +125,9 @@ func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections share
 	}
 
 	handlePage("about", pages.AboutPage(translations.language))
-	handlePage("resume", pages.DynamicResume(db, technologies, translations.language))
+	// handlePage("resume", pages.DynamicResume(db, technologies, translations.language))
+	redirect("resume", shared.Asset("resume.pdf"))
+	redirect("resume.pdf", shared.Asset("resume.pdf"))
 
 	handlePage("contact", pages.ContactPage(false))
 	handlePage("contact/sent", pages.ContactPage(true))
@@ -292,7 +295,7 @@ func main() {
 	} else {
 		origin = "https://ewen.works"
 	}
-	go startSHSServer(&wg, 8666, origin, sites)
+	go startSHSServer(&wg, 8666, origin, sites, db, collections, technologies, tags)
 
 	wg.Wait()
 }

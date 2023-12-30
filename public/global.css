@@ -37,8 +37,3 @@ pre {
 		font-size: 16px;
 	}
 }
-
-body {
-	background-color: var(--secondary, white);
-	color: var(--primary, black);
-}

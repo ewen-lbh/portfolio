@@ -36,6 +36,7 @@ tmp/
 
 # Database
 *.json
+!database.json
 .lastbuild.yaml
 media
 

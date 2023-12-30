@@ -195,6 +195,9 @@ msgstr "applications"
 msgid "automation"
 msgstr "automatisation"
 
+msgid "banner"
+msgstr "bannière"
+
 msgid "book"
 msgstr "livre"
 
@@ -263,6 +266,9 @@ msgstr "Retour"
 
 msgid "graphism"
 msgstr "graphisme"
+
+msgid "gui"
+msgstr "interface graphique"
 
 msgid "guis"
 msgstr "intefaces graphiques"
@@ -438,6 +444,9 @@ msgstr "Voici mes créations."
 msgid "This is a dynamic resume, pulling from <em><a href=\"https://wakatime.com\">wakatime</a></em> and other sources, including the portfolio's database itself."
 msgstr "Il s'agit d'un CV dynamique, tiré de <em><a href=\"https://wakatime.com\">wakatime</a></em> et d'autres sources, y compris la base de données du portfolio lui-même."
 
+msgid "thumbnail"
+msgstr "miniature"
+
 msgid "thumbnails"
 msgstr "miniatures"
 
@@ -458,6 +467,9 @@ msgstr "Un système de génération de portfolios faits maison."
 
 msgid "User interfaces that utilize graphical elements such as icons, and images."
 msgstr "Des interfaces utilisateur qui utilisent des éléments graphiques tels que des icônes et des images."
+
+msgid "video"
+msgstr "vidéo"
 
 msgid "visual identities"
 msgstr "identités visuelles"

@@ -11,7 +11,7 @@ require (
 	github.com/gobwas/glob v0.2.3
 	github.com/goodsign/monday v1.0.1
 	github.com/metal3d/go-slugify v0.0.0-20160607203414-7ac2014b2f23
-	github.com/ortfo/db v0.0.0-20231230145042-01081043c03d
+	github.com/ortfo/db v0.0.0-20231230210850-908699aba1ef
 	github.com/ortfo/gettext v1.0.3
 	golang.org/x/net v0.17.0
 	golang.org/x/text v0.14.0

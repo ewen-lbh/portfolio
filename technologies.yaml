@@ -468,3 +468,8 @@
   name: Go Templ
   description: A templating language for Go web applications
   learn more at: https://templ.guide
+
+- slug: mjml
+  name: MJML
+  description: An XML-based language to describe HTML emails conviniently
+  learn more at: https://mjml.io

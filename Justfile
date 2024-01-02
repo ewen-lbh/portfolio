@@ -7,7 +7,7 @@ dev:
 
 start:
     just build
-    WAKATIME_API_KEY=$(rbw get 'wakatime api key') MAIL_PASSWORD=$(rbw get mail.ewen.works) ENV=production ./tmp/main
+    ENV=production ./tmp/main
 
 build:
     templ generate

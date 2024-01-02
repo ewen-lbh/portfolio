@@ -23,3 +23,8 @@ clean:
 
 clean-media:
     rm -rf media/
+
+deploy:
+    rsync -av media/* ewen@ewen.works:~/www/media.ewen.works/
+    rsync -avz public/* ewen@ewen.works:~/www/assets.ewen.works/
+    ssh ewen@ewen.works "tmux a -t 0"

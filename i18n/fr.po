@@ -210,6 +210,9 @@ msgstr "cartes"
 msgid "cli"
 msgstr "cli"
 
+msgid "command line"
+msgstr ""
+
 msgid "command-line"
 msgstr "terminal"
 

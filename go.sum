@@ -88,8 +88,6 @@ github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 h1:zYyBkD/k9seD2A7fsi6
 github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646/go.mod h1:jpp1/29i3P1S/RLdc7JQKbRpFeM1dOBd8T9ki5s+AY8=
 github.com/oliamb/cutter v0.2.2 h1:Lfwkya0HHNU1YLnGv2hTkzHfasrSMkgv4Dn+5rmlk3k=
 github.com/oliamb/cutter v0.2.2/go.mod h1:4BenG2/4GuRBDbVm/OPahDVqbrOemzpPiG5mi1iryBU=
-github.com/ortfo/db v0.0.0-20231230145042-01081043c03d h1:gosdmQotaq412TkrdXXPSqASBLPJyUL0HyDEGYwBAFI=
-github.com/ortfo/db v0.0.0-20231230145042-01081043c03d/go.mod h1:a1w1mHwiXDccqHpI2yphNThx9HjrQRMvgLWQbNQqf8k=
 github.com/ortfo/db v0.0.0-20231230210850-908699aba1ef h1:frv36oFZLr4uON+VpRK7bW07eOFa4n52mo7oBSxrlsY=
 github.com/ortfo/db v0.0.0-20231230210850-908699aba1ef/go.mod h1:MqJQatXEFbZ6Ta0c8k/wjsckwnN7CJBzNTFSvhSz3Ns=
 github.com/ortfo/gettext v1.0.3 h1:VwBOp/7GWHmmlJWYO6dwONsxt/Cb3boMDCRsRJm8BK4=

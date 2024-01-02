@@ -38,6 +38,13 @@ func CSS(declarations Selectors) templ.Component {
 	return HTML(ortfodb.HTMLString("<style>\n" + css + "</style>"))
 }
 
+func PseudoElement(class templ.CSSClass, pseudoElement string, rules Declarations) templ.Component {
+	selector := fmt.Sprintf(".%s::%s", class.ClassName(), pseudoElement)
+	return CSS(Selectors{
+		selector: rules,
+	})
+}
+
 func OnHover(class templ.CSSClass, rules Declarations) templ.Component {
 	selector := fmt.Sprintf(".%s:hover, .%s:focus-visible", class.ClassName(), class.ClassName())
 	return CSS(Selectors{

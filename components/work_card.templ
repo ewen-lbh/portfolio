@@ -84,7 +84,20 @@ css title() {
 	text-overflow: ellipsis;
 }
 
+css wipIndicator() {
+	font-family: var(--mono);
+}
+
 templ WorkCard(work ortfodb.AnalyzedWork, language string) {
+	@shared.PseudoElement(wipIndicator(), "before", shared.Declarations{
+		"content": "''",
+		"height":"1.3ch",
+		"width": "1.3ch",
+		"display": "inline-block",
+		"margin-right": "1ch",
+		"border-radius": "50%",
+		"background-color": "red",
+	})
 	@css(work, language)
 	<style>
 		article.work:hover, article.work:focus-within {
@@ -130,7 +143,11 @@ templ WorkCard(work ortfodb.AnalyzedWork, language string) {
 					<span class={ title() }>
 						@shared.HTML(work.Content.Localize(language).Title)
 					</span>
-					if work.Metadata.CreatedAt().Year() != 9999 {
+					if work.Metadata.WIP {
+						<abbr class={ wipIndicator() } title="Work In Progress">
+							WIP	
+						</abbr>
+					} else if work.Metadata.CreatedAt().Year() != 9999 {
 						<span class="date">
 							{ shared.FormatDate(work.Metadata.CreatedAt(), "Jan 2006", language) }
 						</span>

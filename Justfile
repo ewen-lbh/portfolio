@@ -27,4 +27,5 @@ clean-media:
 deploy:
     rsync -av media/* ewen@ewen.works:~/www/media.ewen.works/
     rsync -avz public/* ewen@ewen.works:~/www/assets.ewen.works/
+    rsync -av database.json ewen@ewen.works:~/portfolio/
     ssh ewen@ewen.works "tmux send-keys -t 0:0.0 C-c 'git pull --autostash --rebase' Enter 'just start' Enter"

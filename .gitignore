@@ -44,3 +44,4 @@ media
 *.mo
 dist
 go.work.sum
+database.json

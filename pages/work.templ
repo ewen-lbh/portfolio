@@ -287,13 +287,9 @@ css listItemNoBullet() {
 }
 
 // formatDuration formats a duration in a human-readable way using plain words, depending on the language given (fr or en)
-// it handles plurals and singulars, and does not using any words higher than days
+// it handles plurals and singulars, and does not using any words higher than hours
 func formatDuration(duration time.Duration, lang string) string {
-	var days, hours, minutes int
-	if duration.Hours() > 24 {
-		days = int(duration.Hours() / 24)
-		duration -= time.Duration(days) * 24 * time.Hour
-	}
+	var hours, minutes int
 	if duration.Hours() > 1 {
 		hours = int(duration.Hours())
 		duration -= time.Duration(hours) * time.Hour
@@ -305,21 +301,6 @@ func formatDuration(duration time.Duration, lang string) string {
 
 	pluralize := func(word string, count int, lang string) string {
 		switch word {
-		case "day":
-			switch lang {
-			case "fr":
-				if count > 1 {
-					return "jours"
-				} else {
-					return "jour"
-				}
-			default:
-				if count > 1 {
-					return "days"
-				} else {
-					return "day"
-				}
-			}
 		case "hour":
 			switch lang {
 			case "fr":
@@ -347,13 +328,10 @@ func formatDuration(duration time.Duration, lang string) string {
 	}
 
 	var parts []string
-	if days > 0 {
-		parts = append(parts, fmt.Sprintf("%d %s", days, pluralize("day", days, lang)))
-	}
 	if hours > 0 {
 		parts = append(parts, fmt.Sprintf("%d %s", hours, pluralize("hour", hours, lang)))
 	}
-	if minutes > 0 && days == 0 {
+	if minutes > 0 {
 		parts = append(parts, fmt.Sprintf("%d %s", minutes, pluralize("minute", minutes, lang)))
 	}
 

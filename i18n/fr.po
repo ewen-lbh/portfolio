@@ -211,7 +211,7 @@ msgid "cli"
 msgstr "cli"
 
 msgid "command line"
-msgstr ""
+msgstr "terminal"
 
 msgid "command-line"
 msgstr "terminal"
@@ -503,4 +503,3 @@ msgstr "projets"
 
 msgid "Your e-mail address"
 msgstr "Votre adresse mail"
-

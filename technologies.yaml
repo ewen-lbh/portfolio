@@ -473,3 +473,8 @@
   name: MJML
   description: An XML-based language to describe HTML emails conviniently
   learn more at: https://mjml.io
+
+- slug: blender
+  name: Blender
+  description: A free and open-source, industry standard 3D modelling and animation suite
+  learn more at: https://www.blender.org

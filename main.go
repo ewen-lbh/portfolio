@@ -30,15 +30,19 @@ func startSHSServer(wg *sync.WaitGroup, port int, regularSiteURL string, sites [
 	navigation := pages.Navigation([]pages.NavigationLink{
 		{Text: "home", Link: "/"},
 		{Text: "courses", Link: "/courses"},
-		{Text: "sustainability", Link: "/sustainability"},
-		{Text: "civic engagement", Link: "/civic-engagement"},
-		{Text: "international", Link: "international"},
+		// {Text: "sustainability", Link: "/sustainability"},
+		{Text: "engagement", Link: "/engagement"},
+		{Text: "international", Link: "/international"},
 		{Text: "career", Link: "/career"},
 		{Text: "projects", Link: regularSiteURL},
 	})
 
 	server := http.NewServeMux()
 	server.Handle("/", templ.Handler(pages.Layout(pages_shs.Home(db, collections, tags, technologies), navigation, sites, "en")))
+	server.Handle("/courses", templ.Handler(pages.Layout(pages_shs.CoursePage(), navigation, sites, "en")))
+	server.Handle("/international", templ.Handler(pages.Layout(pages_shs.InternationalPage(), navigation, sites, "en")))
+	server.Handle("/engagement", templ.Handler(pages.Layout(pages_shs.EngagementPage(), navigation, sites, "en")))
+	server.Handle("/career", templ.Handler(pages.Layout(pages_shs.CareerPage(), navigation, sites, "en")))
 	http.ListenAndServe(fmt.Sprintf(":%d", port), server)
 }
 
@@ -97,6 +101,15 @@ func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections share
 			collections.ThatIncludeWork(work, shared.Keys(db.Works()), tags, technologies),
 			translations.language,
 		))
+
+		for _, alias := range work.Metadata.Aliases {
+			redirect(alias, work.ID)
+		}
+
+		server.Handle(fmt.Sprintf("/%s.json", work.ID), http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(&work)
+		}))
 	}
 
 	for id, collection := range collections {

@@ -1,0 +1,44 @@
+package pages_shs
+
+import "github.com/ewen-lbh/portfolio/components"
+import "github.com/ewen-lbh/portfolio/shared"
+
+templ EngagementPage() {
+	<main>
+		<h2>Involvement in student life</h2>
+		<section>
+			<img src="https://churros.inpt.fr/storage/groups/n7beats-n7.png"/>
+			<h3>n7beats</h3>
+			<p>
+				Last year, I picked up a club that was dead since a few years, <em>n7beats</em>. It's a club that helps students that want to learn or improve their music-making skills. 
+				I really like creating music, and I wanted to share that with other students.
+			</p>
+			@components.ArrowLink("https://n7beats.org") {
+				Visit n7beats
+			}
+		</section>
+		<section>
+			<h3>Loca7</h3>
+			<img src={ shared.Asset("loca7-home.png") }/>
+			<p>
+				Last year, I re-built 
+				<em>
+					Loca7
+				</em> from the ground up, the website that connects landlords in the area with students of the school.
+			</p>
+			@components.ArrowLink("https://loca7.fr") {
+				Visit Loca7 
+			}
+			@components.ArrowLink("https://en.ewen.works/loca7") {
+				Learn more
+			}
+		</section>
+		<h3>Churros</h3>
+		<p>
+			I continue to work on the app that we, at net7, released at the start of this school year, <em>Churros</em>. It's a web application that powers the entire student life of the school.
+		</p>
+		@components.ArrowLink("https://en.ewen.works/churros") {
+			Learn more
+		}
+	</main>
+}

@@ -29,17 +29,18 @@ func startFileServer(port int, root string) {
 func startSHSServer(wg *sync.WaitGroup, port int, regularSiteURL string, sites []shared.Site, db ortfodb.Database, collections shared.Collections, technologies []shared.Technology, tags []shared.Tag) {
 	navigation := pages.Navigation([]pages.NavigationLink{
 		{Text: "home", Link: "/"},
-		{Text: "courses", Link: "/courses"},
+		{Text: "education", Link: "/education"},
 		// {Text: "sustainability", Link: "/sustainability"},
 		{Text: "engagement", Link: "/engagement"},
 		{Text: "international", Link: "/international"},
 		{Text: "career", Link: "/career"},
 		{Text: "projects", Link: regularSiteURL},
+		{Text: "ppp", Link: "https://media.ewen.works/ppp.pdf"},
 	})
 
 	server := http.NewServeMux()
 	server.Handle("/", templ.Handler(pages.Layout(pages_shs.Home(db, collections, tags, technologies), navigation, sites, "en")))
-	server.Handle("/courses", templ.Handler(pages.Layout(pages_shs.CoursePage(), navigation, sites, "en")))
+	server.Handle("/education", templ.Handler(pages.Layout(pages_shs.EducationPage(), navigation, sites, "en")))
 	server.Handle("/international", templ.Handler(pages.Layout(pages_shs.InternationalPage(), navigation, sites, "en")))
 	server.Handle("/engagement", templ.Handler(pages.Layout(pages_shs.EngagementPage(), navigation, sites, "en")))
 	server.Handle("/career", templ.Handler(pages.Layout(pages_shs.CareerPage(), navigation, sites, "en")))

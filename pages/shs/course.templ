@@ -1,7 +1,40 @@
 package pages_shs
 
-templ CoursePage() {
-    <main>
-        <h1>Courses</h1>
-    </main>
+import "github.com/ewen-lbh/portfolio/components"
+
+templ EducationPage() {
+	<main class={ main() }>
+		<h1>Education</h1>
+		<section>
+			<p>2019 to 2022 </p>
+			<h2>Preparatory classes</h2>
+			<p>
+				Intensive 2-year program in mathematics and physics, preparing for the entrance exams to top-ranking French engineering schools.
+				@components.ArrowLink("https://fr.wikipedia.org/wiki/Classes_pr%C3%A9paratoires_aux_grandes_%C3%A9coles") {
+					Learn more 
+				}
+			</p>
+		</section>
+		<section>
+			<p>
+				2022 to 2023
+			</p>
+			<h2>ENSEEIHT, first year</h2>
+			<p>
+				Computer science major
+				@components.ArrowLink("https://www.enseeiht.fr/en/training/full-time-engineering-program/sn.html") {
+					Learn more
+				}
+			</p>
+		</section>
+		<section>
+			<p>
+				2023 to 2024
+			</p>
+			<h2>ENSEEIHT, second year</h2>
+			<p>
+				Networks and architecture minor (first semester), then multimedia and image minor (second semester)
+			</p>
+		</section>
+	</main>
 }

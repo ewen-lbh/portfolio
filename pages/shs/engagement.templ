@@ -3,12 +3,26 @@ package pages_shs
 import "github.com/ewen-lbh/portfolio/components"
 import "github.com/ewen-lbh/portfolio/shared"
 
+css fullwidthImage() {
+	width: 100%;
+	margin: 1em auto;
+	object-fit: contain;
+	max-height: 50vh;
+}
+
+css subtitle() {
+	font-size: 1.5em;
+	font-weight: bold;
+	margin: 0.5em 0;
+	margin-top: 2rem;
+}
+
 templ EngagementPage() {
-	<main>
-		<h2>Involvement in student life</h2>
+	<main class={ main() }>
+		<h1>Civic engagement</h1>
 		<section>
-			<img src="https://churros.inpt.fr/storage/groups/n7beats-n7.png"/>
-			<h3>n7beats</h3>
+			<img class={ fullwidthImage() } src="https://churros.inpt.fr/storage/groups/n7beats-n7.png"/>
+			<h2 class={ subtitle() }>n7beats</h2>
 			<p>
 				Last year, I picked up a club that was dead since a few years, <em>n7beats</em>. It's a club that helps students that want to learn or improve their music-making skills. 
 				I really like creating music, and I wanted to share that with other students.
@@ -18,8 +32,8 @@ templ EngagementPage() {
 			}
 		</section>
 		<section>
-			<h3>Loca7</h3>
-			<img src={ shared.Asset("loca7-home.png") }/>
+			<h2 class={ subtitle() }>Loca7</h2>
+			<img class={ fullwidthImage() } src={ shared.Asset("loca7-home.png") }/>
 			<p>
 				Last year, I re-built 
 				<em>
@@ -33,12 +47,27 @@ templ EngagementPage() {
 				Learn more
 			}
 		</section>
-		<h3>Churros</h3>
+		<section>
+		<h2 class={ subtitle() }>Churros</h2>
+		<img class={ fullwidthImage() } src="https://media.ewen.works/centraverse/.ortfo/screens/montage.png"/>
 		<p>
 			I continue to work on the app that we, at net7, released at the start of this school year, <em>Churros</em>. It's a web application that powers the entire student life of the school.
 		</p>
 		@components.ArrowLink("https://en.ewen.works/churros") {
 			Learn more
 		}
+		</section>
+		<section>
+		<h2 class={ subtitle() }>Les Enfoiros de l'INSA</h2>
+		<img class={ fullwidthImage() } src="https://media.ewen.works/enfoiros-regie.png"/>
+		<p>
+			I participated in the filming, directing and making of a DVD movie for an association called <em>
+				Les enfoiros de l'INSA
+			</em>, the #1 biggest donor in Haute-Garonnes to the <em>Restos du Coeur</em>.
+			@components.ArrowLink("https://enfoiros.org/") {
+				Learn more
+			}
+		</p>
+		</section>
 	</main>
 }

@@ -9,6 +9,7 @@ import (
 	"sort"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/a-h/templ"
 	"github.com/ewen-lbh/portfolio/pages"
@@ -159,6 +160,12 @@ func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections share
 		if err != nil {
 			color.Red("Could not send mail: %s", err)
 			http.Error(w, "Could not send mail", 500)
+			// Write mail to file named with from and today's datetime
+			// and content set to subject and body
+			nowStr := time.Now().Format("2006-01-02-15-04-05")
+			writeTo := filepath.Join("mails", fmt.Sprintf("%s-%s.txt", from, nowStr))
+			os.MkdirAll(filepath.Dir(writeTo), 0755)
+			os.WriteFile(writeTo, []byte(fmt.Sprintf("Subject: %s\n\n%s", subject, body)), 0644)
 		} else {
 			http.Redirect(w, r, "/contact/sent", http.StatusSeeOther)
 		}

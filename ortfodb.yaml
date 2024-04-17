@@ -1,13 +1,20 @@
 extract colors:
+  extract: []
+  default files: []
   enabled: true
 
+make gifs:
+  enabled: false
+  file name template: ""
+
 make thumbnails:
+  input file: ""
   enabled: true
   sizes:
-  - 100
-  - 400
-  - 600
-  - 1200
+    - 100
+    - 400
+    - 600
+    - 1200
   file name template: <work id>/<block id>@<size>.webp
 
 media:
@@ -15,3 +22,23 @@ media:
 
 build metadata file: .lastbuild.yaml
 scattered mode folder: .ortfo
+
+tags:
+  repository: ~/projects/portfolio/tags.yaml
+
+technologies:
+  repository: ~/projects/portfolio/technologies.yaml
+
+projects at: ~/projects
+
+exporters:
+  copy:
+    paths:
+      - ~/projects/database.json
+      - ~/projects/ortfo/website/public/example-database.json
+  ssh:
+    ssh: ewen@ewen.works:~/www/media.ewen.works/works.json
+  cloud:
+    path: projects
+    remotes: [penrose]
+    quiet: yes

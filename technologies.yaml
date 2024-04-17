@@ -1,14 +1,14 @@
 - slug: aftereffects
   name: After Effects
   by: Adobe
-  files: [.aep]
+  files: ["*.aep"]
   learn more at: https://www.adobe.com/fr/products/aftereffects.html
   description: |
     A digital visual effects, motion graphics, and compositing application
 
 - slug: asciidoc
   name: asciidoc
-  files: [.asciidoc, .adoc]
+  files: ["*.asciidoc", "*.adoc"]
   learn more at: https://asciidoc.org/
   description: |
     A text document format for writing notes, documentation, articles, books, ebooks, slideshows, web pages, man pages and blogs. AsciiDoc files can be translated to many formats including HTML, PDF, EPUB, man page.
@@ -21,7 +21,7 @@
 
 - slug: coffeescript
   name: CoffeeScript
-  files: [.coffee]
+  files: ["*.coffee"]
   extends: [javascript]
   learn more at: https://coffeescript.org/
   description: |
@@ -29,31 +29,31 @@
 
 - slug: css
   name: CSS
-  files: [.css]
+  files: ["*.css"]
   learn more at: https://developer.mozilla.org/fr/docs/Web/CSS
   description: |
     A stylesheet language used to describe the presentation of a document written in HTML or XML
 
 - slug: csharp
   name: C#
-  files: [.cs]
+  files: ["*.cs"]
   aliases: ["cs"]
   by: Microsoft
 
 - slug: c++
   name: C++
-  files: [.cpp]
+  files: ["*.cpp"]
   aliases: ["cpp", "cplusplus"]
 
 - slug: c
   name: C
-  files: [.c]
+  files: ["*.c"]
 
 - slug: djangorestframework
   name: Django REST Framework
   by: encode
   extends: [django]
-  autodetect: djangorestframework in pyproject.toml
+  autodetect: [djangorestframework in pyproject.toml]
   learn more at: https://www.django-rest-framework.org
   description: |
     A powerful and flexible toolkit for building Web APIs with Django
@@ -61,14 +61,15 @@
 - slug: django
   name: Django
   extends: [python]
-  autodetect: django in pyproject.toml
+  autodetect: [django in pyproject.toml]
   learn more at: https://www.djangoproject.com
   description: |
     A high-level Python Web framework that encourages rapid development and clean, pragmatic design
 
 - slug: docopt
   name: Docopt
-  autodetect: docopt in pyproject.toml or docopt in package.json or docopt in Cargo.toml
+  autodetect:
+    [docopt in pyproject.toml, docopt in package.json, docopt in Cargo.toml]
   learn more at: https://github.com/docopt
   description: |
     A library that parses command-line arguments based on a help message. “Don't write parser code: a good help message already has all the necessary information in it”
@@ -76,16 +77,16 @@
 - slug: figma
   name: Figma
   by: Google
-  files: [.fig]
+  files: ["*.fig"]
   learn more at: https://figma.com
   description: |
     A collaborative web-based vector editor, UX design and prototyping tool
 
 - slug: fishshell
   name: Fish Shell
-  files: [.fish]
+  files: ["*.fish"]
   extends: [shell]
-  autodetect: shebang /usr/bin/env fish
+  # autodetect: [shebang /usr/bin/env fish]
   aliases: ["fish"]
   learn more at: https://fishshell.com
   description: |
@@ -93,7 +94,7 @@
 
 - slug: flstudio
   name: FL Studio
-  files: [.flp]
+  files: ["*.flp"]
   aliases: ["fruityloops"]
   by: Image-Line
   learn more at: https://www.image-line.com/flstudio/
@@ -103,7 +104,7 @@
 - slug: gimp
   name: GIMP
   by: GNU
-  files: [.xmp]
+  files: ["*.xmp"]
   learn more at: https://www.gimp.org/
   description: |
     An open source image editor
@@ -111,14 +112,14 @@
 - slug: go
   name: Go
   by: Google
-  files: [.go]
+  files: ["*.go"]
   learn more at: https://go.dev
   description: |
     An straightforward low-level open source programming language supported by Google featuring built-in concurrency and a robust standard library
 
 - slug: html
   name: HTML
-  files: [.html]
+  files: ["*.html"]
   learn more at: https://developer.mozilla.org/fr/docs/Web/HTML
   description: |
     The standard markup language for documents designed to be displayed in a web browser
@@ -126,7 +127,7 @@
 - slug: illustrator
   name: Illustrator
   by: Adobe
-  files: [.ai]
+  files: ["*.ai"]
   learn more at: https://www.adobe.com/fr/products/illustrator.html
   description: |
     A vector graphics editor and design program
@@ -134,14 +135,14 @@
 - slug: indesign
   name: InDesign
   by: Adobe
-  files: [.idd]
+  files: ["*.idd"]
   learn more at: https://www.adobe.com/fr/products/indesign.html
   description: |
     A desktop publishing and typesetting software application used to create works such as posters, flyers, brochures, magazines, newspapers, presentations, books and ebooks
 
 - slug: javascript
   name: JavaScript
-  files: [.js]
+  files: ["*.js"]
   aliases: ["js"]
   learn more at: https://developer.mozilla.org/fr/docs/Web/JavaScript
   description: |
@@ -149,21 +150,21 @@
 
 - slug: json
   name: JSON
-  files: [.json]
+  files: ["*.json"]
   learn more at: https://www.json.org/
   description: |
     A lightweight data-interchange format
 
 - slug: latex
   name: LaTeX
-  files: [.tex]
+  files: ["*.tex"]
   learn more at: https://www.latex-project.org/
   description: |
     A high-quality typesetting & document preparation system
 
 - slug: livescript
   name: LiveScript
-  files: [.ls]
+  files: ["*.ls"]
   extends: [javascript]
   learn more at: https://livescript.net
   description: |
@@ -171,14 +172,23 @@
 
 - slug: lua
   name: Lua
-  files: [.lua]
+  files: ["*.lua"]
   learn more at: https://lua.org
   description: |
     A powerful, efficient, lightweight, embeddable scripting language
 
 - slug: markdown
   name: Markdown
-  files: [.markdown, .mdown, .md]
+  files:
+    [
+      "*.markdown",
+      "*.mdown",
+      "*.md",
+      "!README.md",
+      "!CHANGELOG.md",
+      "!LICENSE.md",
+      "!.ortfo/description.md",
+    ]
   learn more at: https://daringfireball.net/projects/markdown/
   description: |
     A text-to-HTML conversion tool and language for web writers. The overriding design goal for Markdown’s formatting syntax is to make it as readable as possible: a Markdown-formatted document should be publishable as-is, as plain text, without looking like it’s been marked up with tags or formatting instructions.
@@ -186,14 +196,14 @@
 - slug: nestjs
   name: NestJS
   extends: [javascript]
-  autodetect: "@nestjs/core in package.json"
+  autodetect: ["@nestjs/core in package.json"]
   learn more at: https://nestjs.com/
   description: |
     A progressive Node.js framework for building efficient, reliable and scalable server-side applications
 
 - slug: nim
   name: Nim
-  files: [.nim]
+  files: ["*.nim"]
   learn more at: https://nim-lang.org/
   description: |
     A statically typed compiled systems programming language. It combines successful concepts from mature languages like Python, Ada and Modula.
@@ -202,7 +212,7 @@
   name: Nuxt
   aliases: ["nuxtjs"]
   extends: [vue]
-  autodetect: nuxt in package.json
+  autodetect: [nuxt in package.json]
   learn more at: https://nuxtjs.org
   description: |
     The Intuitive Vue Framework
@@ -210,7 +220,7 @@
 - slug: oclif
   name: Oclif
   by: Heroku
-  autodetect: oclif in package.json
+  autodetect: [oclif in package.json]
   extends: [javascript]
   learn more at: https://oclif.io/
   description: |
@@ -219,21 +229,21 @@
 - slug: photoshop
   name: Photoshop
   by: Adobe
-  files: [.psd, .psb]
+  files: ["*.psd", "*.psb"]
   learn more at: https://www.adobe.com/fr/products/photoshop.html
   description: |
     A raster graphics editor
 
 - slug: php
   name: PHP
-  files: [.php]
+  files: ["*.php"]
   learn more at: https://www.php.net/
   description: |
     A popular general-purpose scripting language that is especially suited to web development
 
 - slug: plantuml
   name: PlantUML
-  files: [.puml, .uml]
+  files: ["*.puml", "*.uml"]
   learn more at: https://plantuml.com/
   description: |
     A language for generating UML diagrams from textual descriptions
@@ -241,7 +251,7 @@
 - slug: postgresql
   name: PostGreSQL
   extends: [sql]
-  autodetect: postgres in docker-compose.yaml
+  autodetect: [postgres in docker-compose.yaml]
   learn more at: https://www.postgresql.org/
   description: |
     An advanced open source relational database
@@ -249,14 +259,14 @@
 - slug: premierepro
   name: Premiere Pro
   by: Adobe
-  files: [.aep]
+  files: ["*.aep"]
   learn more at: https://www.adobe.com/fr/products/premiere.html
   description: |
     A timeline-based video editing software application
 
 - slug: pug
   name: Pug
-  files: [.pug]
+  files: ["*.pug"]
   extends: [html]
   learn more at: https://pugjs.org
   description: |
@@ -265,21 +275,21 @@
 - slug: pychemin
   name: PyChemin
   by: ewen-lbh
-  files: [.pychemin]
+  files: ["*.pychemin"]
   learn more at: https://ewen.works/pychemin
   description: |
     A minimal language to describe interactive, terminal-based text adventure games
 
 - slug: python
   name: Python
-  files: [.py]
+  files: ["*.py"]
   learn more at: https://python.org
   description: |
     A programming language that lets you work quickly and integrate systems more effectively
 
 - slug: rubyonrails
   name: Ruby On Rails
-  autodetect: rails in Gemfile
+  autodetect: [rails in Gemfile]
   extends: [ruby]
   learn more at: https://rubyonrails.org
   description: |
@@ -287,7 +297,7 @@
 
 - slug: ruby
   name: Ruby
-  files: [.rb]
+  files: ["*.rb"]
   learn more at: https://www.ruby-lang.org
   description: |
     A dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.
@@ -295,7 +305,7 @@
 - slug: rust
   name: Rust
   by: Mozilla
-  files: [.rs]
+  files: ["*.rs"]
   learn more at: https://www.rust-lang.org
   # FIXME: Too much sellout
   description: |
@@ -306,7 +316,7 @@
   by: Svelte
   alias: [sapper]
   extends: [svelte]
-  autodetect: "@sveltejs/kit in package.json"
+  autodetect: ["@sveltejs/kit in package.json"]
   learn more at: https://kit.svelte.dev
   description: |
     A <a href='https://svelte.dev'>Svelte</a>-powered framework for building web applications of all sizes, with a beautiful development experience and flexible filesystem-based routing
@@ -315,27 +325,27 @@
   name: SASS
   alias: [scss]
   learn more at: https://sass-lang.com/
-  files: [.scss, .sass]
+  files: ["*.scss", "*.sass"]
   extends: [css]
   description: |
     “Syntactically Awesome Style Sheets”—A mature, stable, and powerful professional grade CSS extension language.
 
 - slug: shell
   name: Shell
-  files: [.sh, .bash, .zsh]
-  autodetect: shebang contains bash or shebang contains sh or shebang contains zsh
+  files: ["*.sh", "*.bash", "*.zsh"]
+  # autodetect: [shebang contains bash, shebang contains sh, shebang contains zsh]
 
 - slug: stylus
   name: Stylus
   learn more at: https://stylus-lang.com
-  files: [.styl]
+  files: ["*.styl"]
   extends: [css]
   description: |
     Expressive, robust, feature-rich CSS language built for nodejs
 
 - slug: svelte
   name: Svelte
-  files: [.svelte]
+  files: ["*.svelte"]
   extends: [html, js, css]
   learn more at: https://svelte.dev/
   description: |
@@ -343,7 +353,7 @@
 
 - slug: toml
   name: TOML
-  files: [.toml except Cargo.toml except pyproject.toml]
+  files: ["*.toml", "!Cargo.toml", "!pyproject.toml"]
   learn more at: https://toml.io
   description: |
     A minimal configuration file format that's easy to read due to obvious semantics. Designed to map unambiguously to a hash table.
@@ -351,7 +361,7 @@
 - slug: typescript
   name: TypeScript
   by: Microsoft
-  files: [.ts]
+  files: ["*.ts"]
   extends: [javascript]
   learn more at: https://www.typescriptlang.org/
   description: |
@@ -360,7 +370,7 @@
 - slug: vue
   name: Vue
   aliases: ["vuejs"]
-  files: [.vue]
+  files: ["*.vue"]
   extends: [html, javascript, css]
   learn more at: https://vuejs.org
   description: |
@@ -368,14 +378,14 @@
 
 - slug: webpack
   name: Webpack
-  autodetect: webpack in package.json
+  autodetect: [webpack in package.json]
   learn more at: https://webpack.js.org/
   description: |
     A bundler for javascript and friends. Packs many modules into a few bundled assets.
 
 - slug: yaml
   name: YAML
-  files: [.yaml, .yml]
+  files: ["*.yaml", "*.yml"]
   learn more at: https://yaml.org/
   description: |
     A human friendly data serialization standard for all programming languages
@@ -383,21 +393,21 @@
 - slug: manim
   name: Manim
   by: 3Blue1Brown
-  autodetect: manim in pyproject.toml or manimce in pyproject.toml
+  autodetect: [manim in pyproject.toml, manimce in pyproject.toml]
   learn more at: https://www.manim.community/
   description: |
     A community-maintained Python library for creating mathematical animations
 
 - slug: lark
   name: Lark
-  autodetect: lark in pyproject.toml
+  autodetect: [lark in pyproject.toml]
   learn more at: https://lark-parser.readthedocs.io/
   description: |
     A modern parsing library for Python. Lark can parse any context-free grammar
 
 - slug: penpot
   name: Penpot
-  files: [.penpot]
+  files: ["*.penpot"]
   learn more at: https://penpot.app
   description: |
     Open Source design and prototyping platform meant for cross-domain teams. Non dependent on operating systems, Penpot is web based and works with open web standards (SVG).
@@ -410,14 +420,14 @@
 
 - slug: fyne
   name: Fyne
-  autodetect: fyne in go.mod
+  autodetect: [fyne in go.mod]
   learn more at: https://www.fyne.io
   description: |
     A simple cross-platform library to create graphical user interfaces in [Go](/using/go) that work on Android, iOS, Linux, MacOS and Windows.
 
 - slug: krita
   name: Krita
-  files: [.kra]
+  files: ["*.kra"]
   learn more at: https://krita.org
   description: |
     Free and open-source digital painting software
@@ -429,7 +439,7 @@
 
 - slug: svg
   name: SVG
-  files: [.svg]
+  files: ["*.svg"]
   learn more at: https://en.wikipedia.org/wiki/SVG
   description: an XML-based vector image format for defining two-dimensional graphics, having support for interactivity and animation. The SVG specification is an open standard developed by the World Wide Web Consortium since 1999
 
@@ -441,21 +451,20 @@
 
 - slug: ada
   name: Ada
-  files: [.adb, .ads]
+  files: ["*.adb", "*.ads"]
   learn more at: https://www.adaic.org/
   description: A strongly typed, safe programming language
-
 
 - slug: symfony
   name: symfony
   extends: [php]
-  autodetect: symfony/symfony in composer.json
+  autodetect: [symfony/symfony in composer.json]
   description: A PHP Model-View-Controller framework
   learn more at: https://symfony.com
 
 - slug: graphql
   name: GraphQL
-  files: [.gql, .graphql]
+  files: ["*.gql", "*.graphql"]
   description: An alternative to the REST Web API standard suitable for deeply nested data used by different consumers
   learn more at: https://graphql.org
 
@@ -466,15 +475,18 @@
 
 - slug: go-templ
   name: Go Templ
+  files: ["*.templ"]
   description: A templating language for Go web applications
   learn more at: https://templ.guide
 
 - slug: mjml
   name: MJML
+  files: ["*.mjml"]
   description: An XML-based language to describe HTML emails conviniently
   learn more at: https://mjml.io
 
 - slug: blender
   name: Blender
+  files: ["*.blend"]
   description: A free and open-source, industry standard 3D modelling and animation suite
   learn more at: https://www.blender.org

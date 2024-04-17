@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://ortfo.org/tags.schema.json
+
 # todo: deprecate
 - singular: school
   plural:   school
@@ -20,12 +22,18 @@
 
 - singular: graphism
   plural:   graphism
+  detect:
+    made with: [photoshop, gimp]
 
 - singular: poster
   plural:   posters
+  detect:
+    made with: [photoshop, gimp]
 
 - singular: flyer
   plural:   flyers
+  detect:
+    made with: [photoshop, gimp]
 
 - singular: automation
   plural:   automation
@@ -33,6 +41,8 @@
 - singular: web
   plural:   web
   description: Web sites, web apps and web-related libraries
+  detect:
+    made with: [html, css, svelte, vue]
 
 - singular: intro
   plural:   intros
@@ -45,6 +55,8 @@
 
 - singular: music
   plural:   music
+  detect:
+    made with: [fl studio]
 
 - singular: app
   plural:   apps
@@ -151,4 +163,3 @@
 #     Expriments on mathematics and art, mostly visual interpretations of concepts that could lead to new insights on said concept.
 #   combines: math and experiments and (graphism or video or music or sound)
 #
-

@@ -14,7 +14,7 @@ build:
     go build -o ./tmp/main .
 
 db:
-    ortfodb ~/projects --scattered build to database.json --config ortfodb.yaml
+    ortfodb --scattered build database.json
 
 clean: 
     rm -f */*_templ.go

@@ -48,7 +48,13 @@ clean-media:
     rm -rf media/
 
 deploy ssh='$SSH_SERVER':
-    rsync -av media/* {{ ssh }}:~/www/media.ewen.works/
-    rsync -avz public/* {{ ssh }}:~/www/assets.ewen.works/
+    just upload-media {{ ssh }}
+    just upload-assets {{ ssh }}
     rsync -av database.json {{ ssh }}:~/portfolio/
     ssh {{ ssh }} "tmux send-keys -t 0:0.0 C-c 'git pull --autostash --rebase' Enter 'just start' Enter"
+
+upload-assets ssh:
+    rsync -avz public/* {{ ssh }}:~/www/assets.ewen.works/
+
+upload-media ssh:
+    rsync -av media/* {{ ssh }}:~/www/media.ewen.works/

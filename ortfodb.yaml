@@ -31,14 +31,15 @@ technologies:
 
 projects at: ~/projects
 
-exporters:
-  copy:
-    paths:
-      - ~/projects/database.json
-      - ~/projects/ortfo/website/public/example-database.json
-  ssh:
-    ssh: ewen@ewen.works:~/www/media.ewen.works/works.json
-  cloud:
-    path: projects
-    remotes: [penrose]
-    quiet: yes
+# exporters:
+#   copy:
+#     paths:
+#       - ~/projects/database.json
+#       - ~/projects/ortfo/website/public/example-database.json
+#   ssh:
+#     ssh: ewen@ewen.works:~/www/media.ewen.works/works.json
+#   cloud:
+#     path: projects
+#     remotes: [penrose]
+#     quiet: yes
+# 

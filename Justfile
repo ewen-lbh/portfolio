@@ -33,7 +33,11 @@ build:
     go build -o ./tmp/main .
 
 db:
-    ortfodb --scattered build database.json
+    ortfodb --scattered build database-regular.json
+    sed -i 's/scattered mode folder: .ortfo$/scattered mode folder: .ortfo.personal/' ortfodb.yaml
+    ortfodb --scattered build database-personal-overrides.json
+    sed -i 's/scattered mode folder: .ortfo.personal$/scattered mode folder: .ortfo/' ortfodb.yaml
+    jq -s '.[0] * .[1]' database-regular.json database-personal-overrides.json > database.json
 
 clean: 
     rm -f */*_templ.go

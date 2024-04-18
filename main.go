@@ -293,12 +293,15 @@ func main() {
 	var tags []shared.Tag
 	loadDataFile("tags.yaml", &tags)
 
-	for i := range technologies {
-		_, err := technologies[i].CalculateTimeSpent(technologies)
-		if err != nil {
-			color.Yellow("[!!] While calculating time spent on %s: %s", technologies[i].Name, err)
-		} else if technologies[i].TimeSpent.Seconds() > 0 {
-			fmt.Printf("[  ] Time spent with %s is %s, via wakatime\n", technologies[i].Name, technologies[i].TimeSpent)
+	if os.Getenv("SKIP_WAKATIME") != "1" {
+		for i := range technologies {
+			fmt.Printf("[  ] Calculating time spent on %s\n", technologies[i].Name)
+			_, err := technologies[i].CalculateTimeSpent(technologies)
+			if err != nil {
+				color.Yellow("[!!] While calculating time spent on %s: %s", technologies[i].Name, err)
+			} else if technologies[i].TimeSpent.Seconds() > 0 {
+				fmt.Printf("[  ] Time spent with %s is %s, via wakatime\n", technologies[i].Name, technologies[i].TimeSpent)
+			}
 		}
 	}
 

@@ -15,6 +15,10 @@ import (
 
 const WAKATIME_API_URL = "https://wakatime.com/api/v1"
 
+var wakatimeHttpClient = http.Client{
+	Timeout: 10 * time.Second,
+}
+
 func wakatimeRequest(path string) (resp *http.Response, err error) {
 	req, err := http.NewRequest("GET", WAKATIME_API_URL+"/"+path, nil)
 	if err != nil {
@@ -23,7 +27,7 @@ func wakatimeRequest(path string) (resp *http.Response, err error) {
 	}
 
 	req.Header.Set("Authorization", fmt.Sprintf("Basic %s", base64.StdEncoding.EncodeToString([]byte(os.Getenv("WAKATIME_API_KEY")))))
-	resp, err = http.DefaultClient.Do(req)
+	resp, err = wakatimeHttpClient.Do(req)
 	if err != nil {
 		err = fmt.Errorf("while sending request: %w", err)
 		return

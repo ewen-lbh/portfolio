@@ -97,10 +97,9 @@ func (t *Technology) CalculateTimeSpent(techs []Technology) (time.Duration, erro
 
 	resp, err := wakatimeRequest("users/current/stats/all_time")
 	if err != nil {
-		return 0, fmt.Errorf("while fetcing user stats: %w",  err)
+		return 0, fmt.Errorf("while fetcing user stats: %w", err)
 	}
-	
-	
+
 	decoder := json.NewDecoder(resp.Body)
 	decoder.Decode(&stats)
 	if err != nil {

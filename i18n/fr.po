@@ -15,9 +15,6 @@ msgstr ""
 msgid "“Syntactically Awesome Style Sheets”—A mature, stable, and powerful professional grade CSS extension language."
 msgstr "“Syntactically Awesome Style Sheets”—Une extension puissante, stable et professionelle du langage CSS."
 
-msgid "12 March 2020"
-msgstr "12 Mars 2020"
-
 msgid "A <a href=\"https://svelte.dev\">Svelte</a>-powered framework for building web applications of all sizes, with a beautiful development experience and flexible filesystem-based routing"
 msgstr "Un framework alimenté par <a href=\"https://svelte.dev\">Svelte</a> pour construire des applications web de toutes tailles, avec une belle expérience de développement et un routage flexible basé sur le système de fichiers."
 
@@ -26,6 +23,9 @@ msgstr "Un bundler pour javascript et autres. Regroupe de nombreux modules en qu
 
 msgid "A collaborative web-based vector editor, UX design and prototyping tool"
 msgstr "Un éditeur vectoriel, outil de conception et de prototypage UX collaboratif basé sur le web"
+
+msgid "A collection of useful things to be used by plenty of different projects. In software, a collection of functions and types."
+msgstr ""
 
 msgid "A community-maintained Python library for creating mathematical animations"
 msgstr "Une bibliothèque Python permettant la création d'animations mathématiques"
@@ -41,6 +41,9 @@ msgstr "Une application d'effets visuels numériques, de motion graphics et de c
 
 msgid "A dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write."
 msgstr "Un langage de programmation open source dynamique, axé sur la simplicité et la productivité. Il possède une syntaxe élégante, naturelle et facile à écrire."
+
+msgid "A free and open-source, industry standard 3D modelling and animation suite"
+msgstr ""
 
 msgid "A graphism technique that involves the composition of multiple images into a single, cohesive one"
 msgstr "Une technique graphique qui implique la composition de plusieurs images en une seule, cohérente."
@@ -80,6 +83,9 @@ msgstr "Un format de fichier de configuration minimal et facile à lire grâce �
 
 msgid "A minimal language to describe interactive, terminal-based text adventure games"
 msgstr "Un langage minimal pour écrire des jeux d'aventure textuelles"
+
+msgid "A modern and really fast Javascript bundler, runtime and toolkit"
+msgstr ""
 
 msgid "A modern parsing library for Python. Lark can parse any context-free grammar"
 msgstr "Une bibliothèque d'analyse syntaxique pour Python. Lark peut analyser n'importe quel langage non contextuel (langage algébrique)"
@@ -132,6 +138,9 @@ msgstr "Un langage de programmation sûr et fortement typé"
 msgid "A stylesheet language used to describe the presentation of a document written in HTML or XML"
 msgstr "Un langage de feuille de style utilisé pour décrire la présentation d'un document écrit en HTML ou XML"
 
+msgid "A templating language for Go web applications"
+msgstr ""
+
 msgid "A text document format for writing notes, documentation, articles, books, ebooks, slideshows, web pages, man pages and blogs. AsciiDoc files can be translated to many formats including HTML, PDF, EPUB, man page."
 msgstr "Un format de document texte pour écrire des notes, de la documentation, des articles, des livres, des ebooks, des diaporamas, des pages web, des pages de manuel et des blogs. Les fichiers AsciiDoc peuvent être traduits dans de nombreux formats, notamment HTML, PDF, EPUB ou man page."
 
@@ -144,6 +153,9 @@ msgstr "Un logiciel de montage vidéo"
 msgid "A vector graphics editor and design program"
 msgstr "Un éditeur de graphiques vectoriels et un programme de design"
 
+msgid "A Vite- and VueJS-based platform to make content-driven websites. Primarily used for technical documentation websites"
+msgstr ""
+
 msgid "a web server that can also be used as a reverse proxy, load balancer, mail proxy and HTTP cache"
 msgstr "un serveur web qui peut aussi être utilisé comme un proxy inverse, un répartiteur de charge, un proxy de courrier et un cache HTTP"
 
@@ -155,6 +167,9 @@ msgstr "asbtrait"
 
 msgid "An advanced open source relational database"
 msgstr "Une base de données relationnelle open source avancée"
+
+msgid "An alternative to the REST Web API standard suitable for deeply nested data used by different consumers"
+msgstr ""
 
 msgid "An intuitive vector graphics editor for iOS"
 msgstr "Un éditeur de graphiques vectoriels intuitive pour iOS"
@@ -171,6 +186,9 @@ msgstr "Un langage open-source qui construit sur JavaScript en ajoutant des déf
 msgid "An straightforward low-level open source programming language supported by Google featuring built-in concurrency and a robust standard library"
 msgstr "Un langage de programmation open source supporté par Google, comprenant une concurrence intégrée et une bibliothèque standard robuste"
 
+msgid "An XML-based language to describe HTML emails conviniently"
+msgstr ""
+
 msgid "an XML-based vector image format for defining two-dimensional graphics, having support for interactivity and animation. The SVG specification is an open standard developed by the World Wide Web Consortium since 1999"
 msgstr "un format d'image vectorielle basé sur XML pour définir des graphiques bidimensionnels, ayant un support pour l'interactivité et l'animation. La spécification SVG est un standard ouvert développé par le World Wide Web Consortium depuis 1999"
 
@@ -179,6 +197,9 @@ msgstr "Tout travail lié aux langues (langages de programmation ou langues natu
 
 msgid "Any piece of work that involves programming, such as libraries, programs, scripts, et cætera."
 msgstr "Tout travail impliquant de la programmation, comme les bibliothèques, les programmes, les scripts, et cætera."
+
+msgid "api"
+msgstr ""
 
 msgid "apis"
 msgstr "APIs"
@@ -225,6 +246,9 @@ msgstr "contact"
 msgid "Contact me"
 msgstr "Contactez-moi"
 
+msgid "cover art"
+msgstr ""
+
 msgid "cover arts"
 msgstr "pochettes"
 
@@ -255,6 +279,9 @@ msgstr "flyer"
 msgid "flyers"
 msgstr "flyers"
 
+msgid "Footnotes"
+msgstr ""
+
 msgid "Free and open-source digital painting software"
 msgstr "Logiciel de peinture numérique gratuit et open source"
 
@@ -282,12 +309,6 @@ msgstr "matériel informatique"
 msgid "Hi! I'm Ewen Le Bihan."
 msgstr "Hey! Je suis Ewen Le Bihan."
 
-msgid "hour"
-msgstr "heure"
-
-msgid "hours"
-msgstr "heures"
-
 msgid "i can work for you"
 msgstr "je peux travailler pour vous"
 
@@ -309,14 +330,17 @@ msgstr "Images qui représentent un média, tel qu'une vidéo, en un seul coup d
 msgid "intros"
 msgstr "intros"
 
-msgid "language"
-msgstr "langage"
-
 msgid "languages"
 msgstr "langages"
 
 msgid "Learn more"
 msgstr "En savoir plus"
+
+msgid "libraries"
+msgstr "bibliothèques"
+
+msgid "library"
+msgstr "bibliothèque"
 
 msgid "linguistics"
 msgstr "linguistique"
@@ -351,9 +375,6 @@ msgstr "ma carrière"
 msgid "my music"
 msgstr "ma musique"
 
-msgid "Native"
-msgstr "Langue maternelle"
-
 msgid "Open Source design and prototyping platform meant for cross-domain teams. Non dependent on operating systems, Penpot is web based and works with open web standards (SVG)."
 msgstr "Plateforme de conception et prototypage open source visant des équipes multi-domaines. Non dépendante des systèmes d'exploitation, Penpot est un logiciel web et fonctionne avec les standards web ouverts (SVG)."
 
@@ -380,12 +401,6 @@ msgstr "programmes"
 
 msgid "Programs that run in the terminal, a text-based interface for computers."
 msgstr "Programmes qui s'exécutent dans le terminal, une interface textuelle pour les ordinateurs."
-
-msgid "project"
-msgstr "projet"
-
-msgid "projects"
-msgstr "projets"
 
 msgid "Proudly powered by <a href=\"https://github.com/ortfo\">ortfo</a>, my portfolio database management system and <a href=\"https://github.com/a-h/templ\">templ</a>"
 msgstr "Fièrement propulsé par <a href=\"https://github.com/ortfo\">ortfo</a>, mon système de gestion de base de données pour les portfolios et <a href=\"https://github.com/a-h/templ\">templ</a>"
@@ -414,14 +429,11 @@ msgstr "Ensemble de glyphes (lettres, signes de ponctuation et autres) qui défi
 msgid "Short introductory video sequences typically played at the beginning of every video"
 msgstr "Courtes séquences vidéo d'introduction généralement diffusées au début de chaque vidéo d'une même série ou chaîne"
 
-msgid "Single-page PDF resume"
-msgstr "CV monopage en PDF"
+msgid "site"
+msgstr ""
 
 msgid "sites"
 msgstr "sites"
-
-msgid "skills"
-msgstr "compétences"
 
 msgid "Source code"
 msgstr "Code source"
@@ -444,17 +456,11 @@ msgstr "L'étude du langage"
 msgid "These are my creations."
 msgstr "Voici mes créations."
 
-msgid "This is a dynamic resume, pulling from <em><a href=\"https://wakatime.com\">wakatime</a></em> and other sources, including the portfolio's database itself."
-msgstr "Il s'agit d'un CV dynamique, tiré de <em><a href=\"https://wakatime.com\">wakatime</a></em> et d'autres sources, y compris la base de données du portfolio lui-même."
-
 msgid "thumbnail"
 msgstr "miniature"
 
 msgid "thumbnails"
 msgstr "miniatures"
-
-msgid "Time spent"
-msgstr "Temps passé"
 
 msgid "typeface"
 msgstr "police de caractères"
@@ -473,6 +479,9 @@ msgstr "Des interfaces utilisateur qui utilisent des éléments graphiques tels 
 
 msgid "video"
 msgstr "vidéo"
+
+msgid "videos"
+msgstr ""
 
 msgid "visual identities"
 msgstr "identités visuelles"
@@ -503,3 +512,4 @@ msgstr "projets"
 
 msgid "Your e-mail address"
 msgstr "Votre adresse mail"
+

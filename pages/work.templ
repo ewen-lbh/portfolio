@@ -184,8 +184,8 @@ css contentSectionStyles() {
 }
 
 css blockStyles() {
-	background-color: var(--tertiary, white);
-	color: var(--tertiary-text, black);
+	background-color: var(--tertiary, var(--secondary, white));
+	color: var(--tertiary-text, var(--secondary-text, black));
 	display: flex;
 	justify-content: center;
 	border-radius: 0.5rem;

@@ -45,3 +45,4 @@ media
 dist
 go.work.sum
 database.json
+.env

@@ -1,9 +1,9 @@
 render:
     just build
-    WAKATIME_API_KEY=$(rbw get 'wakatime api key') REMOVE_UNUSED_MESSAGES=1 ENV=static ./tmp/main
+    REMOVE_UNUSED_MESSAGES=1 ENV=static ./tmp/main
 
 dev: 
-    WAKATIME_API_KEY=$(rbw get 'wakatime api key') MAIL_PASSWORD=$(rbw get mail.ewen.works) ENV=development air
+    ENV=development air
 
 start:
     just build
@@ -24,8 +24,8 @@ clean:
 clean-media:
     rm -rf media/
 
-deploy:
-    rsync -av media/* ewen@ewen.works:~/www/media.ewen.works/
-    rsync -avz public/* ewen@ewen.works:~/www/assets.ewen.works/
-    rsync -av database.json ewen@ewen.works:~/portfolio/
-    ssh ewen@ewen.works "tmux send-keys -t 0:0.0 C-c 'git pull --autostash --rebase' Enter 'just start' Enter"
+deploy ssh='$SSH_SERVER':
+    rsync -av media/* {{ ssh }}:~/www/media.ewen.works/
+    rsync -avz public/* {{ ssh }}:~/www/assets.ewen.works/
+    rsync -av database.json {{ ssh }}:~/portfolio/
+    ssh {{ ssh }} "tmux send-keys -t 0:0.0 C-c 'git pull --autostash --rebase' Enter 'just start' Enter"

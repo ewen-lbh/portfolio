@@ -31,8 +31,11 @@ func CSS(declarations Selectors) templ.Component {
 	for selector, decls := range declarations {
 		css += selector + " {\n"
 		for property, value := range decls {
-			css += "\t" + CSSDeclaration(property, value)
+				if value != "" {
+						css += "\t" + CSSDeclaration(property, value)
+				}
 		}
+
 		css += "}\n"
 	}
 	return HTML(ortfodb.HTMLString("<style>\n" + css + "</style>"))

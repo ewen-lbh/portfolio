@@ -106,6 +106,7 @@ func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections share
 
 		for _, alias := range work.Metadata.Aliases {
 			redirect(alias, work.ID)
+			redirect(fmt.Sprintf("%s.json", alias), fmt.Sprintf("%s.json", work.ID))
 		}
 
 		encoded, _ := json.Marshal(work)

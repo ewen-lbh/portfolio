@@ -108,9 +108,10 @@ func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections share
 			redirect(alias, work.ID)
 		}
 
+		encoded, _ := json.Marshal(work)
 		server.Handle(fmt.Sprintf("/%s.json", work.ID), http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(&work)
+			w.Write(encoded)
 		}))
 	}
 

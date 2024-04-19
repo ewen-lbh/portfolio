@@ -6,7 +6,7 @@ import "fmt"
 import "github.com/ewen-lbh/portfolio/components"
 import "time"
 
-func gridAreas(layout ortfodb.Layout) shared.Selectors {
+func layoutCssGrid(layout ortfodb.Layout) templ.SafeCSSProperty {
 	var areas []string
 	for _, row := range layout.Normalize() {
 		var rowAreas []string
@@ -15,20 +15,11 @@ func gridAreas(layout ortfodb.Layout) shared.Selectors {
 		}
 		areas = append(areas, "'"+strings.Join(rowAreas, " ")+"'")
 	}
+	return templ.SafeCSSProperty(strings.Join(areas, " "))
+}
 
-	declarations := make(shared.Selectors)
-
-	declarations["section.content"] = shared.Declarations{
-		"grid-template-areas": strings.Join(areas, " "),
-	}
-
-	for _, id := range layout.BlockIDs() {
-		declarations["[data-block='"+id+"']"] = shared.Declarations{
-			"grid-area": fmt.Sprintf("_%s", id),
-		}
-	}
-
-	return declarations
+css gridAreasDefinition(layout ortfodb.Layout) {
+		grid-template-areas: { layoutCssGrid(layout) };
 }
 
 func colorVariables(work ortfodb.AnalyzedWork, language string) shared.Selectors {
@@ -183,7 +174,8 @@ css contentSectionStyles() {
 	padding: 0 1rem;
 }
 
-css blockStyles() {
+css blockStyles(block ortfodb.ContentBlock) {
+	grid-area: { "_" + block.ID };
 	background-color: var(--tertiary, var(--secondary, white));
 	color: var(--tertiary-text, var(--secondary-text, black));
 	display: flex;
@@ -367,7 +359,7 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 		</section>
 	}
 	<main>
-		@shared.CSS(shared.Merge(colorVariables(work, lang), gridAreas(work.Content.Localize(lang).Layout)))
+		@shared.CSS(colorVariables(work, lang))
 		<style>
 			@media (max-width: 600px) {
 				section.content {
@@ -377,10 +369,10 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 				}
 			}
 		</style>
-		<section class={ contentSectionStyles(), "content" }>
+		<section class={ contentSectionStyles(), "content", gridAreasDefinition(work.Content.Localize(lang).Layout) }>
 			for _, block := range work.Content.Localize(lang).Blocks {
 				<div
-					class={ blockStyles(), templ.KV(paragraphBlockStyle(), block.Type.IsParagraph()) }
+					class={ blockStyles(block), templ.KV(paragraphBlockStyle(), block.Type.IsParagraph()) }
 					data-block={ block.ID }
 					if block.Anchor != "" {
 						id={ block.Anchor }

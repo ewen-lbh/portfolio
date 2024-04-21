@@ -46,3 +46,4 @@ dist
 go.work.sum
 database.json
 .env
+deadlinks.log

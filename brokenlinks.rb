@@ -57,7 +57,7 @@ def check_broken_links database, exceptions
 end
 
 def push_kuma_status error_messages
-  uptime_kuma_push_url = URI.parse "https://status.ewen.works/api/push/VhYojQ7UZU"
+  uptime_kuma_push_url = URI.parse ARGV[1]
   push_params = {
     "status": if error_messages.empty? then "up" else "down" end,
       "msg": if error_messages.empty? then "OK" else error_messages.join ", " end,

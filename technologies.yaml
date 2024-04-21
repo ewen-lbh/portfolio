@@ -422,7 +422,7 @@
 - slug: fyne
   name: Fyne
   autodetect: [fyne in go.mod]
-  learn more at: https://www.fyne.io
+  learn more at: https://fyne.io
   description: |
     A simple cross-platform library to create graphical user interfaces in [Go](/using/go) that work on Android, iOS, Linux, MacOS and Windows.
 

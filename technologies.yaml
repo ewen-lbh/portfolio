@@ -446,8 +446,10 @@
 
 - slug: ortfo
   name: ortfo
-  files: [ortfodb.yaml, ortfomk.yaml]
-  learn more at: /using/ortfo
+  files: [ortfodb.yaml]
+  autodetect:
+    - "$schema=https://ortfo.org/ in *.yaml"
+  learn more at: /ortfo
   description: Un système de génération de portfolios faits maison.
 
 - slug: ada
@@ -499,3 +501,10 @@
   learn more at: https://vitepress.dev
   files: [.vitepress/]
   autodetect: [vitepress in package.json]
+
+- slug: flask
+  name: Flask
+  description: A lightweight Python framework to create web backends
+  learn more at: https://flask.palletsprojects.com
+  autodetect:
+    - flask in pyproject.toml

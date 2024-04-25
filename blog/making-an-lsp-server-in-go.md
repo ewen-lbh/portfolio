@@ -117,6 +117,7 @@ package yourlsp
 import (
 	"context"
 	"go.lsp.dev/protocol"
+	"go.lsp.dev/uri"
 	"go.uber.org/zap"
 )
 
@@ -165,7 +166,50 @@ This usually means that you can either pass `true` to say that you support the f
 
 Check with [the spec](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#serverCapabilities) to be sure.
 
+#### Example
+
+Here's an example method implementation that signals support for the Go to Definition feature:
+
+```go
+func (h Handler) Initialize(ctx context.Context, params *protocol.InitializeParams) (*protocol.InitializeResult, error) {
+	return &protocol.InitializeResult{
+		Capabilities: protocol.ServerCapabilities{
+			DefinitionProvider: true, // <-- right there
+		},
+		ServerInfo: &protocol.ServerInfo{
+			Name:    "yourls",
+			Version: "0.1.0",
+		},
+	}, nil
+}
+```
+
 ### Implementing a feature: the `Definition` example
+
+As with `Initialize`, hovering over the types of the parameters will help you greatly.
+
+```go
+// IMPORTANT: You _can't_ take a pointer to your handler struct as the receiver, 
+// your handler will no longer implement protocol.Server if you do that.
+func (h Handler) Definition(ctx context.Context, params *protocol.DefinitionParams) ([]protocol.Location, error) {
+	// ... do your processing ...
+	return []protocol.Location{
+		{
+			URI: uri.File(...),
+			Range: protocol.Range{
+				Start: protocol.Position{
+					Line:      0,
+					Character: 0,
+				},
+				End: protocol.Position{
+					Line:      0,
+					Character: 0,
+				},
+			},
+		},
+	}, nil
+}
+```
 
 ## Using in IDEs & editors
 
@@ -189,10 +233,10 @@ vim.api.nvim_create_autocmd({'BufEnter', 'BufWinEnter'}, {
 
 VSCode requires writing an entire extension to use an LSP server...
 
-If you want something quick 'n' dirty, you can use some generic 
+If you want something quick 'n' dirty, you can use some generic
 LSP client extension (for example, [llllvvuu's Generic LSP Client](https://marketplace.visualstudio.com/items?itemName=llllvvuu.llllvvuu-glspc)).
 
-But to do a proper extension that you can distribute to your user's, 
+But to do a proper extension that you can distribute to your user's,
 you'll want to follow [the vscode docs on LSP extension development](https://code.visualstudio.com/api/language-extensions/language-server-extension-guide).
 
 The guide assumes that you'll develop the LSP server in NodeJS too, but you can easily `rm -rf` the hell out of the `server/` directory from their template repository.

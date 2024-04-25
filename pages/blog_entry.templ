@@ -1,0 +1,44 @@
+package pages
+
+import "github.com/ewen-lbh/portfolio/shared"
+import "github.com/ewen-lbh/portfolio/components"
+import "github.com/ortfo/db"
+import "fmt"
+
+templ BlogEntry(entry shared.BlogEntry, db ortfodb.Database) {
+	@components.IntroWith(entry.Date.Format("2006-01-02"), entry.Title, false) {
+		@components.ArrowLink("/about") {
+			<i18n>Learn more about me</i18n>
+		}
+	}
+	<main class={ "blog-entry", blogEntryMain() }>
+		@shared.HTML(ortfodb.HTMLString(entry.Content))
+		if entry.Pageviews > 1 {
+		}
+	</main>
+	if entry.Pageviews > 1 {
+		<footer class={ entryFooter() }>
+			<h2>Stats from <a href="https://stats.ewen.works/ewen.works">stats.ewen.works</a> </h2>
+			{ fmt.Sprintf("%d", entry.Pageviews) } views
+		</footer>
+	}
+	if len(entry.RelatedWorksSlugs) > 0 {
+		<h2 class={ centeredHeader() }>Related works</h2>
+		@components.GalleryPage(entry.RelatedWorks(db), "en", false)
+	}
+}
+
+css centeredHeader() {
+	text-align: center;
+}
+
+css blogEntryMain() {
+	max-width: 800px;
+	margin: 2rem auto;
+	padding: 0 1rem;
+}
+
+css entryFooter() {
+	margin-top: 4rem;
+	text-align: center;
+}

@@ -22,9 +22,18 @@ import (
 
 func startFileServer(port int, root string) {
 	staticServer := http.NewServeMux()
-	fs := http.FileServer(http.Dir(filepath.Join(".", root)))
+	resolvedRoot, err := filepath.Abs(filepath.Join(".", root))
+	if err != nil {
+		panic(err)
+	}
+
+	fs := http.FileServer(http.Dir(resolvedRoot))
 	staticServer.Handle("/", fs)
-	http.ListenAndServe(fmt.Sprintf(":%d", port), staticServer)
+	fmt.Printf("[  ] Serving static files from %s on http://localhost:%d\n", resolvedRoot, port)
+	err = http.ListenAndServe(fmt.Sprintf(":%d", port), staticServer)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func startSHSServer(wg *sync.WaitGroup, port int, regularSiteURL string, sites []shared.Site, db ortfodb.Database, collections shared.Collections, technologies []shared.Technology, tags []shared.Tag) {
@@ -48,7 +57,7 @@ func startSHSServer(wg *sync.WaitGroup, port int, regularSiteURL string, sites [
 	http.ListenAndServe(fmt.Sprintf(":%d", port), server)
 }
 
-func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Collections, sites []shared.Site, technologies []shared.Technology, tags []shared.Tag, translations *Translations, port int) {
+func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections shared.Collections, sites []shared.Site, technologies []shared.Technology, tags []shared.Tag, blogEntries []shared.BlogEntry, translations *Translations, port int) {
 	server := http.NewServeMux()
 
 	registeredPaths := []string{}
@@ -114,6 +123,16 @@ func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections share
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(encoded)
 		}))
+	}
+
+	handlePage("blog", pages.BlogIndex(blogEntries))
+	for _, entry := range blogEntries {
+		err := entry.GetPageviews("/blog")
+		if err != nil {
+			fmt.Printf("[!!] Could not get pageviews for blog entry %s: %s\n", "blog/"+entry.Slug, err)
+		}
+
+		handlePage("blog/"+entry.Slug, pages.BlogEntry(entry, db))
 	}
 
 	for id, collection := range collections {
@@ -295,6 +314,12 @@ func main() {
 	var tags []shared.Tag
 	loadDataFile("tags.yaml", &tags)
 
+	blogEntries, err := loadBlogEntries("blog")
+	if err != nil {
+		fmt.Printf("while loading blog entries: %s\n", err.Error())
+		os.Exit(1)
+	}
+
 	if os.Getenv("SKIP_WAKATIME") != "1" {
 		for i := range technologies {
 			fmt.Printf("[  ] Calculating time spent on %s\n", technologies[i].Name)
@@ -311,7 +336,7 @@ func main() {
 	wg.Add(len(locales))
 
 	for i, locale := range locales {
-		go startPagesServer(&wg, db, collections, sites, technologies, tags, translations[locale], 8081+i)
+		go startPagesServer(&wg, db, collections, sites, technologies, tags, blogEntries, translations[locale], 8081+i)
 	}
 	go startFileServer(8079, "public")
 	go startFileServer(8080, "media")

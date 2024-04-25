@@ -28,10 +28,31 @@ css introSection() {
 	margin-bottom: 2rem;
 }
 
-templ Intro() {
+css introImageAsTitle() {
+	height: 100%;
+	max-height: 33vh;
+	min-height: clamp(3rem, 10vw, 7rem);
+	object-fit: contain;
+	overflow: hidden;
+	border-radius: 0.5rem;
+}
+
+templ Intro(overrides ...string) {
 	<section class={ introSection() }>
-		<p class={ preH1() } i18n>Hi! I'm Ewen Le Bihan.</p>
-		<h1 class={ h1() } i18n>These are my creations.</h1>
+		<p class={ preH1() } i18n?={ len(overrides) == 0 }>
+			if len(overrides) >= 1 {
+				{ overrides[0] }
+			} else {
+				Hi! I'm Ewen Le Bihan.
+			}
+		</p>
+		<h1 class={ h1() } i18n?={ len(overrides) <= 1 }>
+			if len(overrides) >= 2 {
+				{ overrides[1] }
+			} else {
+				These are my creations.
+			}
+		</h1>
 		<p class={ explain() }>
 			<i18n>I'm interested in almost anything that is both creative and digital.</i18n>
 			<br/>
@@ -44,6 +65,16 @@ templ IntroWith(pre string, title string, titleNeedsTranslation bool) {
 	<section class={ introSection() }>
 		<p class={ preH1() }>{ pre }</p>
 		<h1 i18n?={ titleNeedsTranslation } class={ h1() }>{ title }</h1>
+		<p class={ explain() }>
+			{ children... }
+		</p>
+	</section>
+}
+
+templ IntroImageTitleWith(pre string, imageSrc string, imageAlt string) {
+	<section class={ introSection() }>
+		<p class={ preH1() }>{ pre }</p>
+		<h1 class={ h1() }><img src={ imageSrc } alt={ imageAlt } class={ introImageAsTitle() }/></h1>
 		<p class={ explain() }>
 			{ children... }
 		</p>

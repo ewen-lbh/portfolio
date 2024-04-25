@@ -11,12 +11,19 @@ require (
 	github.com/gobwas/glob v0.2.3
 	github.com/goodsign/monday v1.0.2
 	github.com/metal3d/go-slugify v0.0.0-20160607203414-7ac2014b2f23
-	github.com/ortfo/db v1.4.0
+	github.com/ortfo/db v1.4.1
 	github.com/ortfo/gettext v1.0.3
 	golang.org/x/net v0.24.0
 	golang.org/x/text v0.14.0
 	gopkg.in/mail.v2 v2.3.1
 	gopkg.in/yaml.v3 v3.0.1
+)
+
+require (
+	github.com/BurntSushi/toml v1.2.1 // indirect
+	github.com/alecthomas/chroma/v2 v2.2.0 // indirect
+	github.com/dlclark/regexp2 v1.7.0 // indirect
+	github.com/yuin/goldmark v1.6.0 // indirect
 )
 
 require (
@@ -85,6 +92,8 @@ require (
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
 	github.com/xeipuuv/gojsonschema v1.2.0 // indirect
+	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
+	go.abhg.dev/goldmark/frontmatter v0.2.0
 	golang.org/x/crypto v0.22.0 // indirect
 	golang.org/x/image v0.15.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect

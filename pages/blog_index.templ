@@ -1,0 +1,18 @@
+package pages
+
+import "github.com/ewen-lbh/portfolio/shared"
+import "github.com/ewen-lbh/portfolio/components"
+
+templ BlogIndex(entries []shared.BlogEntry) {
+	@components.Intro() {
+		<ul>
+			for _, entry := range entries {
+				<li>
+					<a href={ templ.URL("/blog/" + entry.Slug) }>{ entry.Slug }</a>
+				</li>
+			}
+		</ul>
+	}
+}
+
+

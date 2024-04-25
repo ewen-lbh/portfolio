@@ -87,13 +87,15 @@ script setupSearcher(galleryClass string) {
 	})
 }
 
-templ GalleryPage(works []ortfodb.AnalyzedWork, language string) {
-	<form method="get" action="/" class={ galleryMaxWidth(), gallerySearch() }>
-		@setupSearcher("works")
-		@SearchBar(language, func (inputClass string) templ.ComponentScript {
-			return onInput(inputClass, "works")
-		})
-	</form>
+templ GalleryPage(works []ortfodb.AnalyzedWork, language string, searchBar ...bool) {
+	if len(searchBar) < 1 || searchBar[0] {
+		<form method="get" action="/" class={ galleryMaxWidth(), gallerySearch() }>
+			@setupSearcher("works")
+			@SearchBar(language, func(inputClass string) templ.ComponentScript {
+				return onInput(inputClass, "works")
+			})
+		</form>
+	}
 	<section class={ galleryMaxWidth(), galleryPageMain() }>
 		{ children... }
 		@WorksGrid(works, language, "works")

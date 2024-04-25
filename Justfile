@@ -1,3 +1,5 @@
+set dotenv-load := true
+
 render:
     just build
     REMOVE_UNUSED_MESSAGES=1 ENV=static ./tmp/main
@@ -51,6 +53,7 @@ deploy ssh='$SSH_SERVER':
     just upload-media {{ ssh }}
     just upload-assets {{ ssh }}
     rsync -av database.json {{ ssh }}:~/portfolio/
+    just git-pull {{ ssh }}
     ssh {{ ssh }} "tmux send-keys -t 0:0.0 C-c 'git pull --autostash --rebase' Enter 'just start' Enter"
 
 upload-assets ssh:
@@ -58,3 +61,6 @@ upload-assets ssh:
 
 upload-media ssh:
     rsync -av media/* {{ ssh }}:~/www/media.ewen.works/
+
+git-pull ssh:
+    ssh {{ ssh }} "bash -c 'cd ~/portfolio && git stash && git pull && git stash apply'"

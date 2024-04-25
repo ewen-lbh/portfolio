@@ -41,3 +41,47 @@ pre {
 		font-size: 16px;
 	}
 }
+
+pre {
+	overflow: auto;
+}
+
+.blog-entry pre {
+	font-size: 0.75rem;
+}
+
+.blog-entry h2,
+.blog-entry h3,
+.blog-entry h4,
+.blog-entry h5,
+.blog-entry h6 {
+	font-weight: bold;
+	margin: 2rem 0;
+}
+
+.blog-entry :where(h2, h3, h4, h5, h6)::before {
+	color: lightgray;
+	font-weight: bold;
+	margin-right: 1ch;
+	font-family: var(--mono);
+}
+
+.blog-entry h2::before {
+	content: '##';
+}
+
+.blog-entry h3::before {
+	content: '###';
+}
+
+.blog-entry h4::before {
+	content: '####';
+}
+
+.blog-entry h5::before {
+	content: '#####';
+}
+
+.blog-entry h6::before {
+	content: '######';
+}

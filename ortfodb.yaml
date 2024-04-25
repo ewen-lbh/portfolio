@@ -20,7 +20,6 @@ make thumbnails:
 media:
   at: media/
 
-build metadata file: .lastbuild.yaml
 scattered mode folder: .ortfo
 
 tags:

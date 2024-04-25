@@ -13,7 +13,7 @@ func Thumb(work ortfodb.AnalyzedWork, language string) ortfodb.Media {
 }
 
 func css(work ortfodb.AnalyzedWork, language string) templ.Component {
-	accentColor := work.Colors(language).Tertiary
+	accentColor := work.Colors(language).Primary
 	if accentColor == "" {
 		accentColor = work.Colors(language).Secondary
 	}

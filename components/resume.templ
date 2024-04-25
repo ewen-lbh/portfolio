@@ -19,8 +19,8 @@ css skillCard() {
 
 css cardFigure() {
 	font-size: 3em;
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 	justify-content: center;
 }
 
@@ -40,10 +40,7 @@ css SkillsList() {
 }
 
 templ SkillCard(href string, figure int, logo string) {
-	@shared.OnHover(skillCard(), shared.Declarations{
-		"box-shadow": "0 9px 12px 1px rgba(0, 0, 0, 0.14), 0 3px 16px 2px rgba(0, 0, 0, 0.12), 0 5px 6px -3px rgba(0, 0, 0, 0.2)",
-    })
-	<a class={ skillCard() } href={ templ.URL(href) }>
+	@Card(href) {
 		<div class={ cardFigure() }>
 			if logo != "" {
 				<img class={ skillLogo() } src={ shared.Asset(logo) }/>
@@ -53,5 +50,14 @@ templ SkillCard(href string, figure int, logo string) {
 		<p>
 			{ children... }
 		</p>
+	}
+}
+
+templ Card(href string) {
+	@shared.OnHover(skillCard(), shared.Declarations{
+		"box-shadow": "0 9px 12px 1px rgba(0, 0, 0, 0.14), 0 3px 16px 2px rgba(0, 0, 0, 0.12), 0 5px 6px -3px rgba(0, 0, 0, 0.2)",
+	})
+	<a class={ skillCard() } href={ templ.URL(href) }>
+		{ children... }
 	</a>
 }

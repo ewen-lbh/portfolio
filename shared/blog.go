@@ -19,8 +19,8 @@ type BlogEntry struct {
 	Slug              string
 	Content           string
 	OtherMetadata     map[string]any `yaml:",inline"`
-	Pageviews         int
-	RelatedWorksSlugs []string `yaml:"works"`
+	RelatedWorksSlugs []string       `yaml:"works"`
+	BlogRoot          string
 }
 
 func (e *BlogEntry) RelatedWorks(db ortfodb.Database) []ortfodb.AnalyzedWork {
@@ -37,14 +37,12 @@ func (e *BlogEntry) RelatedWorks(db ortfodb.Database) []ortfodb.AnalyzedWork {
 	return works
 }
 
-func (e *BlogEntry) GetPageviews(blogRoot string) error {
-	views, err := getPageviewsFor(blogRoot + "/" + e.Slug)
+func (e *BlogEntry) Pageviews() int {
+	views, err := getPageviewsFor(e.BlogRoot + "/" + e.Slug)
 	if err != nil {
-		return err
+		fmt.Printf("[!!] Failed to get pageviews for %s: %v\n", e.Slug, err)
 	}
-
-	e.Pageviews = views
-	return nil
+	return views
 }
 
 func getPageviewsFor(path string) (int, error) {

@@ -157,9 +157,9 @@ type NavigationLink struct {
 
 templ Navigation(links []NavigationLink) {
 	@shared.OnHover(navigationLink(), shared.Declarations{
-					"opacity": "1",
-					"font-weight": "800",
-				})
+		"opacity":     "1",
+		"font-weight": "800",
+	})
 	<style>
 		@media (max-width:600px) {
 			#nav-toggle {
@@ -307,6 +307,7 @@ templ Navigation(links []NavigationLink) {
 func RegularLayoutLinks(collections map[string]string, lang string, currentPath string) []NavigationLink {
 	links := []NavigationLink{
 		{Text: "works", Link: "/", NeedsTranslation: true},
+		{Text: "blog", Link: "/blog", NeedsTranslation: true},
 	}
 
 	for _, entry := range shared.SortedKeys(collections) {

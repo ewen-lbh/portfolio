@@ -4,15 +4,30 @@ import "github.com/ewen-lbh/portfolio/shared"
 import "github.com/ewen-lbh/portfolio/components"
 
 templ BlogIndex(entries []shared.BlogEntry) {
-	@components.Intro() {
-		<ul>
+	@components.IntroWith("Hiya~", "Welcome to my blog index", true)
+	<main class={ articlesList() }>
+		<ul class={ components.SkillsList() }>
 			for _, entry := range entries {
 				<li>
-					<a href={ templ.URL("/blog/" + entry.Slug) }>{ entry.Slug }</a>
+					@components.Card("/blog/" + entry.Slug) {
+						<h2>{ entry.Title }</h2>
+						<p>{ entry.Date.Format("2006-01-02") }</p>
+					}
+					// <dt>{ entry.Date.Format("2006-01-02") }</dt>
+					// <dd>
+					// 	<a href={ templ.URL("/blog/" + entry.Slug) }>{ entry.Title }</a>
+					// </dd>
 				</li>
 			}
 		</ul>
-	}
+	</main>
 }
 
-
+css articlesList() {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	max-width: 800px;
+	margin: 3rem auto;
+	padding: 1rem;
+}

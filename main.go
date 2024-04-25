@@ -118,11 +118,7 @@ func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections share
 
 	handlePage("blog", pages.BlogIndex(blogEntries))
 	for _, entry := range blogEntries {
-		err := entry.GetPageviews("/blog")
-		if err != nil {
-			fmt.Printf("[!!] Could not get pageviews for blog entry %s: %s\n", "blog/"+entry.Slug, err)
-		}
-
+		entry.BlogRoot = "/blog"
 		handlePage("blog/"+entry.Slug, pages.BlogEntry(entry, db))
 	}
 

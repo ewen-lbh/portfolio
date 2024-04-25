@@ -85,3 +85,7 @@ pre {
 .blog-entry h6::before {
 	content: '######';
 }
+
+.blog-entry img {
+	max-width: 100%;
+}

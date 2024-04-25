@@ -158,11 +158,17 @@ func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections share
 	server.HandleFunc("/mail", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
 		}
 
 		subject := strings.TrimSpace(r.FormValue("subject"))
 		body := strings.TrimSpace(r.FormValue("body"))
 		from := strings.TrimSpace(r.FormValue("from"))
+
+		if subject == "" || body == "" || from == "" {
+			http.Error(w, "Missing fields", http.StatusBadRequest)
+			return
+		}
 
 		err := SendMailToSelf(from, subject, body)
 		if err != nil {

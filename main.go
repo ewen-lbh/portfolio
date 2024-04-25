@@ -22,18 +22,9 @@ import (
 
 func startFileServer(port int, root string) {
 	staticServer := http.NewServeMux()
-	resolvedRoot, err := filepath.Abs(filepath.Join(".", root))
-	if err != nil {
-		panic(err)
-	}
-
-	fs := http.FileServer(http.Dir(resolvedRoot))
+	fs := http.FileServer(http.Dir(filepath.Join(".", root)))
 	staticServer.Handle("/", fs)
-	fmt.Printf("[  ] Serving static files from %s on http://localhost:%d\n", resolvedRoot, port)
-	err = http.ListenAndServe(fmt.Sprintf(":%d", port), staticServer)
-	if err != nil {
-		panic(err)
-	}
+	http.ListenAndServe(fmt.Sprintf(":%d", port), staticServer)
 }
 
 func startSHSServer(wg *sync.WaitGroup, port int, regularSiteURL string, sites []shared.Site, db ortfodb.Database, collections shared.Collections, technologies []shared.Technology, tags []shared.Tag) {

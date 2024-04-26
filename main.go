@@ -122,6 +122,29 @@ func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections share
 		handlePage("blog/"+entry.Slug, pages.BlogEntry(entry, db))
 	}
 
+	feed, err := BlogRssFeed(blogEntries)
+	if err != nil {
+		panic(err)
+	}
+	server.Handle("/blog/rss.xml", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/xml")
+		content, err := feed.ToRss()
+		if err != nil {
+			http.Error(w, "Could not generate RSS feed", http.StatusInternalServerError)
+			return
+		}
+		w.Write([]byte(content))
+	}))
+	server.Handle("/blog/atom.xml", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/xml")
+		content, err := feed.ToAtom()
+		if err != nil {
+			http.Error(w, "Could not generate Atom feed", http.StatusInternalServerError)
+			return
+		}
+		w.Write([]byte(content))
+	}))
+
 	for id, collection := range collections {
 		handlePage(id, pages.Collection(collection, db, tags, technologies, translations.language))
 		for _, pathname := range collection.Aliases {

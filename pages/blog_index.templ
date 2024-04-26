@@ -4,20 +4,19 @@ import "github.com/ewen-lbh/portfolio/shared"
 import "github.com/ewen-lbh/portfolio/components"
 
 templ BlogIndex(entries []shared.BlogEntry) {
-	@components.IntroWith("Hiya~", "Welcome to my blog index", true)
+	@components.IntroWith("Hiya~", "Welcome to my blog index", true) {
+		@components.ArrowLink("/blog/rss.xml") { RSS feed }
+		@components.ArrowLink("/blog/atom.xml") { Atom feed }
+	}
 	<main class={ articlesList() }>
 		<ul class={ components.SkillsList() }>
 			for _, entry := range entries {
-				<li>
-					@components.Card("/blog/" + entry.Slug) {
-						<h2>{ entry.Title }</h2>
-						<p>{ entry.Date.Format("2006-01-02") }</p>
-					}
-					// <dt>{ entry.Date.Format("2006-01-02") }</dt>
-					// <dd>
-					// 	<a href={ templ.URL("/blog/" + entry.Slug) }>{ entry.Title }</a>
-					// </dd>
-				</li>
+			<li>
+				@components.Card("/blog/" + entry.Slug) {
+					<h2>{ entry.Title }</h2>
+					<p>{ entry.Date.Format("2006-01-02") }</p>
+				}
+			</li>
 			}
 		</ul>
 	</main>

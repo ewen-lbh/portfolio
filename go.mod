@@ -44,6 +44,7 @@ require (
 	github.com/charmbracelet/bubbletea v0.25.0 // indirect
 	github.com/charmbracelet/huh v0.3.0 // indirect
 	github.com/charmbracelet/lipgloss v0.10.0 // indirect
+	github.com/codesoap/rss2 v0.1.0
 	github.com/containerd/console v1.0.4 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
@@ -51,6 +52,7 @@ require (
 	github.com/go-git/go-git/v5 v5.12.0 // indirect
 	github.com/gomarkdown/markdown v0.0.0-20240328165702-4d01890c35c0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
+	github.com/gorilla/feeds v1.1.2
 	github.com/gosuri/uilive v0.0.4 // indirect
 	github.com/gosuri/uiprogress v0.0.1 // indirect
 	github.com/huandu/xstrings v1.4.0 // indirect

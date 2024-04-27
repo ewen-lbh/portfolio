@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"sort"
@@ -82,16 +83,20 @@ func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections share
 			ch:           templ.Handler(pages.Layout(page, navigation, sites, translations.language)),
 		}
 
-		server.Handle(fmt.Sprintf("/%s", path), translator)
+		escapedSegments := []string{}
+		for _, segment := range strings.Split(path, "/") {
+				escapedSegments = append(escapedSegments, url.PathEscape(segment))
+		}
+		server.Handle(fmt.Sprintf("/%s", strings.Join(escapedSegments, "/")), translator)
 		registeredPaths = append(registeredPaths, path)
 	}
 
 	redirect := func(from, to string) {
 		if !strings.HasPrefix(to, "https://") && !strings.HasPrefix(to, "mailto:") && !strings.HasPrefix(to, "http://") {
-			to = fmt.Sprintf("/%s", to)
+			to = fmt.Sprintf("/%s", url.PathEscape(to))
 		}
 		// fmt.Printf("[%s] Registering redirect /%s -> %s\n", locale, from, to)
-		server.Handle(fmt.Sprintf("/%s", from), http.RedirectHandler(to, http.StatusSeeOther))
+		server.Handle(fmt.Sprintf("/%s", url.PathEscape(from)), http.RedirectHandler(to, http.StatusSeeOther))
 	}
 
 	handlePage("", pages.Index(db, translations.language))

@@ -508,3 +508,9 @@
   learn more at: https://flask.palletsprojects.com
   autodetect:
     - flask in pyproject.toml
+
+- slug: hyprland
+  name: Hyprland
+  description: A Wayland tiling window manager and compositor that doesn't compromise on looks
+  learn more at: https://hyprland.org
+  files: [hypr*.conf]

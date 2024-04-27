@@ -398,7 +398,7 @@ func onFirstRow(block ortfodb.ContentBlock, layout ortfodb.Layout) bool {
 	return false
 }
 
-templ Work(work ortfodb.Work, tags []shared.Tag, techs []shared.Technology, collections []shared.Collection, lang string) {
+templ Work(work ortfodb.Work, tags []shared.Tag, techs []shared.Technology, collections []shared.Collection, blogEntries []shared.BlogEntry, lang string) {
 	@withIntro(work, lang) {
 		@shared.OnHover(tagLink(), shared.Declarations{
 			"opacity": "1",
@@ -484,6 +484,21 @@ templ Work(work ortfodb.Work, tags []shared.Tag, techs []shared.Technology, coll
 								// </div>
 							}
 						</li>
+					}
+				</ul>
+			</section>
+		}
+		if len(shared.RelatedBlogEntries(work, blogEntries)) > 0 {
+			<section class={ standardWorkSection() }>
+				<h2 i18n>Related blog entries</h2>
+				<ul class={ components.SkillsList() }>
+					for _, entry := range shared.RelatedBlogEntries(work, blogEntries) {
+					<li>
+						@components.Card("/blog/" + entry.Slug) {
+							<h2>{ entry.Title }</h2>
+							<p>{ entry.Date.Format("2006-01-02") }</p>
+						}
+					</li>
 					}
 				</ul>
 			</section>

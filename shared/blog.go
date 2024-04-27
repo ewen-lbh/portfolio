@@ -23,6 +23,16 @@ type BlogEntry struct {
 	BlogRoot          string
 }
 
+func RelatedBlogEntries(w ortfodb.Work, allEntries []BlogEntry) []BlogEntry {
+	entries := make([]BlogEntry, 0)
+	for _, entry := range allEntries {
+		if len(entry.RelatedWorks(ortfodb.Database{w.ID: w})) > 0 {
+			entries = append(entries, entry)
+		}
+	}
+	return entries
+}
+
 func (e *BlogEntry) RelatedWorks(db ortfodb.Database) []ortfodb.Work {
 	var works []ortfodb.Work
 	for _, slug := range e.RelatedWorksSlugs {

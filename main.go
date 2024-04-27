@@ -106,6 +106,7 @@ func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections share
 			shared.TagsOf(tags, work.Metadata),
 			shared.TechsOf(technologies, work.Metadata),
 			collections.ThatIncludeWork(work, shared.Keys(db.Works()), tags, technologies),
+			blogEntries,
 			translations.language,
 		))
 

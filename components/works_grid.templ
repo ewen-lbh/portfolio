@@ -44,7 +44,7 @@ css gridSection() {
 	margin: 0 auto;
 }
 
-templ WorksGrid(works []ortfodb.AnalyzedWork, language string, sectionName string) {
+templ WorksGrid(works []ortfodb.Work, language string, sectionName string) {
 	@masonry("." + sectionName)
 	<section class={ sectionName, gridSection() }>
 		for _, work := range ortfodb.SortWorksByDate(works) {

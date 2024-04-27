@@ -4,15 +4,15 @@ import "fmt"
 import "github.com/ortfo/db"
 import "github.com/ewen-lbh/portfolio/shared"
 
-func ThumbPath(work ortfodb.AnalyzedWork, language string) string {
+func ThumbPath(work ortfodb.Work, language string) string {
 	return shared.Media(work.ThumbnailPath(language, 600))
 }
 
-func Thumb(work ortfodb.AnalyzedWork, language string) ortfodb.Media {
+func Thumb(work ortfodb.Work, language string) ortfodb.Media {
 	return work.ThumbnailBlock(language)
 }
 
-func css(work ortfodb.AnalyzedWork, language string) templ.Component {
+func css(work ortfodb.Work, language string) templ.Component {
 	accentColor := work.Colors(language).Primary
 	if accentColor == "" {
 		accentColor = work.Colors(language).Secondary
@@ -88,7 +88,7 @@ css wipIndicator() {
 	font-family: var(--mono);
 }
 
-templ WorkCard(work ortfodb.AnalyzedWork, language string) {
+templ WorkCard(work ortfodb.Work, language string) {
 	@shared.PseudoElement(wipIndicator(), "before", shared.Declarations{
 		"content": "''",
 		"height":"1.3ch",

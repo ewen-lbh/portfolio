@@ -23,14 +23,11 @@ type BlogEntry struct {
 	BlogRoot          string
 }
 
-func (e *BlogEntry) RelatedWorks(db ortfodb.Database) []ortfodb.AnalyzedWork {
-	var works []ortfodb.AnalyzedWork
+func (e *BlogEntry) RelatedWorks(db ortfodb.Database) []ortfodb.Work {
+	var works []ortfodb.Work
 	for _, slug := range e.RelatedWorksSlugs {
-		for id, work := range db.Works() {
-			if id == slug {
+		if work, found := db.FindWork(slug); found {
 				works = append(works, work)
-				continue
-			}
 		}
 	}
 

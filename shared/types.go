@@ -31,7 +31,7 @@ type Technology struct {
 	TimeSpent    time.Duration
 }
 
-func (tech Technology) Works(db ortfodb.Database) (worksWithTech []ortfodb.AnalyzedWork) {
+func (tech Technology) Works(db ortfodb.Database) (worksWithTech []ortfodb.Work) {
 	for _, work := range db.Works() {
 		for _, name := range work.Metadata.MadeWith {
 			if tech.ReferredToBy(name) {
@@ -50,7 +50,7 @@ type Tag struct {
 	LearnMoreURL string             `yaml:"learn more at"`
 }
 
-func (tag Tag) Works(db ortfodb.Database) (worksWithTag []ortfodb.AnalyzedWork) {
+func (tag Tag) Works(db ortfodb.Database) (worksWithTag []ortfodb.Work) {
 	for _, work := range db.Works() {
 		for _, tagName := range work.Metadata.Tags {
 			if tag.ReferredToBy(tagName) {
@@ -85,7 +85,7 @@ func (cs Collections) URLsToNames(canonicalOnly bool, locale string) map[string]
 	return urlsToNames
 }
 
-func (cs Collections) ThatIncludeWork(work ortfodb.AnalyzedWork, workIDs []string, tags []Tag, techs []Technology) []Collection {
+func (cs Collections) ThatIncludeWork(work ortfodb.Work, workIDs []string, tags []Tag, techs []Technology) []Collection {
 	out := make([]Collection, 0)
 	for _, c := range cs {
 		if ok, err := c.Contains(work, workIDs, tags, techs); ok || err != nil {

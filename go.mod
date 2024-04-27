@@ -1,6 +1,6 @@
 module github.com/ewen-lbh/portfolio
 
-go 1.21
+go 1.22.2
 
 require (
 	github.com/PuerkitoBio/goquery v1.9.1
@@ -11,7 +11,7 @@ require (
 	github.com/gobwas/glob v0.2.3
 	github.com/goodsign/monday v1.0.2
 	github.com/metal3d/go-slugify v0.0.0-20160607203414-7ac2014b2f23
-	github.com/ortfo/db v1.4.1
+	github.com/ortfo/db v1.6.1
 	github.com/ortfo/gettext v1.0.3
 	golang.org/x/net v0.24.0
 	golang.org/x/text v0.14.0
@@ -20,10 +20,30 @@ require (
 )
 
 require (
+	cdr.dev/slog v1.6.1 // indirect
 	github.com/BurntSushi/toml v1.2.1 // indirect
-	github.com/alecthomas/chroma/v2 v2.2.0 // indirect
-	github.com/dlclark/regexp2 v1.7.0 // indirect
-	github.com/yuin/goldmark v1.6.0 // indirect
+	github.com/FurqanSoftware/goldmark-d2 v0.0.0-20240222042550-23ef2a4e585c // indirect
+	github.com/alecthomas/chroma v0.10.0 // indirect
+	github.com/alecthomas/chroma/v2 v2.13.0 // indirect
+	github.com/dlclark/regexp2 v1.11.0 // indirect
+	github.com/dop251/goja v0.0.0-20240220182346-e401ed450204 // indirect
+	github.com/go-sourcemap/sourcemap v2.1.4+incompatible // indirect
+	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
+	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
+	github.com/google/pprof v0.0.0-20240424215950-a892ee059fd6 // indirect
+	github.com/mazznoer/csscolorparser v0.1.3 // indirect
+	github.com/yuin/goldmark v1.7.1 // indirect
+	github.com/yuin/goldmark-highlighting v0.0.0-20220208100518-594be1970594 // indirect
+	github.com/zyedidia/generic v1.2.1 // indirect
+	go.opencensus.io v0.24.0 // indirect
+	go.opentelemetry.io/otel v1.26.0 // indirect
+	go.opentelemetry.io/otel/trace v1.26.0 // indirect
+	golang.org/x/exp v0.0.0-20240416160154-fe59bbe5cc7f // indirect
+	golang.org/x/xerrors v0.0.0-20231012003039-104605ab7028 // indirect
+	gonum.org/v1/plot v0.14.0 // indirect
+	mvdan.cc/xurls/v2 v2.5.0 // indirect
+	oss.terrastruct.com/d2 v0.6.5 // indirect
+	oss.terrastruct.com/util-go v0.0.0-20231101220827-55b3812542c2 // indirect
 )
 
 require (

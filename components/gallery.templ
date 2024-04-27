@@ -87,7 +87,7 @@ script setupSearcher(galleryClass string) {
 	})
 }
 
-templ GalleryPage(works []ortfodb.AnalyzedWork, language string, searchBar ...bool) {
+templ GalleryPage(works []ortfodb.Work, language string, searchBar ...bool) {
 	if len(searchBar) < 1 || searchBar[0] {
 		<form method="get" action="/" class={ galleryMaxWidth(), gallerySearch() }>
 			@setupSearcher("works")

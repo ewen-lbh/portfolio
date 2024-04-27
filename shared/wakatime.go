@@ -55,7 +55,7 @@ const WAKATIME_CACHE_LIFETIME = 24 * time.Hour
 
 var timeSpentOnTechs map[string]time.Duration = make(map[string]time.Duration)
 
-func TimeSpentOnProject(work ortfodb.AnalyzedWork) time.Duration {
+func TimeSpentOnProject(work ortfodb.Work) time.Duration {
 	// In dev, don't calculate times, it just slows everything down
 	if IsDev() {
 		return 0

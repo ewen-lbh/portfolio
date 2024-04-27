@@ -14,7 +14,7 @@ type HTMLString = string
 type URLString = string
 type AntonmedvExpression = string
 
-func (c Collection) Works(db ortfodb.Database, tags []Tag, technologies []Technology) (worksInCollection []ortfodb.AnalyzedWork) {
+func (c Collection) Works(db ortfodb.Database, tags []Tag, technologies []Technology) (worksInCollection []ortfodb.Work) {
 	works := db.Works()
 	for _, work := range works {
 		contained, err := c.Contains(work, keys(works), tags, technologies)
@@ -28,7 +28,7 @@ func (c Collection) Works(db ortfodb.Database, tags []Tag, technologies []Techno
 	return
 }
 
-func (c Collection) Contains(work ortfodb.AnalyzedWork, workIDs []string, tags []Tag, technologies []Technology) (bool, error) {
+func (c Collection) Contains(work ortfodb.Work, workIDs []string, tags []Tag, technologies []Technology) (bool, error) {
 	context := map[string]interface{}{"work": work}
 	for _, id := range workIDs {
 		context[strings.ReplaceAll(id, "-", "_")] = id == work.ID

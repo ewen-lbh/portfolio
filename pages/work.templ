@@ -8,10 +8,17 @@ import "time"
 
 func layoutCssGrid(layout ortfodb.Layout) templ.SafeCSSProperty {
 	var areas []string
-	for _, row := range layout.Normalize() {
+	for i, row := range layout.Normalize() {
 		var rowAreas []string
-		for _, cell := range row {
-			rowAreas = append(rowAreas, string("_"+cell))
+		for j, cell := range row {
+			var cellString string
+			// TODO use ortfodb.EmptyLayoutCell
+			if string(cell) == "empty" {
+				cellString = fmt.Sprintf("spacer%d%d", i, j)
+			} else {
+				cellString = fmt.Sprintf("_%s", cell)
+			}
+			rowAreas = append(rowAreas, cellString)
 		}
 		areas = append(areas, "'"+strings.Join(rowAreas, " ")+"'")
 	}
@@ -19,14 +26,14 @@ func layoutCssGrid(layout ortfodb.Layout) templ.SafeCSSProperty {
 }
 
 css gridAreasDefinition(layout ortfodb.Layout) {
-		grid-template-areas: { layoutCssGrid(layout) };
+	grid-template-areas: { layoutCssGrid(layout) };
 }
 
-func colorVariables(work ortfodb.AnalyzedWork, language string) shared.Selectors {
+func colorVariables(work ortfodb.Work, language string) shared.Selectors {
 	palette := work.Colors(language)
 	variableToUseForText := "primary"
-	if palette.Primary == "" || palette.Secondary == "" || shared.Contrast(palette.Primary, palette.Secondary) < 4.5 {
-		variableToUseForText = "secondary-text"
+	if palette.Tertiary == "" || palette.Secondary == "" || shared.Contrast(palette.Tertiary, palette.Secondary) < 4.5 {
+		variableToUseForText = "tertiary-text"
 	}
 	return shared.Selectors{
 		"body": {
@@ -36,7 +43,7 @@ func colorVariables(work ortfodb.AnalyzedWork, language string) shared.Selectors
 			"--secondary-text": shared.ReadableOn(palette.Secondary),
 			"--tertiary":       shared.Color(palette.Tertiary),
 			"--tertiary-text":  shared.ReadableOn(palette.Tertiary),
-			"background-color": "var(--secondary)",
+			"background-color": "var(--tertiary)",
 			"color":            fmt.Sprintf("var(--%s)", variableToUseForText),
 		},
 	}
@@ -176,8 +183,8 @@ css contentSectionStyles() {
 
 css blockStyles(block ortfodb.ContentBlock) {
 	grid-area: { "_" + block.ID };
-	background-color: var(--tertiary, var(--secondary, white));
-	color: var(--tertiary-text, var(--secondary-text, black));
+	background-color: var(--secondary, white);
+	color: var(--secondary-text, black);
 	display: flex;
 	justify-content: center;
 	border-radius: 0.5rem;
@@ -212,7 +219,6 @@ css figureStyles() {
 	margin: 0;
 	width: 100%;
 }
-
 
 css figureCaptionStyles() {
 	display: flex;
@@ -334,14 +340,68 @@ func formatDuration(duration time.Duration, lang string) string {
 	return strings.Join(parts, " ")
 }
 
-templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technology, collections []shared.Collection, lang string) {
-	@components.IntroWith(
-		shared.FormatDate(work.Metadata.CreatedAt(), "January 2006", lang), 
-		work.Content.Localize(lang).Title.String(),
-		false,
-	) {
+func blockIsLogo(work ortfodb.Work, block ortfodb.ContentBlock) bool {
+	if !block.Type.IsMedia() {
+		return false
+	}
+
+	if value, found := work.Metadata.AdditionalMetadata["logo"]; found {
+		switch value := value.(type) {
+		case string:
+			return block.RelativeSource == ortfodb.FilePathInsidePortfolioFolder(value)
+		}
+	}
+
+	return false
+}
+
+func findLogoMediaBlock(work ortfodb.Work, language string) (ortfodb.Media, bool) {
+	for _, block := range work.Content.Localize(language).Blocks {
+		if blockIsLogo(work, block) {
+			return block.AsMedia(), true
+		}
+	}
+	return ortfodb.Media{}, false
+}
+
+templ withIntro(work ortfodb.Work, lang string) {
+	if logoBlock, found := findLogoMediaBlock(work, lang); found {
+		@components.IntroImageTitleWith(
+			shared.FormatDate(work.Metadata.CreatedAt(), "January 2006", lang),
+			MediaSrc(logoBlock),
+			work.Content.Localize(lang).Title.String(),
+		) {
+			{ children... }
+		}
+	} else {
+		@components.IntroWith(
+			shared.FormatDate(work.Metadata.CreatedAt(), "January 2006", lang),
+			work.Content.Localize(lang).Title.String(),
+			false,
+		) {
+			{ children... }
+		}
+	}
+}
+
+func onFirstRow(block ortfodb.ContentBlock, layout ortfodb.Layout) bool {
+	for i, row := range layout.Normalize() {
+		if i > 0 {
+			return false
+		}
+		for _, cell := range row {
+			if string(cell) == block.ID {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+templ Work(work ortfodb.Work, tags []shared.Tag, techs []shared.Technology, collections []shared.Collection, lang string) {
+	@withIntro(work, lang) {
 		@shared.OnHover(tagLink(), shared.Declarations{
-			"opacity":     "1",
+			"opacity": "1",
 		})
 		<section class={ tagLinks() }>
 			for _, tag := range tags {
@@ -372,21 +432,23 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 		</style>
 		<section class={ contentSectionStyles(), "content", gridAreasDefinition(work.Content.Localize(lang).Layout) }>
 			for _, block := range work.Content.Localize(lang).Blocks {
-				<div
-					class={ blockStyles(block), templ.KV(paragraphBlockStyle(), block.Type.IsParagraph()) }
-					data-block={ block.ID }
-					if block.Anchor != "" {
-						id={ block.Anchor }
-					}
-				>
-					if block.Type.IsParagraph() {
-						@ParagraphBlock(block.AsParagraph())
-					} else if block.Type.IsMedia() {
-						@MediaBlock(block.AsMedia(), block.ID)
-					} else if block.Type.IsLink() {
-						@LinkBlock(block.AsLink())
-					}
-				</div>
+				if !blockIsLogo(work, block) || !onFirstRow(block, work.Content.Localize(lang).Layout) {
+					<div
+						class={ blockStyles(block), templ.KV(paragraphBlockStyle(), block.Type.IsParagraph()) }
+						data-block={ block.ID }
+						if block.Anchor != "" {
+							id={ block.Anchor }
+						}
+					>
+						if block.Type.IsParagraph() {
+							@ParagraphBlock(block.AsParagraph())
+						} else if block.Type.IsMedia() {
+							@MediaBlock(block.AsMedia(), block.ID)
+						} else if block.Type.IsLink() {
+							@LinkBlock(block.AsLink())
+						}
+					</div>
+				}
 			}
 		</section>
 		if len(work.Content.Localize(lang).Footnotes) > 0 {
@@ -414,7 +476,7 @@ templ Work(work ortfodb.AnalyzedWork, tags []shared.Tag, techs []shared.Technolo
 				<ul class={ madeWithTechnologiesList() }>
 					for _, tool := range techs {
 						<li class={ listItemNoBullet() }>
-							@components.SimpleLink("/using/" + tool.Slug, madeWithTechnology()) {
+							@components.SimpleLink("/using/"+tool.Slug, madeWithTechnology()) {
 								<img class={ madeWithTechnologyLogo() } src={ shared.Asset(fmt.Sprintf("logos/%s.svg", tool.Slug)) }/>
 								{ tool.Name }
 								// <div class={ madeWithTechnologyDescription() } i18n>

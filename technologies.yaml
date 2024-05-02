@@ -151,7 +151,6 @@
 
 - slug: json
   name: JSON
-  files: ["*.json"]
   learn more at: https://www.json.org/
   description: |
     A lightweight data-interchange format
@@ -386,7 +385,6 @@
 
 - slug: yaml
   name: YAML
-  files: ["*.yaml", "*.yml"]
   learn more at: https://yaml.org/
   description: |
     A human friendly data serialization standard for all programming languages
@@ -514,3 +512,17 @@
   description: A Wayland tiling window manager and compositor that doesn't compromise on looks
   learn more at: https://hyprland.org
   files: [hypr*.conf]
+
+- slug: ffmpeg
+  name: FFmpeg
+  description: A very powerful video processing command line program
+  learn more at: https://ffmpeg.org
+  autodetect:
+    - ffmpeg in README.md
+
+- slug: imagemagick
+  name: ImageMagick
+  description: A image processing and conversion command line program
+  learn more at: https://imagemagick.org/
+  autodetect:
+    - magick in README.md

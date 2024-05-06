@@ -173,7 +173,8 @@ func startPagesServer(wg *sync.WaitGroup, db ortfodb.Database, collections share
 	}
 
 	for _, site := range sites {
-		redirect(filepath.Join("to", site.Name), site.URL)
+		fmt.Printf("Redirecting /to/%s to %s\n", site.Name, site.URL)
+		server.Handle(fmt.Sprintf("/to/%s", site.Name), http.RedirectHandler(site.URL, http.StatusSeeOther))
 	}
 
 	handlePage("about", pages.AboutPage(translations.language))

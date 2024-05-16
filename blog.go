@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/ewen-lbh/portfolio/shared"
+	"github.com/litao91/goldmark-mathjax"
 	"github.com/yuin/goldmark"
 	highlighting "github.com/yuin/goldmark-highlighting/v2"
 	"github.com/yuin/goldmark/extension"
@@ -25,6 +26,7 @@ var md = goldmark.New(goldmark.WithExtensions(
 	extension.TaskList,
 	&frontmatter.Extender{},
 	highlighting.Highlighting,
+	mathjax.MathJax,
 ))
 
 func loadBlogEntries(searchIn string) (entries []shared.BlogEntry, err error) {
@@ -55,6 +57,10 @@ func loadBlogEntries(searchIn string) (entries []shared.BlogEntry, err error) {
 
 		entry.Slug = strings.TrimSuffix(file.Name(), filepath.Ext(file.Name()))
 		entry.Content = out.String()
+
+		if entry.MathJax {
+			entry.Content += `<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>`
+		}
 
 		entries = append(entries, entry)
 	}

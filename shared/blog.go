@@ -21,6 +21,7 @@ type BlogEntry struct {
 	OtherMetadata     map[string]any `yaml:",inline"`
 	RelatedWorksSlugs []string       `yaml:"works"`
 	BlogRoot          string
+	MathJax           bool `yaml:"mathjax"`
 }
 
 func RelatedBlogEntries(w ortfodb.Work, allEntries []BlogEntry) []BlogEntry {
@@ -37,7 +38,7 @@ func (e *BlogEntry) RelatedWorks(db ortfodb.Database) []ortfodb.Work {
 	var works []ortfodb.Work
 	for _, slug := range e.RelatedWorksSlugs {
 		if work, found := db.FindWork(slug); found {
-				works = append(works, work)
+			works = append(works, work)
 		}
 	}
 

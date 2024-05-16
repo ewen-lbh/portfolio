@@ -13,6 +13,7 @@ require (
 	github.com/metal3d/go-slugify v0.0.0-20160607203414-7ac2014b2f23
 	github.com/ortfo/db v1.6.1
 	github.com/ortfo/gettext v1.0.3
+	github.com/yuin/goldmark v1.7.1
 	golang.org/x/net v0.24.0
 	golang.org/x/text v0.14.0
 	gopkg.in/mail.v2 v2.3.1
@@ -20,30 +21,14 @@ require (
 )
 
 require (
-	cdr.dev/slog v1.6.1 // indirect
 	github.com/BurntSushi/toml v1.2.1 // indirect
-	github.com/FurqanSoftware/goldmark-d2 v0.0.0-20240222042550-23ef2a4e585c // indirect
 	github.com/alecthomas/chroma v0.10.0 // indirect
 	github.com/alecthomas/chroma/v2 v2.13.0 // indirect
 	github.com/dlclark/regexp2 v1.11.0 // indirect
-	github.com/dop251/goja v0.0.0-20240220182346-e401ed450204 // indirect
-	github.com/go-sourcemap/sourcemap v2.1.4+incompatible // indirect
-	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
-	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
-	github.com/google/pprof v0.0.0-20240424215950-a892ee059fd6 // indirect
-	github.com/mazznoer/csscolorparser v0.1.3 // indirect
-	github.com/yuin/goldmark v1.7.1 // indirect
 	github.com/yuin/goldmark-highlighting v0.0.0-20220208100518-594be1970594 // indirect
 	github.com/zyedidia/generic v1.2.1 // indirect
-	go.opencensus.io v0.24.0 // indirect
-	go.opentelemetry.io/otel v1.26.0 // indirect
-	go.opentelemetry.io/otel/trace v1.26.0 // indirect
 	golang.org/x/exp v0.0.0-20240416160154-fe59bbe5cc7f // indirect
-	golang.org/x/xerrors v0.0.0-20231012003039-104605ab7028 // indirect
-	gonum.org/v1/plot v0.14.0 // indirect
 	mvdan.cc/xurls/v2 v2.5.0 // indirect
-	oss.terrastruct.com/d2 v0.6.5 // indirect
-	oss.terrastruct.com/util-go v0.0.0-20231101220827-55b3812542c2 // indirect
 )
 
 require (
@@ -57,20 +42,17 @@ require (
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
-	github.com/bmatcuk/doublestar/v4 v4.6.1 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/catppuccin/go v0.2.0 // indirect
 	github.com/charmbracelet/bubbles v0.18.0 // indirect
 	github.com/charmbracelet/bubbletea v0.25.0 // indirect
 	github.com/charmbracelet/huh v0.3.0 // indirect
 	github.com/charmbracelet/lipgloss v0.10.0 // indirect
-	github.com/codesoap/rss2 v0.1.0
 	github.com/containerd/console v1.0.4 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
 	github.com/go-git/go-billy/v5 v5.5.0 // indirect
 	github.com/go-git/go-git/v5 v5.12.0 // indirect
-	github.com/gomarkdown/markdown v0.0.0-20240328165702-4d01890c35c0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/feeds v1.1.2
 	github.com/gosuri/uilive v0.0.4 // indirect
@@ -84,6 +66,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/k3a/html2text v1.2.1 // indirect
 	github.com/lafriks/go-svg v0.4.0 // indirect
+	github.com/litao91/goldmark-mathjax v0.0.0-20210217064022-a43cf739a50f
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect

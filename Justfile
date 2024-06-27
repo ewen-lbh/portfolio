@@ -50,6 +50,7 @@ clean-media:
     rm -rf media/
 
 deploy ssh='$SSH_SERVER':
+    git push
     just upload-media {{ ssh }}
     just upload-assets {{ ssh }}
     rsync -av database.json {{ ssh }}:~/portfolio/

@@ -47,3 +47,6 @@ go.work.sum
 database.json
 .env
 deadlinks.log
+
+mails/*.txt
+mails/*.json

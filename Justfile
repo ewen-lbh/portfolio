@@ -40,6 +40,13 @@ db:
     ortfodb --scattered build database-personal-overrides.json
     sed -i 's/scattered mode folder: .ortfo.personal$/scattered mode folder: .ortfo/' ortfodb.yaml
     jq -s '.[0] * .[1]' database-regular.json database-personal-overrides.json > database.json
+    just diff-with-online-db
+
+diff-with-online-db:
+    scp ewen@ewen.works:~/portfolio/database.json database.online.json
+    jq . --sort-keys database.json > database.keys.json
+    jq . --sort-keys database.online.json > database.online.keys.json
+    difft database.online.keys.json database.keys.json
 
 clean: 
     rm -f */*_templ.go

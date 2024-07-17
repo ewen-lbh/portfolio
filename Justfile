@@ -46,7 +46,7 @@ diff-with-online-db:
     scp ewen@ewen.works:~/portfolio/database.json database.online.json
     jq . --sort-keys database.json > database.keys.json
     jq . --sort-keys database.online.json > database.online.keys.json
-    difft database.online.keys.json database.keys.json
+    DFT_BYTE_LIMIT=5000000 difft database.online.keys.json database.keys.json
 
 clean: 
     rm -f */*_templ.go

@@ -328,7 +328,7 @@ msgid "i can work for you"
 msgstr "je peux travailler pour vous"
 
 msgid "I'm interested in almost anything that is both creative and digital."
-msgstr "Je suis intéressé par tout ce qui est à la fois créatif et numérique."
+msgstr "Je suis intéressée par tout ce qui est à la fois créatif et numérique."
 
 msgid "icons"
 msgstr "icônes"

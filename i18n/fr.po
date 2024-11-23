@@ -63,6 +63,9 @@ msgstr "Un système de composition et de préparation des documents de haute qua
 msgid "A human friendly data serialization standard for all programming languages"
 msgstr "Une norme de sérialisation des données pour tous les langages de programmation"
 
+msgid "A image processing and conversion command line program"
+msgstr ""
+
 msgid "A language empowering everyone to build reliable and efficient software"
 msgstr "Un langage permettant à chacun de construire des logiciels fiables et efficaces"
 
@@ -77,6 +80,9 @@ msgstr "Une bibliothèque qui analyse les arguments de la ligne de commande sur 
 
 msgid "A lightweight data-interchange format"
 msgstr "Un format léger d'échange de données"
+
+msgid "A lightweight Python framework to create web backends"
+msgstr ""
 
 msgid "A minimal configuration file format that's easy to read due to obvious semantics. Designed to map unambiguously to a hash table."
 msgstr "Un format de fichier de configuration minimal et facile à lire grâce à une sémantique évidente."
@@ -153,7 +159,13 @@ msgstr "Un logiciel de montage vidéo"
 msgid "A vector graphics editor and design program"
 msgstr "Un éditeur de graphiques vectoriels et un programme de design"
 
+msgid "A very powerful video processing command line program"
+msgstr ""
+
 msgid "A Vite- and VueJS-based platform to make content-driven websites. Primarily used for technical documentation websites"
+msgstr ""
+
+msgid "A Wayland tiling window manager and compositor that doesn't compromise on looks"
 msgstr ""
 
 msgid "a web server that can also be used as a reverse proxy, load balancer, mail proxy and HTTP cache"
@@ -218,6 +230,9 @@ msgstr "automatisation"
 
 msgid "banner"
 msgstr "bannière"
+
+msgid "blog"
+msgstr ""
 
 msgid "book"
 msgstr "livre"
@@ -306,8 +321,8 @@ msgstr "intefaces graphiques"
 msgid "hardware"
 msgstr "matériel informatique"
 
-msgid "Hi! I'm Ewen Le Bihan."
-msgstr "Hey! Je suis Ewen Le Bihan."
+msgid "Hi! I'm Gwen Le Bihan."
+msgstr "Hey! Je suis Gwen Le Bihan."
 
 msgid "i can work for you"
 msgstr "je peux travailler pour vous"
@@ -330,11 +345,17 @@ msgstr "Images qui représentent un média, tel qu'une vidéo, en un seul coup d
 msgid "intros"
 msgstr "intros"
 
+msgid "language"
+msgstr ""
+
 msgid "languages"
 msgstr "langages"
 
 msgid "Learn more"
 msgstr "En savoir plus"
+
+msgid "Learn more about me"
+msgstr ""
 
 msgid "libraries"
 msgstr "bibliothèques"
@@ -408,6 +429,9 @@ msgstr "Fièrement propulsé par <a href=\"https://github.com/ortfo\">ortfo</a>,
 msgid "random thoughts"
 msgstr "pensées diverses"
 
+msgid "Related blog entries"
+msgstr ""
+
 msgid "school"
 msgstr "scolaire"
 
@@ -462,6 +486,9 @@ msgstr "miniature"
 msgid "thumbnails"
 msgstr "miniatures"
 
+msgid "Time spent"
+msgstr ""
+
 msgid "typeface"
 msgstr "police de caractères"
 
@@ -503,6 +530,9 @@ msgstr "extensions web"
 
 msgid "Web sites, web apps and web-related libraries"
 msgstr "Sites web, applications web et bibliothèques liées au web"
+
+msgid "Welcome to my blog index"
+msgstr ""
 
 msgid "With a scientific side"
 msgstr "Avec un côté scientifique"

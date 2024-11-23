@@ -8,13 +8,15 @@ works: [churros]
 
 There you are, accepting Markdown content from your users, and exposing on your API a field that resolves to a XSS-safe HTML rendering of that user-generated content.
 
-You're feeling good about yourself, and you should. You're doing the right thing. But, within the same breath, you turn around to your client code, get that generated HTML _string_, and include it somewhere on your page, telling your templating engin / js framework “it's fine, this is safe for HTML inclusion”.
+This is good, you're following best practices and preventing XSS. Or are you?
+
+As you turn around to your client code, you get that generated HTML _string_, and include it somewhere on your page, telling your templating engin / js framework “it's fine, this is safe for HTML inclusion”.
 
 A few months pass, you add more and more features, and suddenly your API has _a lot_of fields, some that output HTML and some that output plain text.
 
-As a documentation feature, creating a separate `HTML` scalar type to signal fields that have HTML content (and thus cannot be inserted into the page as simple text).
+As a documentation feature, you create a separate `HTML` scalar type to signal fields that have HTML content (and thus cannot be inserted into the page as simple text).
 
-But we can get way better than that: _end-to-end guarantees_ of XSS safety, by type systems.
+But we can get way better than that: _end-to-end guarantees_ of XSS safety, courtesy of type systems.
 
 ## The recipe
 
@@ -24,6 +26,6 @@ But we can get way better than that: _end-to-end guarantees_ of XSS safety, by t
 4. Create a component that accepts a value of the opaque type, and includes the HTML value without escaping
 5. (bonus) Enforce that no other place on your frontend code is allowed to include HTML without escaping.
 
-## An example tech stack: Pothos -> Houdini -> SvelteKit:
+### Example with Typescript and
 
-
+#### Houdini part

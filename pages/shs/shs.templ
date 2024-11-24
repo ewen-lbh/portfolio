@@ -90,7 +90,7 @@ templ Home(db ortfodb.Database, collections shared.Collections, tags []shared.Ta
 			<ul class={ components.SkillsList() }>
 				<li>
 					@components.SkillCard(
-                        "https://en.ewen.works/software", 
+                        "https://en.gwen.works/software", 
                         int(timeSpentProgramming(collections["software"], db, tags, techs).Round(time.Hour).Hours()),
                         "",
 					) {
@@ -99,7 +99,7 @@ templ Home(db ortfodb.Database, collections shared.Collections, tags []shared.Ta
 				</li>
 				<li>
 					@components.SkillCard(
-                        "https://en.ewen.works/design", 
+                        "https://en.gwen.works/design", 
                         projectsIn(collections["design"], db, tags, techs),
                         "",
 					) {
@@ -108,7 +108,7 @@ templ Home(db ortfodb.Database, collections shared.Collections, tags []shared.Ta
 				</li>
 				<li>
 					@components.SkillCard(
-                        "https://en.ewen.works/music",
+                        "https://en.gwen.works/music",
                         numberOfTracks(collections["music"], db, tags, techs),
                         "",
 					) {
@@ -118,7 +118,7 @@ templ Home(db ortfodb.Database, collections shared.Collections, tags []shared.Ta
 			</ul>
 		</section>
 		<section>
-			@components.ArrowLink("https://en.ewen.works/resume") {
+			@components.ArrowLink("https://en.gwen.works/resume") {
 				Get my resume 
 			}
 		</section>

@@ -16,9 +16,9 @@ func domainPerLocale(locale string) string {
 
 	switch locale {
 	case "fr":
-		return "https://fr.ewen.works"
+		return "https://fr.gwen.works"
 	default:
-		return "https://en.ewen.works"
+		return "https://en.gwen.works"
 	}
 }
 
@@ -336,8 +336,8 @@ templ Layout(contents templ.Component, header templ.Component, sites []shared.Si
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<title>ewen.works</title>
-			<script defer src="https://stats.ewen.works/js/script.js" data-domain="ewen.works"></script>
+			<title>gwen.works</title>
+			<script defer src="https://stats.gwen.works/js/script.js" data-domain="gwen.works"></script>
 			<link rel="stylesheet" href={ shared.Asset("fonts/import.css") }/>
 			<link rel="stylesheet" href={ shared.Asset("global.css") }/>
 			<script src={ shared.Asset("bricks.js") }> </script>
@@ -352,7 +352,7 @@ templ Layout(contents templ.Component, header templ.Component, sites []shared.Si
 			</main>
 			<footer class={ footer() }>
 				<section>
-					<code>ewen.works/to/</code>
+					<code>gwen.works/to/</code>
 					<dl class={ footerLinks() }>
 						for _, site := range sites {
 							<dt><a class={ footerLinkAnchor() } href={ templ.URL("/to/" + site.Name) }>{ site.Name }</a> </dt>

@@ -3,10 +3,15 @@
   purpose: "my music"
   username: "Ewen-lbh"
 
-- name: "twitter"
-  url: "https://twitter.com/ewen_lbh"
+- name: "apple music"
+  url: "https://music.apple.com/fr/artist/ewen-lbh/1506892811"
+  purpose: "my music"
+  username: "Ewen-lbh"
+
+- name: "bluesky"
+  url: "https://bsky.app/profile/gwen.works"
   purpose: "random thoughts"
-  username: "ewen_lbh"
+  username: "gwen.works"
 
 - name: "github"
   url: "https://github.com/ewen-lbh"

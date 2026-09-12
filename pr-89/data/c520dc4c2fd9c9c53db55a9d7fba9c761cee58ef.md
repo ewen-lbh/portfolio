@@ -1,0 +1,381 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - navigation:
+    - button [ref=e2] [cursor=pointer]:
+      - img [ref=e3]
+  - banner [ref=e7]:
+    - generic [ref=e8]:
+      - link "<- retour" [ref=e9]:
+        - /url: /blog
+      - link "/ed" [ref=e10]:
+        - /url: vscode://file/C:\Users\ewen\projects.local\portfolio\blog\making-an-lsp-server-in-go.md
+    - heading "Making an LSP server in Go" [level=1] [ref=e11]
+    - paragraph [ref=e12]:
+      - text: publié le
+      - time [ref=e13]: 25 avril 2024
+  - main [ref=e14]:
+    - paragraph [ref=e15]:
+      - text: Resources and documentation about implementing an LSP server in Go are surprisingly sparse, so I decided to write my (first!) blog entry about it, after having to go through the source code of some random dependent on
+      - link "go.lsp.dev/protocol" [ref=e16]:
+        - /url: https://pkg.go.dev/go.lsp.dev/protocol
+      - text: to figure out how to implement a simple LSP server.
+    - heading "The pieces" [level=2] [ref=e17]
+    - paragraph [ref=e18]:
+      - text: We’ll be using the
+      - link "go.lsp.dev" [ref=e19]:
+        - /url: https://go.lsp.dev
+      - text: "collection of modules to implement our LSP server. These modules include:"
+    - list [ref=e20]:
+      - listitem [ref=e21]:
+        - text: —
+        - link "go.lsp.dev/protocol" [ref=e22]:
+          - /url: https://pkg.go.dev/go.lsp.dev/protocol
+        - text: ": A bunch of structs that represent the LSP protocol."
+      - listitem [ref=e23]:
+        - text: —
+        - link "go.lsp.dev/jsonrpc2" [ref=e24]:
+          - /url: https://pkg.go.dev/go.lsp.dev/jsonrpc2
+        - text: ": A JSON-RPC 2.0 implementation. The LSP protocol uses JSON-RPC 2.0 for communication."
+    - heading "The boilerplate" [level=2] [ref=e25]
+    - paragraph [ref=e26]:
+      - text: You’ll most likely want to split up your code into
+      - emphasis [ref=e27]: at least
+      - text: "two files:"
+    - list [ref=e28]:
+      - listitem [ref=e29]:
+        - text: —
+        - code [ref=e30]: server.go
+        - text: ": Logic (and honestly, mostly boilerplate) for starting the LSP server"
+      - listitem [ref=e31]:
+        - text: —
+        - code [ref=e32]: cmd/main.go
+        - text: ": The entrypoint for launching your server with a binary. In the simplest of cases, you might not even need this. If you don’t, put every file in the"
+        - code [ref=e33]: main
+        - text: package, and just call
+        - code [ref=e34]: StartServer
+        - text: (see just below) from a
+        - code [ref=e35]: main
+        - text: function in
+        - code [ref=e36]: server.go
+        - text: .
+      - listitem [ref=e37]:
+        - text: —
+        - code [ref=e38]: handlers.go
+        - text: ": The actual LSP handlers, you’ll define all the functions that you want to implement there! things like"
+        - code [ref=e39]: Definition
+        - text: to implement the “Go to definition” feature, etc.
+    - heading "server.go" [level=3] [ref=e40]:
+      - code [ref=e41]: server.go
+    - paragraph [ref=e42]: "Mostly boilerplate:"
+    - code [ref=e44]:
+      - generic [ref=e45]: package yourlsp
+      - generic [ref=e46]: import (
+      - generic [ref=e47]: "\"context\""
+      - generic [ref=e48]: "\"io\""
+      - generic [ref=e49]: "\"os\""
+      - generic [ref=e50]: "\"path/filepath\""
+      - generic [ref=e51]: "\"go.lsp.dev/jsonrpc2\""
+      - generic [ref=e52]: "\"go.lsp.dev/protocol\""
+      - generic [ref=e53]: "\"go.uber.org/multierr\""
+      - generic [ref=e54]: "\"go.uber.org/zap\""
+      - generic [ref=e55]: )
+      - generic [ref=e56]: // StartServer starts the language server.
+      - generic [ref=e57]: // It reads from stdin and writes to stdout.
+      - generic [ref=e58]: "func StartServer(logger *zap.Logger) {"
+      - generic [ref=e59]: "conn := jsonrpc2.NewConn(jsonrpc2.NewStream(&readWriteCloser{"
+      - generic [ref=e60]: "reader: os.Stdin,"
+      - generic [ref=e61]: "writer: os.Stdout,"
+      - generic [ref=e62]: "}))"
+      - generic [ref=e63]: handler, ctx, err := NewHandler(
+      - generic [ref=e64]: context.Background(),
+      - generic [ref=e65]: protocol.ServerDispatcher(conn, logger),
+      - generic [ref=e66]: logger,
+      - generic [ref=e67]: )
+      - generic [ref=e68]: "if err != nil {"
+      - generic [ref=e69]: "logger.Sugar().Fatalf(\"while initializing handler: %w\", err)"
+      - generic [ref=e70]: "}"
+      - generic [ref=e71]: conn.Go(ctx, protocol.ServerHandler(
+      - generic [ref=e72]: handler, jsonrpc2.MethodNotFoundHandler,
+      - generic [ref=e73]: ))
+      - generic [ref=e74]: <-conn.Done()
+      - generic [ref=e75]: "}"
+      - generic [ref=e76]: "type readWriteCloser struct {"
+      - generic [ref=e77]: reader io.ReadCloser
+      - generic [ref=e78]: writer io.WriteCloser
+      - generic [ref=e79]: "}"
+      - generic [ref=e80]: "func (r *readWriteCloser) Read(b []byte) (int, error) {"
+      - generic [ref=e81]: n, err := r.reader.Read(b)
+      - generic [ref=e82]: return n, err
+      - generic [ref=e83]: "}"
+      - generic [ref=e84]: "func (r *readWriteCloser) Write(b []byte) (int, error) {"
+      - generic [ref=e85]: return r.writer.Write(b)
+      - generic [ref=e86]: "}"
+      - generic [ref=e87]: "func (r *readWriteCloser) Close() error {"
+      - generic [ref=e88]: return multierr.Append(r.reader.Close(), r.writer.Close())
+      - generic [ref=e89]: "}"
+    - heading "cmd/main.go" [level=3] [ref=e90]:
+      - code [ref=e91]: cmd/main.go
+    - code [ref=e93]:
+      - generic [ref=e94]: package main
+      - generic [ref=e95]: import (
+      - generic [ref=e96]: "\"go.uber.org/zap\""
+      - generic [ref=e97]: "\"yourlsp\""
+      - generic [ref=e98]: )
+      - generic [ref=e99]: "func main() {"
+      - generic [ref=e100]: logger, _ := zap.NewDevelopmentConfig().Build()
+      - generic [ref=e101]: // Start the server
+      - generic [ref=e102]: yourlsp.StartServer(logger)
+      - generic [ref=e103]: "}"
+    - heading "handlers.go" [level=3] [ref=e104]:
+      - code [ref=e105]: handlers.go
+    - paragraph [ref=e106]: That’s were we get to the interesting stuff.
+    - paragraph [ref=e107]:
+      - text: You first define your own
+      - code [ref=e108]: Handler
+      - text: struct that just embeds the
+      - code [ref=e109]: protocol.Server
+      - text: struct, so that you can implement all the methods.
+    - code [ref=e111]:
+      - generic [ref=e112]: package yourlsp
+      - generic [ref=e113]: import (
+      - generic [ref=e114]: "\"context\""
+      - generic [ref=e115]: "\"go.lsp.dev/protocol\""
+      - generic [ref=e116]: "\"go.lsp.dev/uri\""
+      - generic [ref=e117]: "\"go.uber.org/zap\""
+      - generic [ref=e118]: )
+      - generic [ref=e119]: var log *zap.Logger
+      - generic [ref=e120]: "type Handler struct {"
+      - generic [ref=e121]: protocol.Server
+      - generic [ref=e122]: "}"
+      - generic [ref=e123]: "func NewHandler(ctx context.Context, server protocol.Server, logger *zap.Logger) (Handler, context.Context, error) {"
+      - generic [ref=e124]: log = logger
+      - generic [ref=e125]: // Do initialization logic here, including
+      - generic [ref=e126]: // stuff like setting state variables
+      - generic [ref=e127]: // by returning a new context with
+      - generic [ref=e128]: // context.WithValue(context, ...)
+      - generic [ref=e129]: // instead of just context
+      - generic [ref=e130]: "return Handler{Server: server}, context, nil"
+      - generic [ref=e131]: "}"
+    - heading "Implementing stuff" [level=2] [ref=e132]
+    - paragraph [ref=e133]:
+      - text: Actually implementing functionnality for your LSP consists in defining a method on your handler struct that has a particular name, as defined in the
+      - link "protocol.Server interface" [ref=e134]:
+        - /url: https://pkg.go.dev/go.lsp.dev/protocol#Server
+        - code [ref=e135]: protocol.Server
+        - text: interface
+    - 'heading "Telling the clients what feature we support: the Initialize method" [level=3] [ref=e136]':
+      - text: "Telling the clients what feature we support: the"
+      - code [ref=e137]: Initialize
+      - text: method
+    - paragraph [ref=e138]:
+      - text: All LSP servers must implement the
+      - code [ref=e139]: Initialize
+      - text: method, that returns information on the LSP server, and most importantly, the features it supports.
+    - paragraph [ref=e140]:
+      - text: The signature of the
+      - code [ref=e141]: Initialize
+      - text: "method is:"
+    - code [ref=e143]:
+      - generic [ref=e144]: Initialize(ctx context.Context, params *InitializeParams) (result *InitializeResult, err error)
+    - paragraph [ref=e145]: "Autocomplete and hover (features of Go’s LSP server, how meta!) will help you a lot when implementing this:"
+    - paragraph [ref=e146]
+    - paragraph [ref=e147]:
+      - text: You’ll notice that most of the
+      - emphasis [ref=e148]: capabilities
+      - text: receive an
+      - code [ref=e149]: "interface{}"
+      - text: ", that’s not very helpful."
+    - paragraph [ref=e150]:
+      - text: This usually means that you can either pass
+      - code [ref=e151]: "true"
+      - text: to say that you support the feature fully, or a struct of options for more intricate support information.
+    - paragraph [ref=e152]:
+      - text: Check with
+      - link "the spec" [ref=e153]:
+        - /url: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#serverCapabilities
+      - text: to be sure.
+    - heading "Example" [level=4] [ref=e154]
+    - paragraph [ref=e155]: "Here’s an example method implementation that signals support for the Go to Definition feature:"
+    - code [ref=e157]:
+      - generic [ref=e158]: "func (h Handler) Initialize(ctx context.Context, params *protocol.InitializeParams) (*protocol.InitializeResult, error) {"
+      - generic [ref=e159]: "return &protocol.InitializeResult{"
+      - generic [ref=e160]: "Capabilities: protocol.ServerCapabilities{"
+      - generic [ref=e161]: "DefinitionProvider: true, // <-- right there"
+      - generic [ref=e162]: "},"
+      - generic [ref=e163]: "ServerInfo: &protocol.ServerInfo{"
+      - generic [ref=e164]: "Name: \"yourls\","
+      - generic [ref=e165]: "Version: \"0.1.0\","
+      - generic [ref=e166]: "},"
+      - generic [ref=e167]: "}, nil"
+      - generic [ref=e168]: "}"
+    - 'heading "Implementing a feature: the Definition example" [level=3] [ref=e169]':
+      - text: "Implementing a feature: the"
+      - code [ref=e170]: Definition
+      - text: example
+    - paragraph [ref=e171]:
+      - text: As with
+      - code [ref=e172]: Initialize
+      - text: ", hovering over the types of the parameters will help you greatly."
+    - code [ref=e174]:
+      - generic [ref=e175]: "// IMPORTANT: You _can't_ take a pointer to your handler struct as the receiver,"
+      - generic [ref=e176]: // your handler will no longer implement protocol.Server if you do that.
+      - generic [ref=e177]: "func (h Handler) Definition(ctx context.Context, params *protocol.DefinitionParams) ([]protocol.Location, error) {"
+      - generic [ref=e178]: // ... do your processing ...
+      - generic [ref=e179]: "return []protocol.Location{"
+      - generic [ref=e180]: "{"
+      - generic [ref=e181]: "URI: uri.File(...),"
+      - generic [ref=e182]: "Range: protocol.Range{"
+      - generic [ref=e183]: "Start: protocol.Position{"
+      - generic [ref=e184]: "Line: 0,"
+      - generic [ref=e185]: "Character: 0,"
+      - generic [ref=e186]: "},"
+      - generic [ref=e187]: "End: protocol.Position{"
+      - generic [ref=e188]: "Line: 0,"
+      - generic [ref=e189]: "Character: 0,"
+      - generic [ref=e190]: "},"
+      - generic [ref=e191]: "},"
+      - generic [ref=e192]: "},"
+      - generic [ref=e193]: "}, nil"
+      - generic [ref=e194]: "}"
+    - heading "Using in IDEs & editors" [level=2] [ref=e195]
+    - heading "Neovim" [level=3] [ref=e196]
+    - paragraph [ref=e197]:
+      - text: You can put the following in your
+      - code [ref=e198]: init.lua
+      - text: ":"
+    - code [ref=e200]:
+      - generic [ref=e201]: "vim.api.nvim_create_autocmd({'BufEnter', 'BufWinEnter'}, {"
+      - generic [ref=e202]: "pattern = { \"glob pattern of the files you want your LSP to be used on\" },"
+      - generic [ref=e203]: callback = function(event)
+      - generic [ref=e204]: "vim.lsp.start {"
+      - generic [ref=e205]: name = "My language",
+      - generic [ref=e206]: "cmd = {\"mylsp\"},"
+      - generic [ref=e207]: "}"
+      - generic [ref=e208]: end
+      - generic [ref=e209]: "})"
+    - heading "Visual Studio Code" [level=3] [ref=e210]
+    - paragraph [ref=e211]: VSCode requires writing an entire extension to use an LSP server…
+    - paragraph [ref=e212]:
+      - text: If you want something quick ‘n’ dirty, you can use some generic LSP client extension (for example,
+      - link "llllvvuu’s Generic LSP Client" [ref=e213]:
+        - /url: https://marketplace.visualstudio.com/items?itemName=llllvvuu.llllvvuu-glspc
+      - text: ).
+    - paragraph [ref=e214]:
+      - text: But to do a proper extension that you can distribute to your user’s, you’ll want to follow
+      - link "the vscode docs on LSP extension development" [ref=e215]:
+        - /url: https://code.visualstudio.com/api/language-extensions/language-server-extension-guide
+      - text: .
+    - paragraph [ref=e216]:
+      - text: The guide assumes that you’ll develop the LSP server in NodeJS too, but you can easily
+      - code [ref=e217]: rm -rf
+      - text: the hell out of the
+      - code [ref=e218]: server/
+      - text: directory from their template repository.
+    - paragraph [ref=e219]:
+      - text: I’m using the following architecture for
+      - link "ortfo" [ref=e220]:
+        - /url: https://ortfo.org
+      - text: "’s LSP server:"
+    - code [ref=e222]:
+      - generic [ref=e223]: handler.go
+      - generic [ref=e224]: server.go
+      - generic [ref=e225]: cmd/
+      - generic [ref=e226]: main.go
+      - generic [ref=e227]: vscode/
+      - generic [ref=e228]: "package.json # contains values from both client's package.json and the root package.json"
+      - generic [ref=e229]: "src/ # from client/"
+      - generic [ref=e230]: tsconfig.json
+      - generic [ref=e231]: ...
+    - paragraph [ref=e232]:
+      - text: (curious? see
+      - link "the repository at ortfo/languageserver" [ref=e233]:
+        - /url: https://github.com/ortfo/languageserver
+      - text: )
+  - generic [ref=e234]:
+    - heading "related works" [level=2] [ref=e235]
+    - paragraph [ref=e236]: "2025"
+    - link [ref=e238]:
+      - /url: /ortfo
+      - article [ref=e239]:
+        - img "Logo" [ref=e240]
+        - generic [ref=e241]:
+          - heading "ortfo WIP" [level=2] [ref=e242]:
+            - text: ortfo
+            - superscript [ref=e243]:
+              - generic "Work In Progress" [ref=e244]: WIP
+          - generic [ref=e245]: Filesystem-based portfolio database system
+  - contentinfo [ref=e246]:
+    - paragraph [ref=e247]:
+      - text: made with
+      - link "ortfo/db" [ref=e248]:
+        - /url: /ortfo
+      - text: "&"
+      - link "astro" [ref=e249]:
+        - /url: https://astro.build
+    - paragraph [ref=e250]: <3 Gwenn 2026
+    - paragraph [ref=e251]: generative ai cannot make art
+    - list [ref=e252]:
+      - listitem [ref=e253]:
+        - text: —
+        - link "/to/applemusic" [ref=e254]:
+          - /url: https://music.apple.com/us/artist/postamble/1855742212
+        - text: my music
+      - listitem [ref=e255]:
+        - text: —
+        - link "/to/bluesky" [ref=e256]:
+          - /url: https://bsky.app/profile/gwen.works
+        - text: random thoughts
+      - listitem [ref=e257]:
+        - text: —
+        - link "/to/deezer" [ref=e258]:
+          - /url: https://link.deezer.com/s/31DeJQZZ4gXsWdyUpCZpq
+        - text: my music
+      - listitem [ref=e259]:
+        - text: —
+        - link "/to/github" [ref=e260]:
+          - /url: https://github.com/gwennlbh
+        - text: open-source code
+      - listitem [ref=e261]:
+        - text: —
+        - link "/to/instagram" [ref=e262]:
+          - /url: https://instagram.com/gwen_lbh
+        - text: multimedia work
+      - listitem [ref=e263]:
+        - text: —
+        - link "/to/linkedin" [ref=e264]:
+          - /url: https://linkedin.com/in/gwennlbh
+        - text: my carreer
+      - listitem [ref=e265]:
+        - text: —
+        - link "/to/mail" [ref=e266]:
+          - /url: mailto:gwenn.lebihan7@gmail.com
+        - text: contact
+      - listitem [ref=e267]:
+        - text: —
+        - link "/to/orcid" [ref=e268]:
+          - /url: https://orcid.org/0009-0008-9476-1463
+        - text: research carreer
+      - listitem [ref=e269]:
+        - text: —
+        - link "/to/spotify" [ref=e270]:
+          - /url: https://open.spotify.com/artist/32bNg39NYp0lhYmQl5JkuM?si=5rY34MfzRzm41sUJKz-LFg
+        - text: my music
+      - listitem [ref=e271]:
+        - text: —
+        - link "/to/wakatime" [ref=e272]:
+          - /url: https://wakatime.com/@gwennlbh
+        - text: time spent coding
+      - listitem [ref=e273]:
+        - text: —
+        - link "/to/youtube" [ref=e274]:
+          - /url: https://youtube.com/@postamble
+        - text: visual+music
+    - generic [ref=e275]:
+      - link "testing" [ref=e276]:
+        - /url: https://github.com/gwennlbh/portfolio/commit/testing
+        - generic [ref=e277]: testing
+      - generic [ref=e278]: loc fr-FR
+      - generic [ref=e279]: lng fr
+```
